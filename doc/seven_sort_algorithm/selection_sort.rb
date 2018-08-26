@@ -1,0 +1,3 @@
+def selectionSort(array)
+
+end
