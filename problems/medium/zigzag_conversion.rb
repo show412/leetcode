@@ -35,16 +35,13 @@ def convert(s, num_rows)
   s_array = []
   cs=""
   while( i< length) do
-    if s_array.length == num_rows
-      c_array << s_array
-      s_array = []
-    end
-    if c_array.length%num_rows == 0
+    
+    if (c_array.length + 1)%num_rows == 0 || c_array.length == 0
       s_array << s[i] 
     else
       j = 0
       while(j<num_rows) do
-        if j == num_rows - c_array.length%num_rows
+        if j == (num_rows - (c_array.length + 1)%num_rows)
           s_array << s[i]
         else
           s_array << ""
@@ -52,7 +49,10 @@ def convert(s, num_rows)
         j+=1
       end
     end
-    
+    if s_array.length == num_rows
+      c_array << s_array
+      s_array = []
+    end
     i+=1  
   end
   p c_array
