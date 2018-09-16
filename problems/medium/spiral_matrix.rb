@@ -70,3 +70,8 @@ def convert_array(array)
   end
   c_array
 end
+
+# so awesome option
+def spiral_order(matrix)
+matrix == [] ? [] : matrix.shift + spiral_order(matrix.transpose.reverse)
+end
