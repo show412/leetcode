@@ -38,3 +38,16 @@ def subsetsHelper(path, nums, pos, result)
     i += 1
   end
 end
+# the good solution from ruby
+def subsets(nums)
+  subsets = [[]]
+  nums.each do |n| 
+    subsets += subsets.map { |s| s + [n] } 
+  end
+  subsets
+end
+
+# very easy solution from ruby
+def subsets(nums)
+  (0..nums.size).flat_map{ |k| nums.combination(k).to_a }
+end

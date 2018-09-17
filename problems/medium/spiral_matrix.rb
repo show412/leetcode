@@ -73,5 +73,5 @@ end
 
 # so awesome option
 def spiral_order(matrix)
-matrix == [] ? [] : matrix.shift + spiral_order(matrix.transpose.reverse)
+ matrix == [] ? [] : matrix.shift + spiral_order(matrix.transpose.reverse)
 end
