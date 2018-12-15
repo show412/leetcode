@@ -13,6 +13,8 @@ func searchInsert(nums []int, target int) int {
       break
     }
     mid = start + (end - start)/2
+    // if it's to find the last postion, it should be start = mid here
+    // if it's to find the start postion, it should be end = mid here 
     if nums[mid] == target {
       start = mid
     } else if nums[mid] < target {
@@ -21,7 +23,10 @@ func searchInsert(nums []int, target int) int {
       end = mid
     } 
   }
-  
+  // if it's to find the last postion, 
+  // it should be nums[end] == target in the front of nums[start] == target
+  // or it's to find the fisrt postion,
+  // it should be nums[end] == target in the front of nums[end] == target
   if nums[start] == target {
     return start
   }
