@@ -38,11 +38,12 @@ def subsetsHelper(path, nums, pos, result)
     i += 1
   end
 end
+
 # the good solution from ruby
 def subsets(nums)
   subsets = [[]]
-  nums.each do |n| 
-    subsets += subsets.map { |s| s + [n] } 
+  nums.each do |n|
+    subsets += subsets.map { |s| s + [n] }
   end
   subsets
 end
