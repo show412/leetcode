@@ -14,12 +14,10 @@ end
 
 def dfs(nums, permute1, visited)
   if(nums.length == permute1.length)
-    p $result
-    $result << permute1
+    $result << permute1.clone
     return
   end
   i = 0
-  # p visited
   while(i<nums.length)
     if(visited[nums[i]] == true)
       i += 1
@@ -33,3 +31,4 @@ def dfs(nums, permute1, visited)
     i += 1
   end
 end
+p permute([1,2,3])
