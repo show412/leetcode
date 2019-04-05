@@ -39,6 +39,7 @@ def single_number(nums)
   two = -1
   i = 0
   while(i<nums.length)
+    # why two should be first, and one is last? to be though more
     two = (two^nums[i])&~one
     one = (one^nums[i])&~two
     i+=1
