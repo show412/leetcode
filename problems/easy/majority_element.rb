@@ -6,6 +6,7 @@ def majority_element(nums)
   candidate = 0
   count = 0
   while(i<nums.length)
+    # this is the key for the question
     candidate = nums[i] if count == 0
 
     if(candidate == nums[i])
