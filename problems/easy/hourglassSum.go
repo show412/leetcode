@@ -1,5 +1,6 @@
 // Complete the hourglassSum function below.
 func hourglassSum(arr [][]int32) int32 {
+	// max int and min int in golang
 	const INT_MAX = int32(^uint(0) >> 1)
 	const INT_MIN = ^INT_MAX
 	var max int32 = INT_MIN
