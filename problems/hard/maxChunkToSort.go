@@ -12,19 +12,19 @@ func maxChunksToSorted(arr []int) int {
 	// the next chunk slice,nextChunk[i] means the min number in next i numbers
 	nextChunk := make([]int, length)
 	//DP init
-	lastChunk[0] = 0
+	lastChunk[0] = arr[0]
 	nextChunk[length-1] = arr[length-1]
 	// DP function
 	// init the lastChunk
-	for i := 1; i < len(arr); i++ {
+	for i := 1; i < length; i++ {
 		lastChunk[i] = max(arr[i], lastChunk[i-1])
 	}
 	// init the nextChunk
-	for i := len(arr) - 2; i >= 0; i-- {
+	for i := length - 2; i >= 0; i-- {
 		nextChunk[i] = min(arr[i], nextChunk[i+1])
 	}
 	// result
-	for i := 0; i < len(arr)-1; i++ {
+	for i := 0; i < length-1; i++ {
 		if lastChunk[i] <= nextChunk[i+1] {
 			chunkNumber++
 		}
