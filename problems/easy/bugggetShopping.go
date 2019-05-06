@@ -2,7 +2,11 @@ func budgetShopping(n int32, bundleQuantities []int32, bundleCosts []int32) int3
     // Write your code here
 		// It's a backpack question
 		// use DP
-		bool f[][] = make([int32][int32]bool)
+		// bool f[][] = make([int32][int32]bool)
+		f := make([][]bool, len(A)+1)
+		for i := 0; i < len(A)+1; i++ {
+			f[i] = make([]bool, m+1)
+		}
 		for i := 0; i<=len(bundleQuantities) ; i++ {
 			for j:=0; j<=n; j++ {
 				f[i][j] = false
