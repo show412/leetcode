@@ -61,6 +61,7 @@ def longest_palindrome(s)
 
     (0..(s.size - 1)).each do |idx|
         start_1, end_1 = expand_palindrome(idx, idx, s)
+        # 这有隔一个的情况 比如 cbabc 中间只有一个a也是回文
         start_2, end_2 = expand_palindrome(idx, idx + 1, s)
 
         if end_1 - start_1 > max_indexes[1] - max_indexes[0]
