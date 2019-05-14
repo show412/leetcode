@@ -12,7 +12,7 @@ func subsets(nums []int) [][]int {
 	dfs(&subsets, nums, 0, &results)
 	return results
 }
-func dfs(subsets []int, nums []int, start int, *results [][]int) {
+func dfs(subsets *[]int, nums []int, start int, *results [][]int) {
 	cpy := make([]int, len(*subsets))
 	copy(cpy, *subsets)
 	*results = append(*results, cpy)
