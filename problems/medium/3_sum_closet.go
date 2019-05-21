@@ -57,6 +57,7 @@ func threeSumClosest(nums []int, target int) int {
 	var curSum int
 	sort.Ints(nums)
 	for i := 0; i < len(nums)-2; i++ {
+		// if there is no the line, it's ok. It's for reducing one time traverse
 		if i > 0 && nums[i] == nums[i-1] {
 			continue
 		}
