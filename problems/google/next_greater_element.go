@@ -21,6 +21,8 @@
  * @param nums: an array
  * @return: the Next Greater Number for every element
  */
+//  use stack and reverse travers to the array,
+// the important is to add current element into the stack
 func nextGreaterElements(nums []int) []int {
 	// Write your code here
 	if len(nums) == 0 || len(nums) == 1 {
@@ -41,6 +43,7 @@ func nextGreaterElements(nums []int) []int {
 		if len(stack) != 0 {
 			result[i] = stack[len(stack)-1]
 		}
+		// the important is to add current element into the stack for the following element
 		stack = append(stack, nums[i])
 	}
 	return result
