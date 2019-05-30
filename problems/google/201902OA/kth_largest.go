@@ -1,6 +1,5 @@
 import (
 	"container/heap"
-	"fmt"
 	"sort"
 )
 
@@ -18,28 +17,27 @@ func findKthLargest(nums []int, k int) int {
 		return nums[0]
 	}
 	// create one minHeap including k numbers in nums
-	for i := 0; i <= (k-1)/2; i++ {
-		minHeap(i, k-1, nums)
+	for i := (k - 1) / 2; i >= 0; i-- {
+		minHeap(i, k, nums)
 	}
-	fmt.Println(nums)
 	// from k to len-1, compare the num with top num of heap and adjust heap
 	for i := k; i < len(nums); i++ {
 		if nums[i] > nums[0] {
 			nums[i], nums[0] = nums[0], nums[i]
-			minHeap((k-2)/2, k-1, nums)
+			minHeap(0, k, nums)
 		}
 	}
-	fmt.Println(nums)
+
 	return nums[0]
 }
 
 func minHeap(root int, end int, nums []int) {
-	child := 2*root + 1
 	for {
-		if child > end {
+		child := 2*root + 1
+		if child >= end {
 			break
 		}
-		if (child+1) <= end && nums[child] > nums[child+1] {
+		if child+1 < end && nums[child] > nums[child+1] {
 			child += 1
 		}
 		if nums[root] > nums[child] {
@@ -97,7 +95,39 @@ func findKthLargest(nums []int, k int) int {
 // quick select and partition
 // refer to https://leetcode.com/problems/kth-largest-element-in-an-array/solution/
 func findKthLargest(nums []int, k int) int {
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	return quickSelect(nums, 0, len(nums)-1, len(nums)-k)
+}
 
+// from left to right, to find the kth largest number
+func quickSelect(nums []int, left int, right int, k int) int {
+	if left == right {
+		return nums[left]
+	}
+	currentIndex := partition(nums, left, right)
+	if currentIndex == k {
+		return nums[currentIndex]
+	} else if currentIndex < k {
+		return quickSelect(nums, currentIndex+1, right, k)
+	}
+	return quickSelect(nums, left, currentIndex-1, k)
+
+}
+
+func partition(nums []int, left int, right int) int {
+	storeIndex := left
+	pivot := nums[left]
+	nums[storeIndex], nums[right] = nums[right], nums[storeIndex]
+	for i := left; i <= right; i++ {
+		if nums[i] < pivot {
+			nums[storeIndex], nums[i] = nums[i], nums[storeIndex]
+			storeIndex++
+		}
+	}
+	nums[storeIndex], nums[right] = nums[right], nums[storeIndex]
+	return storeIndex
 }
 
 // sort O(NlogN) O(1)
