@@ -98,6 +98,8 @@ func findKthLargest(nums []int, k int) int {
 	if len(nums) == 1 {
 		return nums[0]
 	}
+	// notice, it's the key the third param is len(nums)-k
+	// because it means the index
 	return quickSelect(nums, 0, len(nums)-1, len(nums)-k)
 }
 
