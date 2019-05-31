@@ -73,3 +73,29 @@ func totalFruit(tree []int) int {
 }
 
 // Better TC, with sliding window
+func totalFruit(tree []int) int {
+	if len(tree) <= 2 {
+		return len(tree)
+	}
+	m := make(map[int]int)
+	res := 0
+	start := 0
+	for end := 0; end < len(tree); end++ {
+		if _, ok := m[tree[end]]; ok {
+			m[tree[end]] += 1
+		} else {
+			m[tree[end]] = 1
+		}
+		for len(m) > 2 && start < end {
+			m[tree[start]] -= 1
+			if m[tree[start]] == 0 {
+				delete(m, tree[start])
+			}
+			start++
+		}
+		if (end - start + 1) > res {
+			res = end - start + 1
+		}
+	}
+	return res
+}
