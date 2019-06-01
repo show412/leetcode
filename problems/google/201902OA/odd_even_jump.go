@@ -3,7 +3,70 @@
 // but it's a very hard DP， from end to start to traverse array
 func oddEvenJumps(A []int) int {
 	// from i to j
+	if len(A) <= 1 {
+		return len(A)
+	}
+	// State in DP
+	// oddJump[i] means the i could be the end by odd jump
+	oddJump := make(map[int]bool)
+	// oddJump[i] means the i could be the end by even jump
+	evenJump := make(map[int]bool)
+	// the last i could be good point
+	res := 1
+	// use a hash to store the key i to value A[i]
+	m := make(map[int]int)
+	// init in DP
+	oddJump[len(A)-1] = true
+	evenJump[len(A)-1] = true
+	m[A[len(A)-1]] = len(A) - 1
+	for i := len(A) - 2; i >= 0; i-- {
+		oddValue := getFoolrKey(m, A[i])
+		evenValue := getCellingKey(m, A[i])
 
+		// start to function in DP
+		if oddValue >= 0 {
+			oddJump[i] = evenJump[oddValue]
+		}
+		if evenValue >= 0 {
+			evenJump[i] = oddJump[evenValue]
+		}
+
+		if oddJump[i] == true {
+			res++
+		}
+		m[A[i]] = i
+	}
+	return res
+}
+
+func getFoolrKey(h map[int]int, k int) int {
+	const MAX = int(^uint(0) >> 1)
+	min := MAX
+	minV := -1
+	for key, value := range h {
+		if key >= k {
+			if key < min {
+				min = key
+				minV = value
+			}
+		}
+	}
+	return minV
+}
+
+func getCellingKey(h map[int]int, k int) int {
+	const MIN = -int(^uint(0) >> 1)
+	max := MIN
+	maxV := -1
+	for key, value := range h {
+		if key <= k {
+			if key > max {
+				max = key
+				maxV = value
+			}
+		}
+	}
+	return maxV
 }
 
 // It's a java solution
