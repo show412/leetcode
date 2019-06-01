@@ -185,8 +185,10 @@ func shortestDistance(grid [][]int) int {
 				for len(queue) > 0 {
 					size := len(queue)
 					for z := 0; z < size; z++ {
-						cur := queue[len(queue)-1]
-						queue = queue[:len(queue)-1]
+						// notice it, it's queue, should queue[0] and queue[1:]
+						// stack is queue[len(queue)-1] queue[0:len(queue)-1]
+						cur := queue[0]
+						queue = queue[1:]
 						for k := 0; k < 4; k++ {
 							nextRow := cur[0] + path[k]
 							nextCol := cur[1] + path[k+1]
@@ -205,9 +207,9 @@ func shortestDistance(grid [][]int) int {
 	}
 	const MAX = int(^uint(0) >> 1)
 	res := MAX
-	fmt.Println(buildingNum)
-	fmt.Println(distance)
-	fmt.Println(reach)
+	// fmt.Println(buildingNum)
+	// fmt.Println(distance)
+	// fmt.Println(reach)
 	for i := 0; i < len(grid); i++ {
 		for j := 0; j < len(grid[0]); j++ {
 			if grid[i][j] == 0 && reach[i][j] == buildingNum {
