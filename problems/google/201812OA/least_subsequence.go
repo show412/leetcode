@@ -2,6 +2,27 @@
  * @param arrayIn: The original array.
  * @return: Count the minimum number of subarrays.
  */
+//TC is O(n^2) with DP. it's the right solution
+// for TC is O(nlogn), refer to LIS.go
+func LeastSubsequences(arrayIn []int) int {
+	if len(arrayIn) == 0{
+		return 1
+	}
+	f := make([]int, len(arrayIn))
+	f[0] = 1
+	res := 1
+	for i := 1; i < len(arrayIn); i++ {
+		f[i] = 1
+		for j :=0; j<i; j++ {
+			if arrayIn[i] < arrayIn[j] {
+				f[i] = int(math.Max(float64(f[i]),float64(f[j]+1)))
+			}
+		}
+		res = int(math.Max(float64(f[i]),float64(res)))
+	}
+	return res
+}
+
 func LeastSubsequences(arrayIn []int) int {
 	// Write your code here.
 	if len(arrayIn) == 0 {
