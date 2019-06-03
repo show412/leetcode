@@ -64,17 +64,30 @@ func areaRect(subPoints [][]int) int {
 	point4_y := subPoints[3][1]
 	if (point1_x == point2_x && point2_x == point3_x) ||
 		(point1_x == point2_x && point2_x == point4_x) ||
+		(point1_x == point3_x && point3_x == point4_x) ||
 		(point2_x == point3_x && point3_x == point4_x) {
 		return 0
 	}
 	if (point1_y == point2_y && point2_y == point3_y) ||
 		(point1_y == point2_y && point2_y == point4_y) ||
+		(point1_y == point3_y && point3_y == point4_y) ||
 		(point2_y == point3_y && point3_y == point4_y) {
 		return 0
 	}
 	if isBoomerang(subPoints[0], subPoints[1], subPoints[2]) == false ||
 		isBoomerang(subPoints[0], subPoints[1], subPoints[3]) == false ||
 		isBoomerang(subPoints[1], subPoints[2], subPoints[3]) == false {
+		return 0
+	}
+	// for the parellar side with x and y under the question requirement
+	if !((point1_x == point2_x && point3_x == point4_x) ||
+		(point1_x == point3_x && point2_x == point4_x) ||
+		(point1_x == point4_x && point2_x == point3_x)) == true {
+		return 0
+	}
+	if !((point1_y == point2_y && point3_y == point4_y) ||
+		(point1_y == point3_y && point2_y == point4_y) ||
+		(point1_y == point4_y && point2_y == point3_y)) == true {
 		return 0
 	}
 	disArray := []int{}
@@ -94,9 +107,13 @@ func areaRect(subPoints [][]int) int {
 	}
 	// fmt.Println(uniqDis)
 	if len(uniqDis) == 2 && (uniqDis[0]+uniqDis[0] == uniqDis[1]) {
+		fmt.Println(subPoints)
+		fmt.Println(uniqDis)
 		return uniqDis[0]
 	}
 	if len(uniqDis) == 3 && (uniqDis[0]+uniqDis[1] == uniqDis[2]) {
+		fmt.Println(subPoints)
+		fmt.Println(uniqDis)
 		return int(math.Sqrt(float64(uniqDis[0])) * math.Sqrt(float64(uniqDis[1])))
 	}
 
