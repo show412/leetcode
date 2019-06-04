@@ -17,7 +17,7 @@ import (
 // Input: [[1,1],[1,3],[3,1],[3,3],[4,1],[4,3]]
 // Output: 2
 // https://leetcode.com/problems/minimum-area-rectangle/
-// this solution is time limitted exceed
+// this solution is time limitted exceed the tc is O(n!)
 func minAreaRect(points [][]int) int {
 	if len(points) < 4 {
 		return 0
