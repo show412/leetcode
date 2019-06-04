@@ -1,18 +1,30 @@
-package main
+/**
+ * @param s: the long string
+ * @param word: the secrect word
+ * @return: whether a substring exists in the string can be transformed by the above encoding rule
+ */
+//  https://www.lintcode.com/problem/secret-word/description
 
-import (
-	"fmt"
-	// "math"
-	// "sort"
-)
+/* Give `s="abcabcd"`, `word="xyzxyz"`, return `yes`
+Input:
+abcabcd
+xyzxyz
+Output:
+yes
 
-func main() {
-	// [1,1],[1,3],[3,1],[3,3],[4,1],[4,3]
-	// [3,2],[0,0],[3,3],[3,4],[4,4],[2,1],[4,3],[1,0],[4,1],[0,2]
-	// a := [][]int{[]int{3, 2}, []int{0, 0}, []int{3, 3}, []int{3, 4}, []int{4, 4}, []int{2, 1}, []int{4, 3}, []int{1, 0}, []int{4, 1}, []int{0, 2}}
-	b := getAns("aaaasds", "gkg")
-	fmt.Println(b)
-}
+Explaination:
+"x" can transfer to "a", "y" can transfer to "b" and "z" can transfer to "c".
+Examlpe 2:
+
+Give `s="abca"`, `word="xyzd"`, return `no`
+Input:
+abca
+xyzd
+Output:
+no
+
+Explaination:
+the word "xyzd" has no way to transfer to "abca" */
 
 func getAns(s string, word string) string {
 	// Write a code here
