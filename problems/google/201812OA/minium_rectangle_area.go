@@ -177,3 +177,65 @@ func isBoomerang(point1 []int, point2 []int, point3 []int) bool {
 func dis(x int, y int, cx int, cy int) int {
 	return (x-cx)*(x-cx) + (y-cy)*(y-cy)
 }
+
+// the time limitation could be accepted
+func minAreaRect(points [][]int) int {
+	if len(points) < 4 {
+		return 0
+	}
+	m := make(map[[2]int]bool)
+	min := 0
+	const MAX = int(^uint(0) >> 1)
+	point1X := MAX
+	point1Y := MAX
+	point2X := MAX
+	point2Y := MAX
+	for i := 0; i < len(points); i++ {
+		m[[2]int{points[i][0], points[i][1]}] = true
+	}
+	for i := 0; i < len(points); i++ {
+		for j := i + 1; j < len(points); j++ {
+			a := points[i]
+			b := points[j]
+			// two conditions are that one is
+			//       a
+			//  |   /|
+			//  |  / |
+			//  | /  |
+			//  |/   |
+			//  b
+			// two is
+			//  a
+			//  |\   |
+			//  | \  |
+			//  |  \ |
+			//  |   \|
+			//       b
+			// and if it's rectangle, the another two points should be have same x-axis and y-axis
+			if (a[0]-b[0])*(a[1]-b[1]) > 0 {
+				point1X = int(math.Min(float64(b[0]), float64(a[0])))
+				point1Y = int(math.Max(float64(b[1]), float64(a[1])))
+				point2X = int(math.Max(float64(b[0]), float64(a[0])))
+				point2Y = int(math.Min(float64(b[1]), float64(a[1])))
+			} else if (a[0]-b[0])*(a[1]-b[1]) < 0 {
+				point1X = int(math.Min(float64(b[0]), float64(a[0])))
+				point1Y = int(math.Min(float64(b[1]), float64(a[1])))
+				point2X = int(math.Max(float64(b[0]), float64(a[0])))
+				point2Y = int(math.Max(float64(b[1]), float64(a[1])))
+			}
+			if m[[2]int{point1X, point1Y}] == true && m[[2]int{point2X, point2Y}] == true {
+				res := int(math.Abs(float64((a[0] - b[0]) * (a[1] - b[1]))))
+				// fmt.Println(res)
+				if res != 0 {
+					if min == 0 {
+						min = res
+					} else {
+						min = int(math.Min(float64(res), float64(min)))
+					}
+				}
+
+			}
+		}
+	}
+	return min
+}
