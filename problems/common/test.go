@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"reflect"
+	"strconv"
 	// "math"
 	// "sort"
 )
@@ -10,9 +12,36 @@ func main() {
 	// [1,1],[1,3],[3,1],[3,3],[4,1],[4,3]
 	// [3,2],[0,0],[3,3],[3,4],[4,4],[2,1],[4,3],[1,0],[4,1],[0,2]
 	// a := [][]int{[]int{3, 2}, []int{0, 0}, []int{3, 3}, []int{3, 4}, []int{4, 4}, []int{2, 1}, []int{4, 3}, []int{1, 0}, []int{4, 1}, []int{0, 2}}
-	b := pickFruits([]int{1, 2, 1, 2, 1, 2, 1})
+	// b := pickFruits([]int{1, 2, 1, 2, 1, 2, 1})
 	// b := pickFruits([]int{1, 2, 1, 3, 4, 3, 5, 1, 2})
-	fmt.Println(b)
+	// v32 := "-354634382"
+	// if s, err := strconv.ParseInt(v32, 10, 32); err == nil {
+	// 	fmt.Printf("%T, %v\n", s, s)
+	// }
+	// if s, err := strconv.ParseInt(v32, 16, 32); err == nil {
+	// 	fmt.Printf("%T, %v\n", s, s)
+	// }
+
+	v64 := "-354634382"
+	if s, err := strconv.ParseInt(v64, 16, 64); err == nil {
+		// fmt.Println(err)
+		fmt.Printf("%T, %v\n", s, s)
+	} else {
+		fmt.Println(err)
+	}
+	if s, err := strconv.ParseInt("4", 2, 64); err == nil {
+		fmt.Printf("%T, %v\n", s, s)
+	} else {
+		fmt.Println(err)
+	}
+	sss := "4"
+	var binString string
+	for _, c := range sss {
+		binString = fmt.Sprintf("%s%b", binString, c)
+	}
+	fmt.Println(binString)
+	fmt.Println(reflect.TypeOf(binString).String())
+	// fmt.Println(b)
 }
 
 func pickFruits(arr []int) int {
