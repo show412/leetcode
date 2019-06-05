@@ -1,20 +1,7 @@
-package main
-
-import (
-	"fmt"
-	// "math"
-	// "sort"
-)
-
-func main() {
-	// [1,1],[1,3],[3,1],[3,3],[4,1],[4,3]
-	// [3,2],[0,0],[3,3],[3,4],[4,4],[2,1],[4,3],[1,0],[4,1],[0,2]
-	// a := [][]int{[]int{3, 2}, []int{0, 0}, []int{3, 3}, []int{3, 4}, []int{4, 4}, []int{2, 1}, []int{4, 3}, []int{1, 0}, []int{4, 1}, []int{0, 2}}
-	b := pickFruits([]int{1, 2, 1, 2, 1, 2, 1})
-	// b := pickFruits([]int{1, 2, 1, 3, 4, 3, 5, 1, 2})
-	fmt.Println(b)
-}
-
+/**
+ * @param arr: the arr
+ * @return: the length of the longset subarray
+ */
 func pickFruits(arr []int) int {
 	// Write your code here.
 	res := []int{}
