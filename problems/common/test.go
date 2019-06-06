@@ -2,53 +2,50 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"strings"
 	// "math"
 	// "sort"
 )
 
 func main() {
-	// [1,1],[1,3],[3,1],[3,3],[4,1],[4,3]
-	// [3,2],[0,0],[3,3],[3,4],[4,4],[2,1],[4,3],[1,0],[4,1],[0,2]
-	// a := [][]int{[]int{3, 2}, []int{0, 0}, []int{3, 3}, []int{3, 4}, []int{4, 4}, []int{2, 1}, []int{4, 3}, []int{1, 0}, []int{4, 1}, []int{0, 2}}
-	// b := pickFruits([]int{1, 2, 1, 2, 1, 2, 1})
-	// b := pickFruits([]int{1, 2, 1, 3, 4, 3, 5, 1, 2})
-	// v32 := "-354634382"
-	// if s, err := strconv.ParseInt(v32, 10, 32); err == nil {
-	// 	fmt.Printf("%T, %v\n", s, s)
-	// }
-	// if s, err := strconv.ParseInt(v32, 16, 32); err == nil {
-	// 	fmt.Printf("%T, %v\n", s, s)
-	// }
 
-	// v64 := "-354634382"
-	// if s, err := strconv.ParseInt(v64, 16, 64); err == nil {
-	// 	// fmt.Println(err)
-	// 	fmt.Printf("%T, %v\n", s, s)
-	// } else {
-	// 	fmt.Println(err)
-	// }
-	// if s, err := strconv.ParseInt("4", 2, 64); err == nil {
-	// 	fmt.Printf("%T, %v\n", s, s)
-	// } else {
-	// 	fmt.Println(err)
-	// }
-	// sss := "4"
-	// var binString string
-	// s := strconv.Itoa(100)
-	// if err == nil {
-	// fmt.Println(s)
-	// }
-
-	// for _, c := range sss {
-	// 	fmt.Println(c)
-	// 	binString = fmt.Sprintf("%s%b", binString, c)
-	// }
-	// fmt.Println(binString)
-	// fmt.Println(reflect.TypeOf(binString).String())
-	// fmt.Println(b)
-	res := queryString("0110", 4)
+	res := minimumTotal([][]int{[]int{2}, []int{3, 4}, []int{6, 5, 7}, []int{4, 1, 8, 3}})
 	fmt.Println(res)
+}
+
+func minimumTotal(triangle [][]int) int {
+	// write your code here
+	// DP to solve the issue
+	f := make([][]int, len(triangle))
+	for i := 0; i < len(triangle); i++ {
+		f[i] = make([]int, len(triangle[i]))
+	}
+	res := int(^uint(0) >> 1)
+	f[0][0] = triangle[0][0]
+	for i := 1; i < len(triangle); i++ {
+		f[i][0] += f[i-1][0] + triangle[i][0]
+	}
+
+	for i := 1; i < len(triangle); i++ {
+		for j := 1; j < len(triangle[i]); j++ {
+			if j == len(triangle[i])-1 {
+				f[i][j] = triangle[i][j] + f[i-1][j-1]
+			} else {
+				f[i][j] = triangle[i][j] + int(math.Min(float64(f[i-1][j-1]), float64(f[i-1][j])))
+			}
+
+		}
+	}
+	bottom := len(triangle) - 1
+	// fmt.Println(triangle[bottom])
+	// fmt.Println(f)
+	for j := 0; j < len(triangle[bottom]); j++ {
+		if res > f[bottom][j] {
+			res = f[bottom][j]
+		}
+	}
+	return res
 }
 
 func queryString(str string, n int) string {
