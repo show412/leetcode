@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-	"reflect"
-	"strconv"
+	"strings"
 	// "math"
 	// "sort"
 )
@@ -22,26 +21,49 @@ func main() {
 	// 	fmt.Printf("%T, %v\n", s, s)
 	// }
 
-	v64 := "-354634382"
-	if s, err := strconv.ParseInt(v64, 16, 64); err == nil {
-		// fmt.Println(err)
-		fmt.Printf("%T, %v\n", s, s)
-	} else {
-		fmt.Println(err)
-	}
-	if s, err := strconv.ParseInt("4", 2, 64); err == nil {
-		fmt.Printf("%T, %v\n", s, s)
-	} else {
-		fmt.Println(err)
-	}
-	sss := "4"
-	var binString string
-	for _, c := range sss {
-		binString = fmt.Sprintf("%s%b", binString, c)
-	}
-	fmt.Println(binString)
-	fmt.Println(reflect.TypeOf(binString).String())
+	// v64 := "-354634382"
+	// if s, err := strconv.ParseInt(v64, 16, 64); err == nil {
+	// 	// fmt.Println(err)
+	// 	fmt.Printf("%T, %v\n", s, s)
+	// } else {
+	// 	fmt.Println(err)
+	// }
+	// if s, err := strconv.ParseInt("4", 2, 64); err == nil {
+	// 	fmt.Printf("%T, %v\n", s, s)
+	// } else {
+	// 	fmt.Println(err)
+	// }
+	// sss := "4"
+	// var binString string
+	// s := strconv.Itoa(100)
+	// if err == nil {
+	// fmt.Println(s)
+	// }
+
+	// for _, c := range sss {
+	// 	fmt.Println(c)
+	// 	binString = fmt.Sprintf("%s%b", binString, c)
+	// }
+	// fmt.Println(binString)
+	// fmt.Println(reflect.TypeOf(binString).String())
 	// fmt.Println(b)
+	res := queryString("0110", 4)
+	fmt.Println(res)
+}
+
+func queryString(str string, n int) string {
+	// Write your code here.
+	if str == "" {
+		return "no"
+	}
+	for i := 0; i <= n; i++ {
+		bi := fmt.Sprintf("%b", i)
+		// s := strconv.Itoa(bi)
+		if strings.Contains(str, bi) == false {
+			return "no"
+		}
+	}
+	return "yes"
 }
 
 func pickFruits(arr []int) int {

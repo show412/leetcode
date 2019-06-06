@@ -1,3 +1,8 @@
+import (
+	"fmt"
+	"strings"
+)
+
 // https://www.lintcode.com/problem/query-string/description
 /*
 Give a binary string str and an integer n to check if the substring of the string contains all binary representations of non-negative integers less than or equal to the given integer.
@@ -27,4 +32,16 @@ Binary starts at 0 and does not require leading zeros
  */
 func queryString(str string, n int) string {
 	// Write your code here.
+	if str == "" {
+		return "no"
+	}
+	for i := 0; i <= n; i++ {
+		bi := fmt.Sprintf("%b", i)
+		// because the Sprintf return a string
+		// s := strconv.Itoa(bi)
+		if strings.Contains(str, bi) == false {
+			return "no"
+		}
+	}
+	return "yes"
 }
