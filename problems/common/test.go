@@ -2,101 +2,67 @@ package main
 
 import (
 	"fmt"
-	"math"
-	"strings"
 	// "math"
 	// "sort"
 )
 
 func main() {
 
-	res := minimumTotal([][]int{[]int{2}, []int{3, 4}, []int{6, 5, 7}, []int{4, 1, 8, 3}})
+	// res := minimumTotal([][]int{[]int{2}, []int{3, 4}, []int{6, 5, 7}, []int{4, 1, 8, 3}})
+	// a := []string{"abcdbbdbadadacbcccabbcadddbca", "abcdbbdbadadacbcccabbcadddca", "bdd", "abbb", "dbbcd", "abcdbbdbadadacbcccabbca", "cbcacbd", "accacaca", "cbbcabcdd", "abdacaadbb", "bccaccbbdbb", "acaadbccdaca", "ddcdbddccccab", "aaaddcdbcaabba", "ccabdddadcbbdaa", "dddaccdbbbdcdbbd", "aaddacccaacbccdac", "bacaddaacacadbdbab", "aaaacbbcabbdbbbdadd", "bbbabadccaacbdaaaaab", "cbccaaddddcdcddccbaca", "abcdbbdbadadacbcccab", "bcadadaaddcbadcbdcabdcd", "acdcbcbdccbaacdcccdacbbb", "cadbaabbaccbbccccccbcaacc", "bddddbddbdcdbaaddccbacaccc", "abcacbbaaddcdabcdbdaddbdbdb", "dbdabdcaaccdccdcbccadddacdda", "abbdcaacdcacadbbbcbccaacdcdbb", "aadddadcbda", "abdbdbbadb", "addccacaaabccdc", "abcdbbdbadadacbccb", "dddcbdacccbaaacacccdbdd", "cbabcacbccbddabaadbdbdcbaacd", "cdcbcdddbcabbccbcbbbdabbadd", "a", "cabbcacaadbaddcbaacc", "cddbdba", "abcdbbdbadadcb", "abcdbbdbadadcbb", "ad", "aabadadcadcdcbdbbacdaabacaad", "abcd", "abcdbd", "abcdbbd", "abcdbbdd", "adddbcab", "abcdbbdbad", "abcdbbdbadd", "abcdbbdbadad", "abcdbbdbadadc", "ddabdbbacbcadbcacdacddaababc", "cdcbddcabcbdacbbaddba", "abcdbbdbadadacbcccabbcadca", "abcdbbdbadadacbcccabbcaddca", "abcdbbdbadadacbcccabbcaca", "abcdbbdbadadacbcccabbcca", "aababdddbdc", "dbdbcb", "aaddaabcaadcd", "daaaddbb", "bccdbdbadabcdbccbdcbacabc", "bcadadcbb", "babcdadadddabdaaadd", "cccbadbbabaadaadcadccccdc", "b", "cdcbcabbbcaa", "cbaccaddddbbb", "aabbcbbbaaccabdbabbcbddbdacb", "abcdbbdbadadacbcccabba", "abcdbbdbadadacbcccabb", "badabd", "abccbccbbdbbcdbb", "caadbcacbbcdabacca", "ddacdcdbbcbb", "cacbcabcdccda", "abda", "dcaaddaddadaddcdbbbbb", "caddb", "bbcdbddbdcbcccabb", "badb", "cabcdccbadbbabbbdbbcdbad", "ddcaddcdbacdcbadbbbbdbbcdc", "b", "cccdcaabdcabcbbcaabababddda", "dcadabcadadcbbcacdaccbb", "abcdbbdbadadacbcccb", "cbacbbacacbabdadc", "acbdacbaacaac", "aacbccbbbbcacddaa", "bcdbaab", "caadcaadbaadababddcbbabaacbdd", "badbbacbabcdabbcaddddc", "abcdbbdbadadcbcb", "abcdbbdbadadcbccb", "abd", "abcdd", "addcabbbdabaa", "abcdbbdbd"}
+	// fmt.Println(len(a))
+	res := checkWord("abcdbbdbadadacbcccabbcadddbca", []string{"abcdbbdbadadacbcccabbcadddbca", "abcdbbdbadadacbcccabbcadddca", "bdd", "abbb", "dbbcd", "abcdbbdbadadacbcccabbca", "cbcacbd", "accacaca", "cbbcabcdd", "abdacaadbb", "bccaccbbdbb", "acaadbccdaca", "ddcdbddccccab", "aaaddcdbcaabba", "ccabdddadcbbdaa", "dddaccdbbbdcdbbd", "aaddacccaacbccdac", "bacaddaacacadbdbab", "aaaacbbcabbdbbbdadd", "bbbabadccaacbdaaaaab", "cbccaaddddcdcddccbaca", "abcdbbdbadadacbcccab", "bcadadaaddcbadcbdcabdcd", "acdcbcbdccbaacdcccdacbbb", "cadbaabbaccbbccccccbcaacc", "bddddbddbdcdbaaddccbacaccc", "abcacbbaaddcdabcdbdaddbdbdb", "dbdabdcaaccdccdcbccadddacdda", "abbdcaacdcacadbbbcbccaacdcdbb", "aadddadcbda", "abdbdbbadb", "addccacaaabccdc", "abcdbbdbadadacbccb", "dddcbdacccbaaacacccdbdd", "cbabcacbccbddabaadbdbdcbaacd", "cdcbcdddbcabbccbcbbbdabbadd", "a", "cabbcacaadbaddcbaacc", "cddbdba", "abcdbbdbadadcb", "abcdbbdbadadcbb", "ad", "aabadadcadcdcbdbbacdaabacaad", "abcd", "abcdbd", "abcdbbd", "abcdbbdd", "adddbcab", "abcdbbdbad", "abcdbbdbadd", "abcdbbdbadad", "abcdbbdbadadc", "ddabdbbacbcadbcacdacddaababc", "cdcbddcabcbdacbbaddba", "abcdbbdbadadacbcccabbcadca", "abcdbbdbadadacbcccabbcaddca", "abcdbbdbadadacbcccabbcaca", "abcdbbdbadadacbcccabbcca", "aababdddbdc", "dbdbcb", "aaddaabcaadcd", "daaaddbb", "bccdbdbadabcdbccbdcbacabc", "bcadadcbb", "babcdadadddabdaaadd", "cccbadbbabaadaadcadccccdc", "b", "cdcbcabbbcaa", "cbaccaddddbbb", "aabbcbbbaaccabdbabbcbddbdacb", "abcdbbdbadadacbcccabba", "abcdbbdbadadacbcccabb", "badabd", "abccbccbbdbbcdbb", "caadbcacbbcdabacca", "ddacdcdbbcbb", "cacbcabcdccda", "abda", "dcaaddaddadaddcdbbbbb", "caddb", "bbcdbddbdcbcccabb", "badb", "cabcdccbadbbabbbdbbcdbad", "ddcaddcdbacdcbadbbbbdbbcdc", "b", "cccdcaabdcabcbbcaabababddda", "dcadabcadadcbbcacdaccbb", "abcdbbdbadadacbcccb", "cbacbbacacbabdadc", "acbdacbaacaac", "aacbccbbbbcacddaa", "bcdbaab", "caadcaadbaadababddcbbabaacbdd", "badbbacbabcdabbcaddddc", "abcdbbdbadadcbcb", "abcdbbdbadadcbccb", "abd", "abcdd", "addcabbbdabaa", "abcdbbdbd"})
 	fmt.Println(res)
 }
 
-func minimumTotal(triangle [][]int) int {
-	// write your code here
-	// DP to solve the issue
-	f := make([][]int, len(triangle))
-	for i := 0; i < len(triangle); i++ {
-		f[i] = make([]int, len(triangle[i]))
+func checkWord(s string, str []string) bool {
+	// Write your code here
+	slen := len(s)
+	if slen > len(str) {
+		return false
 	}
-	res := int(^uint(0) >> 1)
-	f[0][0] = triangle[0][0]
-	for i := 1; i < len(triangle); i++ {
-		f[i][0] += f[i-1][0] + triangle[i][0]
+	if slen == 0 {
+		return false
 	}
-
-	for i := 1; i < len(triangle); i++ {
-		for j := 1; j < len(triangle[i]); j++ {
-			if j == len(triangle[i])-1 {
-				f[i][j] = triangle[i][j] + f[i-1][j-1]
-			} else {
-				f[i][j] = triangle[i][j] + int(math.Min(float64(f[i-1][j-1]), float64(f[i-1][j])))
-			}
-
-		}
+	// result := make([]string, 0)
+	m := make(map[string]bool)
+	for i := 0; i < len(str); i++ {
+		m[str[i]] = true
 	}
-	bottom := len(triangle) - 1
-	// fmt.Println(triangle[bottom])
-	// fmt.Println(f)
-	for j := 0; j < len(triangle[bottom]); j++ {
-		if res > f[bottom][j] {
-			res = f[bottom][j]
-		}
-	}
-	return res
+	strMap := make(map[string]bool, len(s))
+	// sort.Strings(str)
+	return dfs(s, m, strMap)
 }
+func dfs(s string, m map[string]bool, strMap map[string]bool) bool {
+	// result = append(result, s)
+	// fmt.Println(result)
+	// if len(s) == 1 || len(s) == len(m) {
 
-func queryString(str string, n int) string {
-	// Write your code here.
-	if str == "" {
-		return "no"
+	// for k, v := range m {
+	if exist, ok := m[s]; !ok || exist == false {
+		return false
 	}
-	for i := 0; i <= n; i++ {
-		bi := fmt.Sprintf("%b", i)
-		// s := strconv.Itoa(bi)
-		if strings.Contains(str, bi) == false {
-			return "no"
-		}
+	// }
+	// return true
+	// }
+	if len(s) == 1 {
+		return true
 	}
-	return "yes"
-}
-
-func pickFruits(arr []int) int {
-	// Write your code here.
-	res := []int{}
-	m := make(map[int]int)
-	start := 0
-	// [1,2,1,3,4,3,5,1,2]
-	for end := 0; end < len(arr); end++ {
-		if _, ok := m[arr[end]]; ok {
-			m[arr[end]] += 1
+	if v, ok := strMap[s]; ok && v == true {
+		return false
+	}
+	for i := 0; i < len(s); i++ {
+		sub := s
+		if i == 0 {
+			sub = s[1:]
 		} else {
-			m[arr[end]] = 1
+			sub = s[0:i] + s[(i+1):len(s)]
 		}
-		for len(m) > 2 {
-			m[arr[start]] -= 1
-			if m[arr[start]] == 0 {
-				delete(m, arr[start])
-			}
-			if start < end {
-				start++
-			}
+		if dfs(sub, m, strMap) == true {
+			return true
 		}
-		if len(m) == 2 {
-			// fmt.Println(m)
-			// fmt.Println(end)
-			// fmt.Println(start)
-			res = append(res, end-start+1)
-		}
+		// result = result[0 : len(result)-1]
 	}
-
-	max := 1
-	for i := 0; i < len(res); i++ {
-		if res[i] > max {
-			max = res[i]
-		}
-	}
-	return max
+	strMap[s] = true
+	return false
 }
