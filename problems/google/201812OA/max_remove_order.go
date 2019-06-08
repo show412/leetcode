@@ -29,7 +29,8 @@ n and m do not exceed 5050
  * @return: the max number of points we can remove
  */
 // it's union find
-/* 这里采用union find，默认应该是说都是从左到右再从上到下遍历
+/* 并查集算法
+这里采用union find，默认应该是说都是从左到右再从上到下遍历
 可以这样理解：对于要消除的点，必要有一个依赖点，这个依赖点是同一行或同一列的。
 那么这样就会形成一棵树（一个点可以有多个依赖点，不过一个就够了）。
 union find的father就相当于是树根的点。
@@ -48,7 +49,8 @@ func getAns(mp [][]int) int {
 		for j := 0; j < n; j++ {
 			if mp[i][j] == 1 {
 				fa[i*n+j+1] = i*n + j + 1
-				// 默认应该是说都是从左到右再从上到下遍历
+				// 某一个点总得有一个依赖点 某一行也得有个依赖点 某一列也得有个依赖点
+				// 默认应该是说都是从左到右再从上到下遍历 所以这个依赖点就是行最左或者列最下
 				line[i] = i*n + j + 1   //第i行的最右的点
 				column[j] = i*n + j + 1 //第j列的最下的点
 				cnt++
