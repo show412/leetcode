@@ -40,10 +40,10 @@ func quickSort(intervalArray []*Interval, s int, e int) []*Interval {
 	left := s
 	right := e
 	for s != e {
-		if s < e && intervalArray[e].Start >= pivot {
+		for s < e && intervalArray[e].Start >= pivot {
 			e--
 		}
-		if s < e && intervalArray[s].Start <= pivot {
+		for s < e && intervalArray[s].Start <= pivot {
 			s++
 		}
 		if s < e {
