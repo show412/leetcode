@@ -1,17 +1,9 @@
-package main
-
 import (
-	"fmt"
 	"math"
 	"sort"
 )
 
-func main() {
-	// [[0, 30],[5, 10],[15, 20]]
-	// [[9,10],[4,9],[4,17]]
-	res := minMeetingRooms([][]int{[]int{9, 10}, []int{4, 9}, []int{4, 17}})
-	fmt.Println(res)
-}
+// https://leetcode.com/problems/meeting-rooms-ii/
 
 func minMeetingRooms(intervals [][]int) int {
 	if len(intervals) == 0 {
