@@ -25,6 +25,7 @@ func Constructor(capacity int) LRUCache {
 	return LRUCache{hashMap: m, capacity: capacity, head: &h, tail: &t}
 }
 
+// 在go中 如果是方法，则接收者定义为对象还是对象指针，都可以接收对象和对象指针的调用
 func (this *LRUCache) Get(key int) int {
 	if v, ok := this.hashMap[key]; ok {
 		/* 如果这里hashmap里存的不是指针 而是一个linkList
