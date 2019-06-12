@@ -25,7 +25,7 @@ func deleteNode(root *TreeNode, key int) *TreeNode {
 		}
 	} else if root.Val > key {
 		root.Left = deleteNode(root.Left, key)
-	} else if root.Val < key {
+	} else {
 		root.Right = deleteNode(root.Right, key)
 	}
 	return root
