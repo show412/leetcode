@@ -42,6 +42,7 @@ const maxA = function (N) {
   for(var i=2; i<N+1; i++){
     f[i] = f[i-1]+1;
     for(var j=1; j<i -2; j++){
+      // 根据数学推导  2^((i-j-1)/3) < 2(i-j-1) 就是两边同时log 然后可以约掉
       //从j到i ctr+A ctr+C ctr+V 肯定不如一直ctr+V 获得的最后的f[i]大
       f[i] = Math.max(f[i], f[j] * (i - j - 1));
     }

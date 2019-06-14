@@ -54,29 +54,28 @@ func threeSumClosest(nums []int, target int) int {
 		return 0
 	}
 	closet := nums[0] + nums[1] + nums[2]
-	var curSum int
 	sort.Ints(nums)
 	for i := 0; i < len(nums)-2; i++ {
-		// if there is no the line, it's ok. It's for reducing one time traverse
 		if i > 0 && nums[i] == nums[i-1] {
 			continue
 		}
 		j := i + 1
 		z := len(nums) - 1
-		curSum = nums[i] + nums[j] + nums[z]
 		for j < z {
+			curSum := nums[i] + nums[j] + nums[z]
 			if curSum == target {
-				return target
+				return curSum
 			}
-			if math.Abs(float64(target-curSum)) < math.Abs(float64(target-closet)) {
+
+			if int(math.Abs(float64(target-curSum))) < int(math.Abs(float64(target-closet))) {
 				closet = curSum
 			}
-			if curSum < target {
-				j++
-			} else {
+			if curSum > target {
 				z--
+			} else {
+				j++
 			}
 		}
 	}
-	return curSum
+	return closet
 }
