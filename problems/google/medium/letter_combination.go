@@ -1,14 +1,17 @@
-package main
+import "strings"
 
-import (
-	"fmt"
-	"strings"
-)
+// https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+/*
+Given a string containing digits from 2-9 inclusive,
+return all possible letter combinations that the number could represent.
 
-func main() {
-	res := letterCombinations("23")
-	fmt.Println(res)
-}
+A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+
+Example:
+
+Input: "23"
+Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
+*/
 
 func letterCombinations(digits string) []string {
 	if digits == "" {
