@@ -23,6 +23,8 @@ func minHeap(root int, end int, c []int) {
 		}
 		if c[root] > c[child] {
 			c[root], c[child] = c[child], c[root]
+			// 这句很关键 应该是root=child 因为后面随着在heapsort的root--
+			// 后面可能一直需要递归的调整子树
 			root = child
 		} else {
 			break
