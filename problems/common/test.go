@@ -2,44 +2,45 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 func main() {
-	res := letterCombinations("23")
+	res := []int{3, 5, 6, 1, 2, 8}
+	HeapSort(res)
 	fmt.Println(res)
 }
 
-func letterCombinations(digits string) []string {
-	if digits == "" {
-		return []string{}
+func minHeap(root int, end int, c []int) {
+	for {
+		var child = 2*root + 1
+		//判断是否存在child节点
+		if child > end {
+			break
+		}
+		//判断右child是否存在，如果存在则和另外一个同级节点进行比较
+		if child+1 <= end && c[child] > c[child+1] {
+			child += 1
+		}
+		if c[root] > c[child] {
+			c[root], c[child] = c[child], c[root]
+			root = child
+		} else {
+			break
+		}
 	}
-	m := map[string][]string{
-		"2": []string{"a", "b", "c"},
-		"3": []string{"d", "e", "f"},
-		"4": []string{"g", "h", "i"},
-		"5": []string{"j", "k", "l"},
-		"6": []string{"m", "n", "o"},
-		"7": []string{"p", "q", "r", "s"},
-		"8": []string{"t", "u", "v"},
-		"9": []string{"w", "x", "y", "z"}}
-	res := make([]string, 0)
-	combination := make([]string, 0)
-	dfs(m, digits, combination, &res)
-	return res
 }
 
-func dfs(m map[string][]string, disgits string, combination []string, res *[]string) {
-	if disgits == "" || len(disgits) == 0 {
-		*res = append(*res, strings.Join(combination, ""))
-		return
+//降序排序
+func HeapSort(c []int) {
+	var n = len(c) - 1
+	for root := n / 2; root >= 0; root-- {
+		minHeap(root, n, c)
 	}
-	number := string(disgits[0])
-	disgits = disgits[1:]
-	set := m[number]
-	for i := 0; i < len(set); i++ {
-		combination = append(combination, set[i])
-		dfs(m, disgits, combination, res)
-		combination = combination[:len(combination)-1]
+	fmt.Println("堆构建完成")
+	for end := n; end >= 0; end-- {
+		if c[0] < c[end] {
+			c[0], c[end] = c[end], c[0]
+			minHeap(0, end-1, c)
+		}
 	}
 }
