@@ -2,47 +2,30 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 func main() {
-	res := []int{3, 5, 6, 1, 2, 8}
-	HeapSort(res)
+	res := titleToNumber("ZY")
 	fmt.Println(res)
 }
 
-func minHeap(root int, end int, c []int) {
-	for {
-		var child = 2*root + 1
-		//判断是否存在child节点
-		if child > end {
-			break
-		}
-		//判断右child是否存在，如果存在则和另外一个同级节点进行比较
-		if child+1 <= end && c[child] > c[child+1] {
-			child += 1
-		}
-		if c[root] > c[child] {
-			c[root], c[child] = c[child], c[root]
-			// 这句很关键 应该是root=child 因为后面随着在heapsort的root--
-			// 后面可能一直需要递归的调整子树
-			root = child
+func titleToNumber(s string) int {
+	if s == "" {
+		return 0
+	}
+	arr := []rune(s)
+	length := len(arr)
+	res := 0
+	base := int('A') - 1
+	for i := 0; i < length; i++ {
+		charNum := int(arr[i]) - base
+		fmt.Println(charNum)
+		if length >= 2 {
+			res += charNum * int(math.Pow(float64(26), float64(length-1-i)))
 		} else {
-			break
+			res = charNum
 		}
 	}
-}
-
-//降序排序
-func HeapSort(c []int) {
-	var n = len(c) - 1
-	for root := n / 2; root >= 0; root-- {
-		minHeap(root, n, c)
-	}
-	fmt.Println("堆构建完成")
-	for end := n; end >= 0; end-- {
-		if c[0] < c[end] {
-			c[0], c[end] = c[end], c[0]
-			minHeap(0, end-1, c)
-		}
-	}
+	return res
 }
