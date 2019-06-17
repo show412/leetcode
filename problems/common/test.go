@@ -2,30 +2,29 @@ package main
 
 import (
 	"fmt"
-	"math"
 )
 
 func main() {
-	res := titleToNumber("ZY")
+	res := isPalindrome(23532)
 	fmt.Println(res)
 }
 
-func titleToNumber(s string) int {
-	if s == "" {
-		return 0
+func isPalindrome(x int) bool {
+	if x < 0 {
+		return false
 	}
-	arr := []rune(s)
-	length := len(arr)
-	res := 0
-	base := int('A') - 1
-	for i := 0; i < length; i++ {
-		charNum := int(arr[i]) - base
-		fmt.Println(charNum)
-		if length >= 2 {
-			res += charNum * int(math.Pow(float64(26), float64(length-1-i)))
-		} else {
-			res = charNum
-		}
+	if x == 0 {
+		return true
 	}
-	return res
+	originNum := x
+	reverseNum := 0
+	for originNum != 0 {
+		mod := originNum % 10
+		originNum = originNum / 10
+		reverseNum = reverseNum*10 + mod
+	}
+	if reverseNum == x {
+		return true
+	}
+	return false
 }
