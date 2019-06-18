@@ -5,26 +5,22 @@ import (
 )
 
 func main() {
-	res := isPalindrome(23532)
+	res := numJewelsInStones("z", "ZZ")
 	fmt.Println(res)
 }
 
-func isPalindrome(x int) bool {
-	if x < 0 {
-		return false
+func numJewelsInStones(J string, S string) int {
+	arrJ := []rune(J)
+	arrS := []rune(S)
+	mapS := make(map[rune]bool, len(arrJ))
+	cnt := 0
+	for i := 0; i < len(arrJ); i++ {
+		mapS[arrJ[i]] = true
 	}
-	if x == 0 {
-		return true
+	for j := 0; j < len(arrS); j++ {
+		if _, ok := mapS[arrS[j]]; ok {
+			cnt++
+		}
 	}
-	originNum := x
-	reverseNum := 0
-	for originNum != 0 {
-		mod := originNum % 10
-		originNum = originNum / 10
-		reverseNum = reverseNum*10 + mod
-	}
-	if reverseNum == x {
-		return true
-	}
-	return false
+	return cnt
 }
