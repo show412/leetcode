@@ -5,22 +5,41 @@ import (
 )
 
 func main() {
-	res := numJewelsInStones("z", "ZZ")
+	res := rotatedDigits(10000)
 	fmt.Println(res)
 }
 
-func numJewelsInStones(J string, S string) int {
-	arrJ := []rune(J)
-	arrS := []rune(S)
-	mapS := make(map[rune]bool, len(arrJ))
-	cnt := 0
-	for i := 0; i < len(arrJ); i++ {
-		mapS[arrJ[i]] = true
+func rotatedDigits(N int) int {
+	if N < 0 {
+		return 0
 	}
-	for j := 0; j < len(arrS); j++ {
-		if _, ok := mapS[arrS[j]]; ok {
+	cnt := 0
+	for i := 1; i <= N; i++ {
+		if good(i) == true {
+			// fmt.Println(i)
 			cnt++
 		}
 	}
 	return cnt
+}
+func good(num int) bool {
+	flag := 0
+	for num != 0 {
+		if num%10 == 3 || num%10 == 4 || num%10 == 7 {
+			return false
+		}
+		if num%10 == 0 || num%10 == 1 || num%10 == 8 {
+			num = num / 10
+			continue
+		}
+		if num%10 == 2 || num%10 == 5 || num%10 == 6 || num%10 == 9 {
+			num = num / 10
+			flag = 1
+			continue
+		}
+	}
+	if flag == 1 {
+		return true
+	}
+	return false
 }
