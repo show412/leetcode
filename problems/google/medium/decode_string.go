@@ -1,3 +1,5 @@
+import "regexp"
+
 // https://leetcode.com/problems/decode-string/
 /*
 Given an encoded string, return its decoded string.
@@ -19,5 +21,16 @@ s = "3[a2[c]]", return "accaccacc".
 s = "2[abc]3[cd]ef", return "abcabccdcdcdef".
 */
 func decodeString(s string) string {
-
+	reg := regexp.MustCompile("([0-9]+)(\\[)(.*)(\\])")
+	data := reg.FindStringSubmatch(str)
+	if len(data) == 0 {
+		return data
+	}
+	k := data[1]
+	subStr := data[3]
+	res := ""
+	for i := 0; i < k; i++ {
+		res += decodeString(subStr)
+	}
+	return res
 }
