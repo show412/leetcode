@@ -41,7 +41,50 @@ func decodeString(s string) string {
 	return res
 }
 */
+// golang beat 100%
+func decodeString(s string) string {
+	sByte := []byte(s)
+	start := 0
+	// notice the start must be a pointer
+	// because the sub str maybe includes '[' so if we calculate the length by sub, it will be mistake that the sub length
+	// is bigger than the i posion should walk forward
+	decodeS := decode(sByte, &start)
+	return string(decodeS)
+}
 
+func decode(s []byte, i *int) []byte {
+	var res []byte
+	var numByte []byte
+
+	for *i < len(s) && s[*i] != ']' {
+		if is_digit(s[*i]) == true {
+			numByte = append(numByte, s[*i])
+			(*i)++
+		} else if s[*i] == '[' {
+			k, _ := strconv.Atoi(string(numByte))
+			(*i)++
+			// the i will be go on to walk forward so when the recursion end, the i will be on the ']'
+			sub := decode(s, i)
+			for j := 0; j < k; j++ {
+				res = append(res, sub...)
+			}
+			// skip the ']'
+			(*i)++
+			// notice we need to clear the numByte because there will add last number
+			numByte = []byte{}
+		} else {
+			res = append(res, s[*i])
+			(*i)++
+		}
+	}
+	return res
+}
+
+func is_digit(c byte) bool {
+	return c >= '0' && c <= '9'
+}
+
+// It's a solution from leetcode
 func is_digit(c byte) bool {
 	return c >= '0' && c <= '9'
 }
