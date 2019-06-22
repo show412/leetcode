@@ -9,7 +9,7 @@ func main() {
 	// str := "aaaa3[a2[cc]]2[bc]"
 	// data := reg.FindAllStringSubmatch(str, -1)
 	// fmt.Println(data)
-	res := findDisappearedNumbers([]int{4, 3, 2, 7, 8, 2, 3, 1})
+	res := findDisappearedNumbers([]int{4, 3, 2, 7, 8, 7, 8, 1})
 	fmt.Println(res)
 }
 
