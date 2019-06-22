@@ -1,21 +1,22 @@
-package main
+import "strconv"
 
-import (
-	"fmt"
-	"strconv"
-)
+// https://leetcode.com/problems/summary-ranges/
+/*
+Given a sorted integer array without duplicates,
+return the summary of its ranges.
 
-func main() {
-	// reg := regexp.MustCompile("([a-z]*)([0-9]+)(\\[\1)(.)*(\\]\1)")
-	// str := "aaaa3[a2[cc]]2[bc]"
-	// data := reg.FindAllStringSubmatch(str, -1)
-	// fmt.Println(data)
-	res := summaryRanges([]int{0})
-	fmt.Println(res)
-}
+Example 1:
 
-// Input:  [0,1,2,4,5,7]
-// Output: ["0->2","4->5","7"]
+Input:  [0,1,2,4,5,7]
+Output: ["0->2","4->5","7"]
+Explanation: 0,1,2 form a continuous range; 4,5 form a continuous range.
+Example 2:
+
+Input:  [0,2,3,4,6,8,9]
+Output: ["0","2->4","6","8->9"]
+Explanation: 2,3,4 form a continuous range; 8,9 form a continuous range.
+*/
+// use three pointer start, end, last
 func summaryRanges(nums []int) []string {
 	// m := make(map[int]bool, 0)
 	if len(nums) == 0 {
