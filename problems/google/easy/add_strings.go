@@ -1,20 +1,17 @@
-package main
+// https://leetcode.com/problems/add-strings/
+/*
+Given two non-negative integers num1 and num2 represented as string, return the sum of num1 and num2.
 
-import (
-	"fmt"
-)
+Note:
 
-func main() {
-	// reg := regexp.MustCompile("([a-z]*)([0-9]+)(\\[\1)(.)*(\\]\1)")
-	// str := "aaaa3[a2[cc]]2[bc]"
-	// data := reg.FindAllStringSubmatch(str, -1)
-	// fmt.Println(data)
-	res := addStrings("123", "1789")
-	fmt.Println(res)
-}
-
-// Input:  [0,1,2,4,5,7]
-// Output: ["0->2","4->5","7"]
+The length of both num1 and num2 is < 5100.
+Both num1 and num2 contains only digits 0-9.
+Both num1 and num2 does not contain any leading zero.
+You must not use any built-in BigInteger library or convert the inputs to integer directly.
+*/
+// the ideas is we could use byte and '0' to convert to int
+// and + '0' at last to convert to string
+// and carry we could use divide 10 and mod 10
 func addStrings(num1 string, num2 string) string {
 	// the result length should be the longest between num1 and num2 to add 1
 	// because it maybe have a carry
