@@ -79,10 +79,12 @@ func myPow(x float64, n int) float64 {
 
 	res := 1.00000
 	for n != 0 {
-		x *= x
 		if n&1 == 1 {
 			res *= x
 		}
+		// 因为转为了2进制
+		// 这步的目的是往前挪动2的幂次 比如第一次循环是x 下一次就是x^2 再下一次是x^4
+		x *= x
 		n = n >> 1
 	}
 	return res
