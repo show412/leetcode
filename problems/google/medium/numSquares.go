@@ -15,6 +15,9 @@ Example 2:
 Input: n = 13
 Output: 2
 Explanation: 13 = 4 + 9.
+
+the best solution is here
+https://leetcode.com/problems/perfect-squares/discuss/71488/Summary-of-4-different-solutions-(BFS-DP-static-DP-and-mathematics)
 */
 // LTE need to improve for 7168
 func numSquares(n int) int {
@@ -78,6 +81,7 @@ func numSquares(n int) int {
 }
 
 func doNumSquares(n int, cache map[int]int) int {
+	// 如果算过了就不需要再算了 提高性能
 	if found, ok := cache[n]; ok {
 		return found
 	}
@@ -96,4 +100,33 @@ func min(a, b int) int {
 		return b
 	}
 	return a
+}
+
+// DP solution
+func numSquares(n int) int {
+	if n == 1 || n == 4 {
+		return 1
+	}
+	if n == 2 {
+		return 2
+	}
+	if n == 3 {
+		return 3
+	}
+	var f []int
+	f[5] = 2
+	for i := 6; i <= n; i++ {
+		f[i] = f[i-1] + 1
+		for j := 1; j*j <= i; j++ {
+			f[i] = min(f[i], f[i-j*j]+1)
+		}
+	}
+	return f[n]
+}
+
+func min(a int, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }

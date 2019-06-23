@@ -17,69 +17,76 @@ func main() {
 // Input:  [0,1,2,4,5,7]
 // Output: ["0->2","4->5","7"]
 func numSquares(n int) int {
-	if n == 1 || n == 4 {
-		return 1
+	if n <= 0 {
+		return 0
 	}
-	if n == 2 {
-		return 2
-	}
-	if n == 3 {
-		return 3
-	}
-	var list []int
-	for i := 1; i < n; i++ {
-		if i*i > n {
-			break
+	// f means i need the square sum at least
+	f := make([]int, n+1)
+	f[0] = 0
+	for i := 1; i <= n; i++ {
+		// i could be the first i-1 square sum + 1
+		f[i] = f[i-1] + 1
+		for j := 1; j*j <= i; j++ {
+			// For each i, it must be the sum of some number (i - j*j) and
+			// a perfect square number (j*j).
+			f[i] = min(f[i], f[i-j*j]+1)
 		}
-		list = append(list, i)
 	}
-	if list[len(list)-1]*list[len(list)-1] == n {
-		return 1
-	}
-	var sub []int
-	cnt := 0
-	var res int
-	dfs(list, 0, sub, cnt, &res, n)
-	// min := int(^uint(0) >> 1)
-	// for i := 0; i < len(res); i++ {
-	// 	if min > len(res[i]) {
-	// 		min = len(res[i])
-	// 	}
-	// }
-	return res
+	return f[n]
 }
 
-func dfs(list []int, start int, sub []int, cnt int, res *int, max int) {
-	// fmt.Println("*******")
-	// fmt.Println(sub)
-	// fmt.Println(cnt)
-	// if cnt == max {
-	// 	cpy := make([]int, len(sub))
-	// 	copy(cpy, sub)
-	// 	// fmt.Println(sub)
-	// 	// fmt.Println(cpy)
-	// 	*res = append(*res, cpy)
-	// }
-
-	for i := start; i < len(list); i++ {
-		sub = append(sub, list[i])
-		cnt += list[i] * list[i]
-		if cnt == max {
-			if *res == 0 || *res > len(sub) {
-				*res = len(sub)
-				sub = sub[:len(sub)-1]
-				cnt -= list[i] * list[i]
-				break
-			}
-		}
-		if *res != 0 && *res < len(sub) {
-			sub = sub[:len(sub)-1]
-			cnt -= list[i] * list[i]
-			break
-		}
-		dfs(list, i, sub, cnt, res, max)
-		sub = sub[:len(sub)-1]
-		cnt -= list[i] * list[i]
+func min(a int, b int) int {
+	if a < b {
+		return a
 	}
-
+	return b
 }
+
+/*
+the Mathematical Solution is best
+class Solution
+{
+private:
+    int is_square(int n)
+    {
+        int sqrt_n = (int)(sqrt(n));
+        return (sqrt_n*sqrt_n == n);
+    }
+
+public:
+    // Based on Lagrange's Four Square theorem, there
+    // are only 4 possible results: 1, 2, 3, 4.
+    int numSquares(int n)
+    {
+        // If n is a perfect square, return 1.
+        if(is_square(n))
+        {
+            return 1;
+        }
+
+        // The result is 4 if and only if n can be written in the
+        // form of 4^k*(8*m + 7). Please refer to
+        // Legendre's three-square theorem.
+        while ((n & 3) == 0) // n%4 == 0
+        {
+            n >>= 2;
+        }
+        if ((n & 7) == 7) // n%8 == 7
+        {
+            return 4;
+        }
+
+        // Check whether 2 is the result.
+        int sqrt_n = (int)(sqrt(n));
+        for(int i = 1; i <= sqrt_n; i++)
+        {
+            if (is_square(n - i*i))
+            {
+                return 2;
+            }
+        }
+
+        return 3;
+    }
+};
+*/
