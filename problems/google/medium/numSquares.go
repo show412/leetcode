@@ -14,6 +14,7 @@ Input: n = 13
 Output: 2
 Explanation: 13 = 4 + 9.
 */
+// LTE need to improve
 func numSquares(n int) int {
 	if n == 1 || n == 4 {
 		return 1
