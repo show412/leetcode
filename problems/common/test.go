@@ -9,26 +9,40 @@ func main() {
 	// str := "aaaa3[a2[cc]]2[bc]"
 	// data := reg.FindAllStringSubmatch(str, -1)
 	// fmt.Println(data)
-	res := findDisappearedNumbers([]int{4, 3, 2, 7, 8, 7, 8, 1})
+	res := dailyTemperatures([]int{73, 74, 75, 71, 69, 72, 76, 73})
+	// [1, 1, 4, 2, 1, 1, 0, 0]
 	fmt.Println(res)
 }
 
 // Input:  [0,1,2,4,5,7]
 // Output: ["0->2","4->5","7"]
-func findDisappearedNumbers(nums []int) []int {
-	nlen := len(nums)
-	for i := 0; i < nlen; {
-		if nums[i] != i+1 && nums[nums[i]-1] != nums[i] {
-			nums[i], nums[nums[i]-1] = nums[nums[i]-1], nums[i]
-			continue
-		}
-		i++
+func dailyTemperatures(T []int) []int {
+	if len(T) == 1 {
+		return []int{0}
 	}
 	var res []int
-	for i := 0; i < nlen; i++ {
-		if nums[i] != i+1 {
-			res = append(res, i+1)
+	type node struct {
+		value  int
+		index  int
+		bigger int
+	}
+	var stack []*node
+	var nodeList []*node
+	for i := 0; i < len(T); i++ {
+		item := node{value: T[i], index: i, bigger: 0}
+		nodeList = append(nodeList, &item)
+	}
+	stack = append(stack, nodeList[0])
+	for i := 1; i < len(nodeList); i++ {
+		for len(stack) != 0 && nodeList[i].value > stack[len(stack)-1].value {
+			last := stack[len(stack)-1]
+			last.bigger = i - last.index
+			stack = stack[:len(stack)-1]
 		}
+		stack = append(stack, nodeList[i])
+	}
+	for i := 0; i < len(nodeList); i++ {
+		res = append(res, nodeList[i].bigger)
 	}
 	return res
 }
