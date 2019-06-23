@@ -19,6 +19,34 @@ Explanation: 13 = 4 + 9.
 the best solution is here
 https://leetcode.com/problems/perfect-squares/discuss/71488/Summary-of-4-different-solutions-(BFS-DP-static-DP-and-mathematics)
 */
+
+// DP solution
+func numSquares(n int) int {
+	if n <= 0 {
+		return 0
+	}
+	// f means i need the square sum at least
+	f := make([]int, n+1)
+	f[0] = 0
+	for i := 1; i <= n; i++ {
+		// i could be the first i-1 square sum + 1
+		f[i] = f[i-1] + 1
+		for j := 1; j*j <= i; j++ {
+			// For each i, it must be the sum of some number (i - j*j) and
+			// a perfect square number (j*j).
+			f[i] = min(f[i], f[i-j*j]+1)
+		}
+	}
+	return f[n]
+}
+
+func min(a int, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
 // LTE need to improve for 7168
 func numSquares(n int) int {
 	if n == 1 || n == 4 {
@@ -102,31 +130,51 @@ func min(a, b int) int {
 	return a
 }
 
-// DP solution
-func numSquares(n int) int {
-	if n == 1 || n == 4 {
-		return 1
-	}
-	if n == 2 {
-		return 2
-	}
-	if n == 3 {
-		return 3
-	}
-	var f []int
-	f[5] = 2
-	for i := 6; i <= n; i++ {
-		f[i] = f[i-1] + 1
-		for j := 1; j*j <= i; j++ {
-			f[i] = min(f[i], f[i-j*j]+1)
-		}
-	}
-	return f[n]
-}
+/*
+the Mathematical Solution is best
+class Solution
+{
+private:
+    int is_square(int n)
+    {
+        int sqrt_n = (int)(sqrt(n));
+        return (sqrt_n*sqrt_n == n);
+    }
 
-func min(a int, b int) int {
-	if a < b {
-		return a
-	}
-	return b
-}
+public:
+    // Based on Lagrange's Four Square theorem, there
+    // are only 4 possible results: 1, 2, 3, 4.
+    int numSquares(int n)
+    {
+        // If n is a perfect square, return 1.
+        if(is_square(n))
+        {
+            return 1;
+        }
+
+        // The result is 4 if and only if n can be written in the
+        // form of 4^k*(8*m + 7). Please refer to
+        // Legendre's three-square theorem.
+        while ((n & 3) == 0) // n%4 == 0
+        {
+            n >>= 2;
+        }
+        if ((n & 7) == 7) // n%8 == 7
+        {
+            return 4;
+        }
+
+        // Check whether 2 is the result.
+        int sqrt_n = (int)(sqrt(n));
+        for(int i = 1; i <= sqrt_n; i++)
+        {
+            if (is_square(n - i*i))
+            {
+                return 2;
+            }
+        }
+
+        return 3;
+    }
+};
+*/
