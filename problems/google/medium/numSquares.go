@@ -1,21 +1,19 @@
-package main
+// https://leetcode.com/problems/perfect-squares/
+/*
+Given a positive integer n, find the least number of perfect square numbers
+(for example, 1, 4, 9, 16, ...) which sum to n.
 
-import (
-	"fmt"
-)
+Example 1:
 
-func main() {
-	// reg := regexp.MustCompile("([a-z]*)([0-9]+)(\\[\1)(.)*(\\]\1)")
-	// str := "aaaa3[a2[cc]]2[bc]"
-	// data := reg.FindAllStringSubmatch(str, -1)
-	// fmt.Println(data)
-	res := numSquares(272)
-	// [1, 1, 4, 2, 1, 1, 0, 0]
-	fmt.Println(res)
-}
+Input: n = 12
+Output: 3
+Explanation: 12 = 4 + 4 + 4.
+Example 2:
 
-// Input:  [0,1,2,4,5,7]
-// Output: ["0->2","4->5","7"]
+Input: n = 13
+Output: 2
+Explanation: 13 = 4 + 9.
+*/
 func numSquares(n int) int {
 	if n == 1 || n == 4 {
 		return 1
