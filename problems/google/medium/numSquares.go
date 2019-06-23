@@ -16,7 +16,7 @@ Input: n = 13
 Output: 2
 Explanation: 13 = 4 + 9.
 */
-// LTE need to improve
+// LTE need to improve for 7168
 func numSquares(n int) int {
 	if n == 1 || n == 4 {
 		return 1
@@ -39,33 +39,26 @@ func numSquares(n int) int {
 	}
 	var sub []int
 	cnt := 0
-	var res [][]int
+	var res int
 	dfs(list, 0, sub, cnt, &res, n)
-	min := int(^uint(0) >> 1)
-	for i := 0; i < len(res); i++ {
-		if min > len(res[i]) {
-			min = len(res[i])
-		}
-	}
-	return min
+
+	return res
 }
 
-func dfs(list []int, start int, sub []int, cnt int, res *[][]int, max int) {
-	// fmt.Println("*******")
-	// fmt.Println(sub)
-	// fmt.Println(cnt)
-	if cnt == max {
-		cpy := make([]int, len(sub))
-		copy(cpy, sub)
-		// fmt.Println(sub)
-		// fmt.Println(cpy)
-		*res = append(*res, cpy)
-	}
+func dfs(list []int, start int, sub []int, cnt int, res *int, max int) {
 
 	for i := start; i < len(list); i++ {
 		sub = append(sub, list[i])
 		cnt += list[i] * list[i]
-		if cnt > max {
+		if cnt == max {
+			if *res == 0 || *res > len(sub) {
+				*res = len(sub)
+				sub = sub[:len(sub)-1]
+				cnt -= list[i] * list[i]
+				break
+			}
+		}
+		if *res != 0 && *res < len(sub) {
 			sub = sub[:len(sub)-1]
 			cnt -= list[i] * list[i]
 			break
