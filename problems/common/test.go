@@ -9,40 +9,41 @@ func main() {
 	// str := "aaaa3[a2[cc]]2[bc]"
 	// data := reg.FindAllStringSubmatch(str, -1)
 	// fmt.Println(data)
-	res := dailyTemperatures([]int{73, 74, 75, 71, 69, 72, 76, 73})
+	res := islandPerimeter([]int{73, 74, 75, 71, 69, 72, 76, 73})
 	// [1, 1, 4, 2, 1, 1, 0, 0]
 	fmt.Println(res)
 }
 
 // Input:  [0,1,2,4,5,7]
 // Output: ["0->2","4->5","7"]
-func dailyTemperatures(T []int) []int {
-	if len(T) == 1 {
-		return []int{0}
+func islandPerimeter(grid [][]int) int {
+	if len(grid) == 0 {
+		return 0
 	}
-	var res []int
-	type node struct {
-		value  int
-		index  int
-		bigger int
-	}
-	var stack []*node
-	var nodeList []*node
-	for i := 0; i < len(T); i++ {
-		item := node{value: T[i], index: i, bigger: 0}
-		nodeList = append(nodeList, &item)
-	}
-	stack = append(stack, nodeList[0])
-	for i := 1; i < len(nodeList); i++ {
-		for len(stack) != 0 && nodeList[i].value > stack[len(stack)-1].value {
-			last := stack[len(stack)-1]
-			last.bigger = i - last.index
-			stack = stack[:len(stack)-1]
+	res := 0
+	for i := 0; i < len(grid); i++ {
+		for j := 0; j < len(grid[0]); j++ {
+			if grid[i][j] == 1 {
+				res += getLength(i, j, grid)
+			}
 		}
-		stack = append(stack, nodeList[i])
-	}
-	for i := 0; i < len(nodeList); i++ {
-		res = append(res, nodeList[i].bigger)
 	}
 	return res
+}
+
+func getLength(i int, j int, grid [][]int) int {
+	length := 4
+	if i-1 >= 0 && grid[i-1][j] == 1 {
+		length -= 1
+	}
+	if j+1 < len(grid[0]) && grid[i][j+1] == 1 {
+		length -= 1
+	}
+	if i+1 < len(grid) && grid[i+1][j] == 1 {
+		length -= 1
+	}
+	if j-1 >= 0 && grid[i][j-1] == 1 {
+		length -= 1
+	}
+	return length
 }
