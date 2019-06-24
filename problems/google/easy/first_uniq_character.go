@@ -42,6 +42,11 @@ func firstUniqChar(s string) int {
 }
 
 // slow and fast pointer
+/*
+这的思路是因为都是小写字母 所以 byte 的大小是一致的 小写字母都在256的 accill code 之内
+用快慢指针 , slow 总是保持在只出现一次的字母的位置 fast 会向前走 如果有多次出现的就会回来
+重写 count 里的值 这样 slow 再继续往前走找到下一个只出现一次的地方
+*/
 func firstUniqChar(s string) int {
 	if len(s) == 0 {
 		return -1
