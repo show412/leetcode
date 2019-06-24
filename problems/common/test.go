@@ -10,7 +10,7 @@ func main() {
 	// str := "aaaa3[a2[cc]]2[bc]"
 	// data := reg.FindAllStringSubmatch(str, -1)
 	// fmt.Println(data)
-	res := lengthLongestPath("dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext")
+	res := lengthLongestPath("a\n\tb.txt\na2\n\tb2.txt")
 	// [1, 1, 4, 2, 1, 1, 0, 0]
 	fmt.Println(res)
 }
@@ -19,32 +19,55 @@ func lengthLongestPath(input string) int {
 	if input == "" {
 		return 0
 	}
+	if strings.IndexByte(input, '.') >= 0 && strings.LastIndexByte(input, '\t') <= -1 {
+		return len(input)
+	}
 	inputArray := strings.Split(input, "\n")
 	res := len(inputArray[0])
-	// ["dir" "\tsubdir1" "\tsubdir2" "\t\tfile.ext"]
 
 	for start := 1; start < len(inputArray); start++ {
 		cur := inputArray[start]
-		length := len(cur)
-		end := start + 1
-		if end < len(inputArray) && cur[0] == '\t' && cur[1] != '\t' {
-			fmt.Println(start)
-			if strings.IndexByte(cur, '.') >= 0 {
-				res = max(res, res+len(cur))
-				continue
-			}
-			next := inputArray[end]
 
-			for end < len(inputArray) && (end-start) < len(next) && next[end-start] == '\t' {
-				length += len(next)
+		end := start + 1
+		curIndex := strings.LastIndexByte(cur, '\t')
+		length := len(cur)
+		if curIndex >= 0 {
+			length = len(cur[curIndex:])
+		}
+
+		if start == 1 && strings.LastIndexByte(cur, '.') >= 0 {
+			res = max(res, res+length)
+			// fmt.Println("cur", res)
+			continue
+		}
+		if end < len(inputArray) && cur[0] == '\t' && cur[1] != '\t' {
+			// fmt.Println("********")
+			// // fmt.Println(start)
+			// fmt.Println(cur)
+			// fmt.Println(len(cur[curIndex:]))
+
+			for end < len(inputArray) && (end-start) < len(inputArray[end]) && inputArray[end][end-start] == '\t' {
+
+				next := inputArray[end]
+				// fmt.Println(next)
+
+				nextIndex := strings.LastIndexByte(next, '\t')
+				if nextIndex >= 0 {
+					length += len(next[nextIndex:])
+				} else {
+					length += len(next)
+				}
+
+				// fmt.Println(len(next[nextIndex:]))
 				if strings.IndexByte(next, '.') >= 0 {
-					res = max(res, res+length-end+start)
+					res = max(res, len(inputArray[0])+length)
+					// fmt.Println("next", res)
 					break
 				}
 				end++
 			}
 		} else {
-			start = end + 1
+			start = end
 			continue
 		}
 	}

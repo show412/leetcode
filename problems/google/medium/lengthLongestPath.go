@@ -36,35 +36,62 @@ Time complexity required: O(n) where n is the size of the input string.
 
 Notice that a/aa/aaa/file1.txt is not the longest file path, if there is another path aaaaaaaaaaaaaaaaaaaaa/sth.png.
 */
+/*
+这个的思路是对的 split 再indexLastByte 但是没有想到用stack去简化
+*/
 func lengthLongestPath(input string) int {
 	if input == "" {
 		return 0
 	}
+	if strings.IndexByte(input, '.') >= 0 && strings.LastIndexByte(input, '\t') <= -1 {
+		return len(input)
+	}
 	inputArray := strings.Split(input, "\n")
 	res := len(inputArray[0])
-	// ["dir" "\tsubdir1" "\tsubdir2" "\t\tfile.ext"]
 
 	for start := 1; start < len(inputArray); start++ {
 		cur := inputArray[start]
-		length := len(cur)
-		end := start + 1
-		if end < len(inputArray) && cur[0] == '\t' && cur[1] != '\t' {
-			if strings.IndexByte(cur, '.') >= 0 {
-				res = max(res, res+len(cur))
-				continue
-			}
-			next := inputArray[end]
 
-			for end < len(inputArray) && (end-start) < len(next) && next[end-start] == '\t' {
-				length += len(next)
+		end := start + 1
+		curIndex := strings.LastIndexByte(cur, '\t')
+		length := len(cur)
+		if curIndex >= 0 {
+			length = len(cur[curIndex:])
+		}
+
+		if start == 1 && strings.LastIndexByte(cur, '.') >= 0 {
+			res = max(res, res+length)
+			// fmt.Println("cur", res)
+			continue
+		}
+		if end < len(inputArray) && cur[0] == '\t' && cur[1] != '\t' {
+			// fmt.Println("********")
+			// // fmt.Println(start)
+			// fmt.Println(cur)
+			// fmt.Println(len(cur[curIndex:]))
+
+			for end < len(inputArray) && (end-start) < len(inputArray[end]) && inputArray[end][end-start] == '\t' {
+
+				next := inputArray[end]
+				// fmt.Println(next)
+
+				nextIndex := strings.LastIndexByte(next, '\t')
+				if nextIndex >= 0 {
+					length += len(next[nextIndex:])
+				} else {
+					length += len(next)
+				}
+
+				// fmt.Println(len(next[nextIndex:]))
 				if strings.IndexByte(next, '.') >= 0 {
-					res = max(res, res+length-end+start)
+					res = max(res, len(inputArray[0])+length)
+					// fmt.Println("next", res)
 					break
 				}
 				end++
 			}
 		} else {
-			start = end + 1
+			start = end
 			continue
 		}
 	}
@@ -80,3 +107,17 @@ func max(a int, b int) int {
 	}
 	return b
 }
+
+// stack
+/*
+public int lengthLongestPath(String input) {
+    String[] paths = input.split("\n");
+    int[] stack = new int[paths.length+1];
+    int maxLen = 0;
+    for(String s:paths){
+        int lev = s.lastIndexOf("\t")+1, curLen = stack[lev+1] = stack[lev]+s.length()-lev+1;
+        if(s.contains(".")) maxLen = Math.max(maxLen, curLen-1);
+    }
+    return maxLen;
+}
+*/
