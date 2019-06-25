@@ -19,63 +19,61 @@ func lengthLongestPath(input string) int {
 	if input == "" {
 		return 0
 	}
-	if strings.IndexByte(input, '.') >= 0 && strings.LastIndexByte(input, '\t') <= -1 {
-		return len(input)
-	}
 	inputArray := strings.Split(input, "\n")
-	res := len(inputArray[0])
-
-	for start := 1; start < len(inputArray); start++ {
-		cur := inputArray[start]
-
-		end := start + 1
-		curIndex := strings.LastIndexByte(cur, '\t')
-		length := len(cur)
-		if curIndex >= 0 {
-			length = len(cur[curIndex:])
+	res := 0
+	// 存的是栈里从当前到栈底的字符串长度总数
+	var stack []int
+	// insert dummy length
+	// stack = append(stack, 0)
+	for i := 0; i < len(inputArray); i++ {
+		// the level remove the '\t' so +1
+		level := strings.LastIndexByte(inputArray[i], '\t')
+		// because there is a 0 in the bottom of stack so +1
+		for level+1 < len(stack) {
+			stack = stack[:len(stack)-1]
 		}
-
-		if start == 1 && strings.LastIndexByte(cur, '.') >= 0 {
-			res = max(res, res+length)
-			// fmt.Println("cur", res)
-			continue
-		}
-		if end < len(inputArray) && cur[0] == '\t' && cur[1] != '\t' {
-			// fmt.Println("********")
-			// // fmt.Println(start)
-			// fmt.Println(cur)
-			// fmt.Println(len(cur[curIndex:]))
-
-			for end < len(inputArray) && (end-start) < len(inputArray[end]) && inputArray[end][end-start] == '\t' {
-
-				next := inputArray[end]
-				// fmt.Println(next)
-
-				nextIndex := strings.LastIndexByte(next, '\t')
-				if nextIndex >= 0 {
-					length += len(next[nextIndex:])
-				} else {
-					length += len(next)
-				}
-
-				// fmt.Println(len(next[nextIndex:]))
-				if strings.IndexByte(next, '.') >= 0 {
-					res = max(res, len(inputArray[0])+length)
-					// fmt.Println("next", res)
-					break
-				}
-				end++
-			}
+		// because there is a '/' at the end so +1
+		if len(stack) == 0 {
+			stack = append(stack, len(inputArray[i]))
 		} else {
-			start = end
-			continue
+			stack = append(stack, stack[len(stack)-1]+len(inputArray[i][level:]))
 		}
-	}
-	if res == len(inputArray[0]) {
-		return 0
+
+		// for the last file, remove the '/' count, so  -1
+		if strings.LastIndexByte(inputArray[i], '.') >= 0 {
+			res = max(res, stack[len(stack)-1])
+		}
 	}
 	return res
 }
+
+// func lengthLongestPath(input string) int {
+// 	if input == "" {
+// 		return 0
+// 	}
+// 	inputArray := strings.Split(input, "\n")
+// 	res := 0
+// 	// 存的是栈里从当前到栈底的字符串长度总数
+// 	var stack []int
+// 	// insert dummy length
+// 	stack = append(stack, 0)
+// 	for i := 0; i < len(inputArray); i++ {
+// 		// the level remove the '\t' so +1
+// 		level := strings.LastIndexByte(inputArray[i], '\t') + 1
+// 		fmt.Println(level)
+// 		// because there is a 0 in the bottom of stack so +1
+// 		for level+1 < len(stack) {
+// 			stack = stack[:len(stack)-1]
+// 		}
+// 		// because there is a '/' at the end so +1
+// 		stack = append(stack, stack[len(stack)-1]+len(inputArray[i][level:])+1)
+// 		// for the last file, remove the '/' count, so  -1
+// 		if strings.LastIndexByte(inputArray[i], '.') >= 0 {
+// 			res = max(res, stack[len(stack)-1]-1)
+// 		}
+// 	}
+// 	return res
+// }
 
 func max(a int, b int) int {
 	if a > b {

@@ -36,6 +36,69 @@ Time complexity required: O(n) where n is the size of the input string.
 
 Notice that a/aa/aaa/file1.txt is not the longest file path, if there is another path aaaaaaaaaaaaaaaaaaaaa/sth.png.
 */
+func lengthLongestPath(input string) int {
+	if input == "" {
+		return 0
+	}
+	inputArray := strings.Split(input, "\n")
+	res := 0
+	// 存的是栈里从当前到栈底的字符串长度总数
+	var stack []int
+	for i := 0; i < len(inputArray); i++ {
+		level := strings.LastIndexByte(inputArray[i], '\t')
+		// because the level is the index of \t, so we need to indentify the right level so +1
+		for level+1 < len(stack) {
+			stack = stack[:len(stack)-1]
+		}
+		if len(stack) == 0 {
+			stack = append(stack, len(inputArray[i]))
+		} else {
+			stack = append(stack, stack[len(stack)-1]+len(inputArray[i][level:]))
+		}
+
+		if strings.LastIndexByte(inputArray[i], '.') >= 0 {
+			res = max(res, stack[len(stack)-1])
+		}
+	}
+	return res
+}
+
+// 这个是考虑到了各种 level 所以要各种+1和-1的处理
+// func lengthLongestPath(input string) int {
+// 	if input == "" {
+// 		return 0
+// 	}
+// 	inputArray := strings.Split(input, "\n")
+// 	res := 0
+// 	// 存的是栈里从当前到栈底的字符串长度总数
+// 	var stack []int
+// 	// insert dummy length
+// 	stack = append(stack, 0)
+// 	for i := 0; i < len(inputArray); i++ {
+// 		// the level remove the '\t' so +1
+// 		level := strings.LastIndexByte(inputArray[i], '\t') + 1
+// 		fmt.Println(level)
+// 		// because there is a 0 in the bottom of stack so +1
+// 		for level+1 < len(stack) {
+// 			stack = stack[:len(stack)-1]
+// 		}
+// 		// because there is a '/' at the end so +1
+// 		stack = append(stack, stack[len(stack)-1]+len(inputArray[i][level:])+1)
+// 		// for the last file, remove the '/' count, so  -1
+// 		if strings.LastIndexByte(inputArray[i], '.') >= 0 {
+// 			res = max(res, stack[len(stack)-1]-1)
+// 		}
+// 	}
+// 	return res
+// }
+
+func max(a int, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
 /*
 这个的思路是对的 split 再indexLastByte 但是没有想到用stack去简化
 */
