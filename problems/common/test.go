@@ -9,34 +9,31 @@ func main() {
 	// str := "aaaa3[a2[cc]]2[bc]"
 	// data := reg.FindAllStringSubmatch(str, -1)
 	// fmt.Println(data)
-	res := plusOne([]int{9})
+	res := maxProfit([]int{1, 2, 4})
 	fmt.Println(res)
 }
 
-func plusOne(digits []int) []int {
-	if len(digits) == 0 {
-		return digits
+func maxProfit(prices []int) int {
+	if len(prices) <= 1 {
+		return 0
 	}
-
-	// res := make([]int, len(digits)+1)
-	length := len(digits)
-	digits[length-1] = digits[length-1] + 1
-	digits = append(digits, 0)
-	for i := length - 1; i >= 0; i-- {
-		digits[i+1] = digits[i] % 10
-		if i == 0 {
-			if digits[i] >= 10 {
-				digits[i] = digits[i] / 10
-			} else {
-				digits[i] = 0
+	res := 0
+	// var benift []int
+	for i := 0; i < len(prices)-1; i++ {
+		for j := i + 1; j < len(prices); j++ {
+			if prices[j] > prices[i] {
+				res = max(res, res+prices[j]-prices[i])
+				j++
+				i = j + 1
 			}
-		} else {
-			digits[i-1] += digits[i] / 10
 		}
+	}
+	return res
+}
 
+func max(a int, b int) int {
+	if a > b {
+		return a
 	}
-	if digits[0] != 0 {
-		return digits
-	}
-	return digits[1:]
+	return b
 }
