@@ -81,6 +81,7 @@ func maxThree(a int, b int, c int) int {
 	return a
 }
 
+// DIDN'T WORK
 // 这个算法的问题是 sell 不一定就要在 比buy的价格大的那天 sell, 是一个动态的过程
 // so it looks like a DP solution
 func maxProfit(prices []int) int {
