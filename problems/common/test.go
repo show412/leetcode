@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	// "math"
 )
 
@@ -11,48 +12,40 @@ func main() {
 	// data := reg.FindAllStringSubmatch(str, -1)
 	// fmt.Println(data)
 	// 1, 2, 3, 0, 2
-	res := maxProfit(2, []int{3, 2, 6, 5, 0, 3})
+	res := reconstructQueue([][]int{[]int{7, 0}, []int{4, 4}, []int{7, 1}, []int{5, 0}, []int{6, 1}, []int{5, 2}})
 	fmt.Println(res)
 }
-func maxProfit(k int, prices []int) int {
-	if len(prices) <= 1 || k == 0 {
-		return 0
+
+func reconstructQueue(people [][]int) [][]int {
+	if len(people) == 0 {
+		return people
 	}
-	profit := 0
-	if k >= len(prices)/2 {
-		for i := 1; i < len(prices); i++ {
-			if prices[i] > prices[i-1] {
-				profit += (prices[i] - prices[i-1])
+	res := make([][]int, len(people))
+	sort.Sort(peopleSlice(people))
+	// fmt.Println(people)
+	for i := 0; i < len(people); i++ {
+		start := 0
+		for j := 0; j < len(res); j++ {
+			if res[j] != nil {
+				continue
 			}
-		}
-		return profit
-	}
-	// dp[i][j] means the max profit j days finish i times transaction
-	dp := make([][]int, k+1)
-	for i := 0; i <= k; i++ {
-		dp[i] = make([]int, len(prices))
-	}
-	dp[0][0] = 0
-	for i := 0; i < len(dp); i++ {
-		dp[i][0] = 0
-	}
-	for j := 0; j < len(dp[0]); j++ {
-		dp[0][j] = 0
-	}
-	// function
-	for i := 1; i <= k; i++ {
-		buy := -prices[0]
-		for j := 1; j < len(prices); j++ {
-			dp[i][j] = max(dp[i][j-1], prices[j]+buy)
-			buy = max(buy, dp[i-1][j-1]-prices[j])
+			if start == people[i][1] {
+				res[j] = people[i]
+			}
+			start++
 		}
 	}
-	return dp[k][len(prices)-1]
+	return res
 }
 
-func max(a int, b int) int {
-	if a > b {
-		return a
-	}
-	return b
+type peopleSlice [][]int
+
+func (a peopleSlice) Len() int {
+	return len(a)
+}
+func (a peopleSlice) Less(i, j int) bool {
+	return a[i][0] < a[j][0] || (a[i][0] == a[j][0] && a[i][1] > a[j][1])
+}
+func (a peopleSlice) Swap(i, j int) {
+	a[i], a[j] = a[j], a[i]
 }
