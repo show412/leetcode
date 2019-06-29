@@ -64,6 +64,45 @@ func max(a int, b int) int {
 	return b
 }
 
+/*
+这种dp更好理解
+*/
+class Solution {
+    public int maxProfit(int k, int[] prices) {
+        // write your code here
+        if (k == 0 || prices.length == 0) {
+            return 0;
+        }
+        if (k >= prices.length / 2) {
+            int profit = 0;
+            for (int i = 1; i < prices.length; i++) {
+                if (prices[i] > prices[i - 1]) {
+                    profit += prices[i] - prices[i - 1];
+                }
+            }
+            return profit;
+        }
+        int n = prices.length;
+        int[][] own = new int[n][k+1];   // own[i][j] 表示前i+1天，最多进行j次交易，第i天buy或者持有股票的最大收益
+        int[][] sell = new int[n][k+1];  // sell[i][j] 表示前i+1天，进行j次交易，第i天sell或者不持有股票的最大获益
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 1; j <= k; j++) {
+                if(i == 0){
+                    own[0][j] = - prices[i];
+                }else{
+                    own[i][j] = Math.max(own[i - 1][j], sell[i-1][j-1] - prices[i]);
+                    sell[i][j] = Math.max(sell[i - 1][j], own[i-1][j] + prices[i]);
+                }
+            }
+        }
+        return sell[n - 1][k];
+    }
+}
+
+
+
+
 // seems it doesn't work
 // func maxProfit(k int, prices []int) int {
 //   if len(prices) <=1 || k==0 {
