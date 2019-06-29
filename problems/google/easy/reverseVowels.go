@@ -1,20 +1,20 @@
-package main
+import "bytes"
 
-import (
-	"bytes"
-	"fmt"
-	// "math"
-)
+// https://leetcode.com/problems/reverse-vowels-of-a-string/
+/*
+Write a function that takes a string as input and reverse only the vowels of a string.
 
-func main() {
-	// reg := regexp.MustCompile("([a-z]*)([0-9]+)(\\[\1)(.)*(\\]\1)")
-	// str := "aaaa3[a2[cc]]2[bc]"
-	// data := reg.FindAllStringSubmatch(str, -1)
-	// fmt.Println(data)
-	// 1, 2, 3, 0, 2
-	res := reverseVowels("OE")
-	fmt.Println(res)
-}
+Example 1:
+
+Input: "hello"
+Output: "holle"
+Example 2:
+
+Input: "leetcode"
+Output: "leotcede"
+Note:
+The vowels does not include the letter "y".
+*/
 
 func reverseVowels(s string) string {
 
