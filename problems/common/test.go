@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"regexp"
+	"strconv"
 	// "math"
 )
 
@@ -13,29 +15,14 @@ func main() {
 	// 1, 2, 3, 0, 2
 	// output [[1,1,0],[1,0,1],[0,0,0]]
 	// expected [[1,0,0],[0,1,0],[1,1,1]]
-	res := beautifulArray(4)
+	res := isPowerOfThree(12)
 	fmt.Println(res)
 }
 
-func beautifulArray(N int) []int {
-	res := make([]int, 1)
-	res[0] = 1
-	for len(res) < N {
-		var tmp []int
-		for i := 0; i < len(res); i++ {
-			if (2*res[i] - 1) <= N {
-				tmp = append(tmp, 2*res[i]-1)
-			}
-		}
-		for i := 0; i < len(res); i++ {
-			if 2*res[i] <= N {
-				tmp = append(tmp, 2*res[i])
-			}
-		}
-		fmt.Println(tmp)
-		cpy := make([]int, len(tmp))
-		copy(cpy, tmp)
-		res = cpy
-	}
-	return res
+func isPowerOfThree(n int) bool {
+	// 转为3进制 return is string
+	s3 := strconv.FormatInt(int64(n), 3)
+	// reg := regexp.MustCompile("^10*$")
+	m, _ := regexp.MatchString("^10*$", s3)
+	return m
 }
