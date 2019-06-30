@@ -13,29 +13,29 @@ func main() {
 	// 1, 2, 3, 0, 2
 	// output [[1,1,0],[1,0,1],[0,0,0]]
 	// expected [[1,0,0],[0,1,0],[1,1,1]]
-	res := flipAndInvertImage([][]int{[]int{1, 1, 0, 0}, []int{1, 0, 0, 1}, []int{0, 1, 1, 1}, []int{1, 0, 1, 0}})
+	res := beautifulArray(4)
 	fmt.Println(res)
 }
 
-func flipAndInvertImage(A [][]int) [][]int {
-	if len(A) <= 0 {
-		return A
-	}
-	r := len(A)
-	c := len(A[0])
-	cl := c/2 + 1
-	if len(A[0])%2 == 0 {
-		cl = c / 2
-	}
-	for i := 0; i < r; i++ {
-		for j := 0; j < cl; j++ {
-			A[i][j] ^= 1
-			if j < c/2 {
-				A[i][c-j-1] ^= 1
-				A[i][j], A[i][c-1-j] = A[i][c-1-j], A[i][j]
+func beautifulArray(N int) []int {
+	res := make([]int, 1)
+	res[0] = 1
+	for len(res) < N {
+		var tmp []int
+		for i := 0; i < len(res); i++ {
+			if (2*res[i] - 1) <= N {
+				tmp = append(tmp, 2*res[i]-1)
 			}
 		}
+		for i := 0; i < len(res); i++ {
+			if 2*res[i] <= N {
+				tmp = append(tmp, 2*res[i])
+			}
+		}
+		fmt.Println(tmp)
+		cpy := make([]int, len(tmp))
+		copy(cpy, tmp)
+		res = cpy
 	}
-	// fmt.Println(A)
-	return A
+	return res
 }
