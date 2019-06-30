@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	// "math"
 )
@@ -12,34 +11,31 @@ func main() {
 	// data := reg.FindAllStringSubmatch(str, -1)
 	// fmt.Println(data)
 	// 1, 2, 3, 0, 2
-	res := reverseVowels("OE")
+	// output [[1,1,0],[1,0,1],[0,0,0]]
+	// expected [[1,0,0],[0,1,0],[1,1,1]]
+	res := flipAndInvertImage([][]int{[]int{1, 1, 0, 0}, []int{1, 0, 0, 1}, []int{0, 1, 1, 1}, []int{1, 0, 1, 0}})
 	fmt.Println(res)
 }
 
-func reverseVowels(s string) string {
-
-	start := 0
-	end := len(s) - 1
-	sByte := []byte(s)
-	set := []byte{'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'}
-	for start < end {
-		f := bytes.IndexByte(set, sByte[start])
-		e := bytes.IndexByte(set, sByte[end])
-		// string couldn't assign or change it's value
-		// it must to convert to byte
-		if f >= 0 && e >= 0 {
-			sByte[start], sByte[end] = sByte[end], sByte[start]
-			start++
-			end--
-			continue
-		}
-		if f < 0 {
-			start++
-		}
-		if e < 0 {
-			end--
+func flipAndInvertImage(A [][]int) [][]int {
+	if len(A) <= 0 {
+		return A
+	}
+	r := len(A)
+	c := len(A[0])
+	cl := c/2 + 1
+	if len(A[0])%2 == 0 {
+		cl = c / 2
+	}
+	for i := 0; i < r; i++ {
+		for j := 0; j < cl; j++ {
+			A[i][j] ^= 1
+			if j < c/2 {
+				A[i][c-j-1] ^= 1
+				A[i][j], A[i][c-1-j] = A[i][c-1-j], A[i][j]
+			}
 		}
 	}
-
-	return string(sByte)
+	// fmt.Println(A)
+	return A
 }
