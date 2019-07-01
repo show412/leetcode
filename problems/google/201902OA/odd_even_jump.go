@@ -9,20 +9,27 @@ func oddEvenJumps(A []int) int {
 	// State in DP
 	// oddJump[i] means the i could be the end by odd jump
 	oddJump := make(map[int]bool)
-	// oddJump[i] means the i could be the end by even jump
+	// evenJump[i] means the i could be the end by even jump
 	evenJump := make(map[int]bool)
 	// the last i could be good point
 	res := 1
-	// use a hash to store the key i to value A[i]
+	// use a hash to store the key is A[i] value is i
 	m := make(map[int]int)
 	// init in DP
 	oddJump[len(A)-1] = true
 	evenJump[len(A)-1] = true
 	m[A[len(A)-1]] = len(A) - 1
 	for i := len(A) - 2; i >= 0; i-- {
+		// find out the smallest value which is bigger than A[i]
 		oddValue := getFoolrKey(m, A[i])
+		// find out the smallest value which is smaller than A[i]
 		evenValue := getCellingKey(m, A[i])
-
+		/*
+		 因为从偶数点能跳到的下一个点是i 如果i能奇数跳到end 取决于vaule能不能偶数跳到end
+		 因为value下一跳是i，这样偶数-1 就是奇数 i就可以奇数跳到end
+		 oddvalue和evenvalue肯定有一个不为空， 因为是倒序遍历i 所以找到的value一定小于i
+		 同理i是偶数跳的时候
+		*/
 		// start to function in DP
 		if oddValue >= 0 {
 			oddJump[i] = evenJump[oddValue]
@@ -30,7 +37,8 @@ func oddEvenJumps(A []int) int {
 		if evenValue >= 0 {
 			evenJump[i] = oddJump[evenValue]
 		}
-
+		// start index must be a oddJump, why?
+		// 因为奇数跳大于等于偶数跳 所以以奇数跳为准
 		if oddJump[i] == true {
 			res++
 		}
@@ -55,18 +63,18 @@ func getFoolrKey(h map[int]int, k int) int {
 }
 
 func getCellingKey(h map[int]int, k int) int {
-	const MIN = -int(^uint(0) >> 1)
-	max := MIN
-	maxV := -1
+	const MAX = int(^uint(0) >> 1)
+	min := MAX
+	minV := -1
 	for key, value := range h {
 		if key <= k {
-			if key > max {
-				max = key
-				maxV = value
+			if key < min {
+				min = key
+				minV = value
 			}
 		}
 	}
-	return maxV
+	return minV
 }
 
 // It's a java solution
@@ -99,7 +107,7 @@ func getCellingKey(h map[int]int, k int) int {
 // 然后还是i-1倒序遍历的 保证了是去取索引i之后的值
 //             if (high != null){
 // 当前位置进行奇数跳取决于目的地的偶数跳是否能到达终点
-// 因为i 要跳到的下一个点事high.getValue， 如果这个value能跳到终点 i这个点就也能跳到
+// 因为high.getValue 要跳到的下一个点是i， 如果这个i能跳到终点 value这个点就也能跳到
 //                 higher[i] = lower[(int)high.getValue()];
 //             }
 //             if (low != null){  // 同理
