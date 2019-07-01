@@ -41,10 +41,6 @@ func (this *LRUCache) Get(key int) int {
 		v.pre.next = v
 		v.next = this.tail
 
-		// v.pre = this.tail.pre
-		// v.next = this.tail
-		// this.tail.pre.next = &v
-		// this.tail.pre = &v
 		return v.value
 	} else {
 		return -1
