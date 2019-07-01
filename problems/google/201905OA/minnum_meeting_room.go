@@ -29,6 +29,46 @@
  * @return: the minimum number of conference rooms required
  */
 
+// 这是一个通用的算法，就是遇到任何interval，将interval的start当成key存入，value+1，遇到end，存入。但是要-1；
+// 用一个TreeMap存储，保证key的值是sort的。
+// 时间复杂度是O(N)
+// 该方法可以用于如何calendar以及meeting room的题解。
+// 关键是hash里面的key是要能排序的，golang因为不能保证hash的顺序 所以可能不一定能做这个题
+
+func minMeetingRooms(intervals []*Interval) int {
+	// Write your code here
+	if len(intervals) == 0 {
+		return 0
+	}
+	m := make(map[int]int, len(intervals))
+	ants := 0
+	cnts := 0
+	for i := 0; i < len(intervals); i++ {
+		if _, ok := m[intervals[i].Start]; ok {
+			m[intervals[i].Start] = m[intervals[i].Start] + 1
+		} else {
+			m[intervals[i].Start] = 1
+		}
+		if _, ok := m[intervals[i].End]; ok {
+			m[intervals[i].End] = m[intervals[i].End] - 1
+		} else {
+			m[intervals[i].End] = -1
+		}
+	}
+	for _, v := range m {
+		cnts = cnts + v
+		ants = max(ants, cnts)
+	}
+	return ants
+}
+func max(a int, b int) int {
+	if a < b {
+		return b
+	} else {
+		return a
+	}
+}
+
 // type intervalSort []*Interval
 
 // func (a intervalSort) Len() int           { return len(a) }
@@ -103,42 +143,4 @@ func minMeetingRooms(intervals []*Interval) int {
 //         return ans;
 //     }
 // }
-// 这是一个通用的算法，就是遇到任何interval，将interval的start当成key存入，value+1，遇到end，存入。但是要-1；
-// 用一个TreeMap存储，保证key的值是sort的。
-// 时间复杂度是O(N)
-// 该方法可以用于如何calendar以及meeting room的题解。
-// 关键是hash里面的key是要能排序的，golang因为不能保证hash的顺序 所以可能不一定能做这个题
 
-func minMeetingRooms(intervals []*Interval) int {
-	// Write your code here
-	if len(intervals) == 0 {
-		return 0
-	}
-	m := make(map[int]int, len(intervals))
-	ants := 0
-	cnts := 0
-	for i := 0; i < len(intervals); i++ {
-		if _, ok := m[intervals[i].Start]; ok {
-			m[intervals[i].Start] = m[intervals[i].Start] + 1
-		} else {
-			m[intervals[i].Start] = 1
-		}
-		if _, ok := m[intervals[i].End]; ok {
-			m[intervals[i].End] = m[intervals[i].End] - 1
-		} else {
-			m[intervals[i].End] = -1
-		}
-	}
-	for _, v := range m {
-		cnts = cnts + v
-		ants = max(ants, cnts)
-	}
-	return ants
-}
-func max(a int, b int) int {
-	if a < b {
-		return b
-	} else {
-		return a
-	}
-}
