@@ -1,5 +1,7 @@
 /*
-Give a m * n board with a value of 0 or 1. At each step we can turn a 1 into 0 if there is another 1 in the same row or column. Return the max number of 1 we can turn into 0.
+Give a m * n board with a value of 0 or 1. At each step we can turn a 1 into 0
+if there is another 1 in the same row or column.
+Return the max number of 1 we can turn into 0.
 
 Example
 Example 1:
@@ -11,7 +13,8 @@ In the board
 1, 1, 1, 1
 1, 1, 0, 1
 1, 0, 1, 0
-We can remove 1 from right to left, from bottom to top, until there is only one 1 at (0, 0). Totally 8 removed.
+We can remove 1 from right to left, from bottom to top,
+until there is only one 1 at (0, 0). Totally 8 removed.
 Example 2:
 
 Input：[[1,0],[1,0]]
@@ -84,7 +87,6 @@ func getAns(mp [][]int) int {
 func unity(x int, y int, fa []int) []int {
 	x = find(x, fa)
 	y = find(y, fa)
-	// fmt.Println(fa[0:13])
 	fa[x] = y
 	return fa
 }
