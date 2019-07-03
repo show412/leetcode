@@ -1,3 +1,5 @@
+import "math"
+
 // https://leetcode.com/problems/split-array-largest-sum/
 /*
 Given an array which consists of non-negative integers and an integer m,
@@ -23,11 +25,52 @@ There are four ways to split nums into two subarrays.
 The best way is to split it into [7,2,5] and [10,8],
 where the largest sum among the two subarrays is only 18.
 */
-
+// DP to solve this problem
 func splitArray(nums []int, m int) int {
-
+	// sub[i] means the first i items sum
+	sub := make([]int, len(nums)+1)
+	sub[0] = 0
+	for i := 0; i < len(nums); i++ {
+		sub[i+1] = sub[i] + nums[i]
+	}
+	// f[i][j] means the max sum that i items is divided into j parts
+	f := make([][]int, len(nums)+1)
+	for i := 0; i < len(nums)+1; i++ {
+		f[i] = make([]int, m+1)
+	}
+	for i := 0; i < len(nums)+1; i++ {
+		for j := 0; j < m+1; j++ {
+			f[i][j] = math.MaxInt32
+		}
+	}
+	f[0][0] = 0
+	for i := 1; i <= len(nums); i++ {
+		for j := 1; j <= m; j++ {
+			for k := 0; k < i; k++ {
+				/*
+					this is the key of this problem
+					find out the max between first k combine j-1 parts and the left nums(i-k)
+					then findout the min between these results
+				*/
+				f[i][j] = min(f[i][j], max(f[k][j-1], sub[i]-sub[k]))
+			}
+		}
+	}
+	return f[len(nums)][m]
+}
+func min(a int, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
 
+func max(a int, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
 
 /*
 Intuition
@@ -50,23 +93,3 @@ For corner situations, all the invalid f[i][j] should be assigned with INFINITY,
 
 
 */
-class Solution {
-	public:
-			int splitArray(vector<int>& nums, int m) {
-					int n = nums.size();
-					vector<vector<int>> f(n + 1, vector<int>(m + 1, INT_MAX));
-					vector<int> sub(n + 1, 0);
-					for (int i = 0; i < n; i++) {
-							sub[i + 1] = sub[i] + nums[i];
-					}
-					f[0][0] = 0;
-					for (int i = 1; i <= n; i++) {
-							for (int j = 1; j <= m; j++) {
-									for (int k = 0; k < i; k++) {
-											f[i][j] = min(f[i][j], max(f[k][j - 1], sub[i] - sub[k]));
-									}
-							}
-					}
-					return f[n][m];
-			}
-	};

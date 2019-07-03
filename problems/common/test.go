@@ -2,59 +2,58 @@ package main
 
 import (
 	"fmt"
+	"math"
 	// "math"
 )
 
 func main() {
-	// reg := regexp.MustCompile("([a-z]*)([0-9]+)(\\[\1)(.)*(\\]\1)")
-	// str := "aaaa3[a2[cc]]2[bc]"
-	// data := reg.FindAllStringSubmatch(str, -1)
-	// fmt.Println(data)
-	// 1, 2, 3, 0, 2
-	// "2-4A0r7-4k", 3
-	res := licenseKeyFormatting("--a-a-a-a--", 2)
+
+	res := splitArray([]int{7, 2, 5, 10, 8}, 2)
 	fmt.Println(res)
 }
 
-func licenseKeyFormatting(S string, K int) string {
-	sByte := []byte(S)
-	l := len(sByte)
-	// res := make([]byte, 2*l)
-	// index := len(res) - 1
-	var res []byte
-	count := 0
-	for i := l - 1; i >= 0; i-- {
-		if sByte[i] >= 'a' && sByte[i] <= 'z' {
-			sByte[i] = sByte[i] - ('a' - 'A')
-		}
-
-		if sByte[i] != '-' && count < K {
-			// res[index] = sByte[i]
-			res = append(res, sByte[i])
-
-			// index--
-			count++
-		}
-		if count == K && i != 0 {
-			// res[index] = '-'
-			res = append(res, '-')
-
-			// index--
-			count = 0
+func splitArray(nums []int, m int) int {
+	// sub[i] means the first i items sum
+	sub := make([]int, len(nums)+1)
+	sub[0] = 0
+	for i := 0; i < len(nums); i++ {
+		sub[i+1] = sub[i] + nums[i]
+	}
+	// f[i][j] means the max sum that i items is divided into j parts
+	f := make([][]int, len(nums)+1)
+	for i := 0; i < len(nums)+1; i++ {
+		f[i] = make([]int, m+1)
+	}
+	for i := 0; i < len(nums)+1; i++ {
+		for j := 0; j < m+1; j++ {
+			f[i][j] = math.MaxInt32
 		}
 	}
-	// if index < 0 {
-	// 	index = 0
-	// }
-	// formate := make([]byte, len(res))
-	for i := 0; i < (len(res)+1)/2; i++ {
-		res[i], res[len(res)-i-1] = res[len(res)-i-1], res[i]
+	f[0][0] = 0
+	for i := 1; i <= len(nums); i++ {
+		for j := 1; j <= m; j++ {
+			for k := 0; k < i; k++ {
+				/*
+					this is the key of this problem
+					find out the max between first k combine j-1 parts and the left nums(i-k)
+					then findout the min between these results
+				*/
+				f[i][j] = min(f[i][j], max(f[k][j-1], sub[i]-sub[k]))
+			}
+		}
 	}
-	if len(res) == 0 {
-		return ""
+	return f[len(nums)][m]
+}
+func min(a int, b int) int {
+	if a < b {
+		return a
 	}
-	if res[0] == '-' {
-		res = res[1:]
+	return b
+}
+
+func max(a int, b int) int {
+	if a > b {
+		return a
 	}
-	return string(res)
+	return b
 }
