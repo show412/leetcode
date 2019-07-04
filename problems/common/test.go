@@ -2,58 +2,44 @@ package main
 
 import (
 	"fmt"
-	"math"
 	// "math"
 )
 
 func main() {
 
-	res := splitArray([]int{7, 2, 5, 10, 8}, 2)
+	res := removeStones([][]int{[]int{0, 0}, []int{0, 1}, []int{1, 0}, []int{1, 2}, []int{2, 1}, []int{2, 2}})
 	fmt.Println(res)
 }
 
-func splitArray(nums []int, m int) int {
-	// sub[i] means the first i items sum
-	sub := make([]int, len(nums)+1)
-	sub[0] = 0
-	for i := 0; i < len(nums); i++ {
-		sub[i+1] = sub[i] + nums[i]
+func removeStones(stones [][]int) int {
+	fa := make([]int, 20000)
+	for i := 0; i < len(stones); i++ {
+		fa[i] = i
 	}
-	// f[i][j] means the max sum that i items is divided into j parts
-	f := make([][]int, len(nums)+1)
-	for i := 0; i < len(nums)+1; i++ {
-		f[i] = make([]int, m+1)
+
+	for i := 0; i < len(stones); i++ {
+		unity(stones[i][0], stones[i][1]+10000, fa)
 	}
-	for i := 0; i < len(nums)+1; i++ {
-		for j := 0; j < m+1; j++ {
-			f[i][j] = math.MaxInt32
-		}
+	set := make(map[int]bool)
+	for i := 0; i < len(stones); i++ {
+		stone := find(stones[i][0], fa)
+		set[stone] = true
 	}
-	f[0][0] = 0
-	for i := 1; i <= len(nums); i++ {
-		for j := 1; j <= m; j++ {
-			for k := 0; k < i; k++ {
-				/*
-					this is the key of this problem
-					find out the max between first k combine j-1 parts and the left nums(i-k)
-					then findout the min between these results
-				*/
-				f[i][j] = min(f[i][j], max(f[k][j-1], sub[i]-sub[k]))
-			}
-		}
-	}
-	return f[len(nums)][m]
-}
-func min(a int, b int) int {
-	if a < b {
-		return a
-	}
-	return b
+	return len(stones) - len(set)
 }
 
-func max(a int, b int) int {
-	if a > b {
-		return a
+func unity(x int, y int, fa []int) []int {
+	x = find(x, fa)
+	y = find(y, fa)
+	fa[x] = y
+	return fa
+}
+
+func find(x int, fa []int) int {
+	if fa[x] == x {
+		return x
+	} else {
+		fa[x] = find(fa[x], fa)
 	}
-	return b
+	return fa[x]
 }
