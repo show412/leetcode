@@ -1,12 +1,12 @@
 // https://leetcode.com/problems/most-stones-removed-with-same-row-or-column/
 /*
-On a 2D plane, we place stones at some integer coordinate points.  Each coordinate point may have at most one stone.
+On a 2D plane, we place stones at some integer coordinate points.
+Each coordinate point may have at most one stone.
 
-Now, a move consists of removing a stone that shares a column or row with another stone on the grid.
+Now, a move consists of removing a stone
+that shares a column or row with another stone on the grid.
 
 What is the largest possible number of moves we can make?
-
-
 
 Example 1:
 
@@ -64,6 +64,33 @@ class DSU {
         parent[find(x)] = find(y);
     }
 }
+
+
+    Map<Integer, Integer> f = new HashMap<>();
+    int islands = 0;
+
+    public int removeStones(int[][] stones) {
+        for (int i = 0; i < stones.length; ++i)
+            union(stones[i][0], ~stones[i][1]);
+        return stones.length - islands;
+    }
+
+    public int find(int x) {
+        if (f.putIfAbsent(x, x) == null)
+            islands++;
+        if (x != f.get(x))
+            f.put(x, find(f.get(x)));
+        return f.get(x);
+    }
+
+    public void union(int x, int y) {
+        x = find(x);
+        y = find(y);
+        if (x != y) {
+            f.put(x, y);
+            islands--;
+        }
+    }
 
 
 // this is a DFS to refer
