@@ -24,23 +24,31 @@ Output: 0
 1 <= stones.length <= 1000
 0 <= stones[i][j] < 10000
 */
-// 这种题第一反应也是并查集 并查集的关键就是找关系
+// 这种题第一反应也是并查集 并查集的关键就是找关系 如何组成这个集合
 
 func removeStones(stones [][]int) int {
-	fa := make([]int, 20000)
+	fa := make([]int, 1000)
+	// 以row为组成集合的条件
 	for i := 0; i < len(stones); i++ {
 		fa[i] = i
 	}
 
 	for i := 0; i < len(stones); i++ {
-		unity(stones[i][0], stones[i][1]+10000, fa)
+		for j := i+1; j < len(stones); j++ {
+			// 合并集合的条件 当x或者y坐标相等的时候
+			if stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1] {
+				unity(i, j, fa)
+			}
+		}
+
 	}
-	set := make(map[int]bool)
+	set := 0
 	for i := 0; i < len(stones); i++ {
-		stone := find(stones[i][0], fa)
-		set[stone] = true
+		if fa[i] == i {
+			set++
+		}
 	}
-	return len(stones) - len(set)
+	return len(stones) - set
 }
 
 func unity(x int, y int, fa []int) []int {
@@ -62,7 +70,11 @@ func find(x int, fa []int) int {
 
 /*
 there is a find union solution
+实际上我们对行列的搜索，没有任何本质区别。
+只不过是因为同一个index，可能是行也可能是列，所以我们做了区分。
+实际上，只要我们能区分行列的index，代码就没有双重循环了。所以这里对列加了10000
 */
+
 class Solution {
     public int removeStones(int[][] stones) {
         int N = stones.length;

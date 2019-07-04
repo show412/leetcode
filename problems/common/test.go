@@ -12,20 +12,26 @@ func main() {
 }
 
 func removeStones(stones [][]int) int {
-	fa := make([]int, 20000)
+	fa := make([]int, 1000)
 	for i := 0; i < len(stones); i++ {
 		fa[i] = i
 	}
 
 	for i := 0; i < len(stones); i++ {
-		unity(stones[i][0], stones[i][1]+10000, fa)
+		for j := i + 1; j < len(stones); j++ {
+			if stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1] {
+				unity(i, j, fa)
+			}
+		}
+
 	}
-	set := make(map[int]bool)
+	set := 0
 	for i := 0; i < len(stones); i++ {
-		stone := find(stones[i][0], fa)
-		set[stone] = true
+		if fa[i] == i {
+			set++
+		}
 	}
-	return len(stones) - len(set)
+	return len(stones) - set
 }
 
 func unity(x int, y int, fa []int) []int {
