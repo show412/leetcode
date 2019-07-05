@@ -27,6 +27,7 @@ Output: 0
 // 这种题第一反应也是并查集 并查集的关键就是找关系 如何组成这个集合
 
 func removeStones(stones [][]int) int {
+	// 因为是以所在行为形成集合的条件 而最大行是1000 所以fa的capacity为1000
 	fa := make([]int, 1000)
 	// 以row为组成集合的条件
 	for i := 0; i < len(stones); i++ {
@@ -36,6 +37,9 @@ func removeStones(stones [][]int) int {
 	for i := 0; i < len(stones); i++ {
 		for j := i+1; j < len(stones); j++ {
 			// 合并集合的条件 当x或者y坐标相等的时候
+			/*
+				以所在行做为形成集合的条件， 当横坐标或者纵坐标相等的时候，把这两行归为一类
+			*/
 			if stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1] {
 				unity(i, j, fa)
 			}

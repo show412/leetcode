@@ -23,7 +23,6 @@ func removeStones(stones [][]int) int {
 				unity(i, j, fa)
 			}
 		}
-
 	}
 	set := 0
 	for i := 0; i < len(stones); i++ {
