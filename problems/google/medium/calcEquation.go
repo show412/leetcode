@@ -81,7 +81,7 @@ func find(m map[string]string, dist map[string]float64, s string) string {
 	return m[s]
 }
 
-// DFS
+// DFS with graph
 func calcEquation(equations [][]string, values []float64, queries [][]string) []float64 {
 	graph := make(map[string]map[string]float64)
 	for i := 0; i < len(equations); i++ {
