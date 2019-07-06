@@ -80,3 +80,67 @@ func find(m map[string]string, dist map[string]float64, s string) string {
 
 	return m[s]
 }
+
+// DFS
+func calcEquation(equations [][]string, values []float64, queries [][]string) []float64 {
+	graph := make(map[string]map[string]float64)
+	for i := 0; i < len(equations); i++ {
+		first, second := equations[i][0], equations[i][1]
+		if _, ok := graph[first]; !ok {
+			graph[first] = make(map[string]float64)
+		}
+		if _, ok := graph[second]; !ok {
+			graph[second] = make(map[string]float64)
+		}
+
+		graph[first][second] = values[i]
+		graph[second][first] = 1.0 / values[i]
+	}
+
+	ans := make([]float64, len(queries))
+	for i, query := range queries {
+		ans[i] = helper(graph, query)
+	}
+
+	return ans
+}
+
+func helper(graph map[string]map[string]float64, query []string) float64 {
+	first, second := query[0], query[1]
+	if _, ok1 := graph[first]; !ok1 {
+		return -1.0
+	}
+	if _, ok2 := graph[second]; !ok2 {
+		return -1.0
+	}
+
+	if first == second {
+		return 1.0
+	}
+
+	visited := make(map[string]bool)
+	return dfs(visited, graph, first, second)
+}
+
+func dfs(visited map[string]bool, graph map[string]map[string]float64, current string, target string) float64 {
+	if current == target {
+		return 1.0
+	}
+
+	if _, ok := visited[current]; ok {
+		return -1.0
+	}
+
+	visited[current] = true
+	neighbors := graph[current]
+	for neighbor, val := range neighbors {
+		ret := dfs(visited, graph, neighbor, target)
+		if ret == -1.0 {
+			continue
+		}
+
+		return ret * val
+	}
+
+	return -1.0
+}
