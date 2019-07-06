@@ -1,21 +1,36 @@
-package main
+// https://leetcode.com/problems/backspace-string-compare/
+/*
+Given two strings S and T, return if they are equal when both are typed into empty text editors. # means a backspace character.
 
-import (
-	"fmt"
-	// "math"
-)
+Example 1:
 
-func main() {
-	// "e##e#o##oyof##q"
-	// "e##e#fq##o##oyof##q"
-	// "xywrrmp", "xywrrmu#p"
-	// "bxj##tw"
-	// "bxj###tw"
-	// 	"bxj##tw"
-	// "bxo#j##tw"
-	res := backspaceCompare("bxj##tw", "bxo#j##tw")
-	fmt.Println(res)
-}
+Input: S = "ab#c", T = "ad#c"
+Output: true
+Explanation: Both S and T become "ac".
+Example 2:
+
+Input: S = "ab##", T = "c#d#"
+Output: true
+Explanation: Both S and T become "".
+Example 3:
+
+Input: S = "a##c", T = "#a#c"
+Output: true
+Explanation: Both S and T become "c".
+Example 4:
+
+Input: S = "a#c", T = "b"
+Output: false
+Explanation: S becomes "c" while T becomes "b".
+Note:
+
+1 <= S.length <= 200
+1 <= T.length <= 200
+S and T only contain lowercase letters and '#' characters.
+Follow up:
+
+Can you solve it in O(N) time and O(1) space?
+*/
 
 func backspaceCompare(S string, T string) bool {
 	if len(S) == 0 && len(T) == 0 {
@@ -57,30 +72,19 @@ func backspaceCompare(S string, T string) bool {
 				jump2++
 			}
 		}
-		// fmt.Println("********")
-		// fmt.Println(start1)
-		// fmt.Println(start2)
 		if start1 < 0 && start2 < 0 {
 			return true
 		}
+		// maybe in the before of S or T, there is items could be removed
+		// so it can't use S[start1] == T[start2] here
 		if start1 >= 0 && start2 >= 0 && S[start1] != T[start2] {
-			fmt.Println(1)
-			fmt.Println(start1)
-			fmt.Println(start2)
 			return false
 		}
 		if (start1 < 0 && start2 >= 0) || (start1 >= 0 && start2 < 0) {
-			fmt.Println(2)
-			fmt.Println(start1)
-			fmt.Println(start2)
 			return false
 		}
 		start1--
 		start2--
 	}
-
-	// if start1 >= 0 || start2 >= 0 {
-	// 	return false
-	// }
 	return true
 }
