@@ -1,22 +1,24 @@
-package main
+// https://leetcode.com/problems/evaluate-division/
+/*
+Equations are given in the format A / B = k, where A and B are variables represented as strings, and k is a real number (floating point number). Given some queries, return the answers. If the answer does not exist, return -1.0.
 
-import (
-	"fmt"
-	// "math"
-)
+Example:
+Given a / b = 2.0, b / c = 3.0.
+queries are: a / c = ?, b / a = ?, a / e = ?, a / a = ?, x / x = ? .
+return [6.0, 0.5, -1.0, 1.0, -1.0 ].
 
-func main() {
-	// "e##e#o##oyof##q"
-	// "e##e#fq##o##oyof##q"
-	// "xywrrmp", "xywrrmu#p"
-	// "bxj##tw"
-	// "bxj###tw"
-	// 	"bxj##tw"
-	// "bxo#j##tw"
-	res := calcEquation([][]string{[]string{"a", "b"}, []string{"b", "c"}}, []float64{2.0, 3.0}, [][]string{[]string{"a", "c"}, []string{"b", "a"}, []string{"a", "e"}, []string{"a", "a"}, []string{"x", "x"}})
-	fmt.Println(res)
-}
+The input is: vector<pair<string, string>> equations, vector<double>& values, vector<pair<string, string>> queries , where equations.size() == values.size(), and the values are positive. This represents the equations. Return vector<double>.
 
+According to the example above:
+
+equations = [ ["a", "b"], ["b", "c"] ],
+values = [2.0, 3.0],
+queries = [ ["a", "c"], ["b", "a"], ["a", "e"], ["a", "a"], ["x", "x"] ].
+
+
+The input is always valid. You may assume that evaluating the queries will result in no division by zero and there is no contradiction.
+*/
+// find union 是怎么看出来这是一个find union的解法呢？
 func calcEquation(equations [][]string, values []float64, queries [][]string) []float64 {
 	m := make(map[string]string, 0)
 	res := make([]float64, len(queries))
