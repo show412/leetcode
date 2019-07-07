@@ -24,20 +24,27 @@ func calcEquation(equations [][]string, values []float64, queries [][]string) []
 
 	for i := 0; i < len(equations); i++ {
 		unity(m, dist, values[i], equations[i][0], equations[i][1])
+		// fmt.Println(m)
 	}
 	// fmt.Println(m)
 	// fmt.Println(dist)
 	for i := 0; i < len(queries); i++ {
-		v1, ok1 := m[queries[i][0]]
-		v2, ok2 := m[queries[i][1]]
+		_, ok1 := m[queries[i][0]]
+		_, ok2 := m[queries[i][1]]
 		if !ok1 || !ok2 {
 			res[i] = -1.0
 			continue
 		}
-		if find(m, dist, v1) == find(m, dist, v2) {
-			res[i] = float64(dist[v1] / dist[v2])
+		// fmt.Println("***")
+		// fmt.Println(v1)
+		// fmt.Println(v2)
+		if find(m, dist, queries[i][0]) == find(m, dist, queries[i][1]) {
+			// fmt.Println("*****")
+			// fmt.Println(m)
+			// fmt.Println(m)
+			// fmt.Println(dist)
+			res[i] = float64(dist[queries[i][0]] / dist[queries[i][1]])
 		}
-		res[i] = -1.0
 	}
 	return res
 }
@@ -71,9 +78,15 @@ func find(m map[string]string, dist map[string]float64, s string) string {
 	}
 
 	if s != v {
+
 		parent := find(m, dist, v)
+		// fmt.Println("*****")
+		// fmt.Println(s)
+		// fmt.Println(parent)
 		m[s] = parent
 		dist[s] = dist[s] * dist[v]
+		// fmt.Println(m)
+		// fmt.Println(dist)
 	}
 
 	return m[s]
