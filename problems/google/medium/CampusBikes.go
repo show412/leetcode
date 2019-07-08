@@ -34,7 +34,25 @@ Note:
 All worker and bike locations are distinct.
 1 <= workers.length <= bikes.length <= 1000
 
+Sort the elements by distance. In case of a tie, sort them by the index of the worker. After that, if there are still ties, sort them by the index of the bike.
+
+Can you do this in less than O(nlogn) time, where n is the total number of pairs between workers and bikes?
+
 */
+
+type Bikes [][]int
+
+func (b Bikes) Len() int {
+	return len(b)
+}
+
+func (b Bikes) Less(i, j int) bool {
+
+}
+
+func (b Bikes) Swap(i, j int) {
+
+}
 
 func assignBikes(workers [][]int, bikes [][]int) []int {
 
