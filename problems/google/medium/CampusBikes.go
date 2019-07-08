@@ -98,8 +98,6 @@ func assignBikes(workers [][]int, bikes [][]int) []int {
 		}
 	}
 	sort.Sort(DistanceSlice(distanceArray))
-	// fmt.Println(distanceArray)
-	// fmt.Println(workerMap)
 
 	for i := 0; i < len(distanceArray); i++ {
 		cur := distanceArray[i]
