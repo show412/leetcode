@@ -34,10 +34,11 @@ In calls to MyCalendar.book(start, end), start and end are integers in the range
 */
 
 type MyCalendarTwo struct {
+	var calendar map[int]int
 }
 
 func Constructor() MyCalendarTwo {
-
+	return MyCalendarTwo{calendar: make(map[int]int, 0)}
 }
 
 func (this *MyCalendarTwo) Book(start int, end int) bool {
