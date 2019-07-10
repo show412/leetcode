@@ -1,24 +1,32 @@
-package main
+// https://leetcode.com/problems/strobogrammatic-number/
+/*
+A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).
 
-import (
-	"fmt"
-	// "math"
-)
+Write a function to determine if a number is strobogrammatic. The number is represented as a string.
 
-func main() {
-	/*
-		"968018661806000118986811000908199810896"
-		"96"
-		"88"
-		"101"
-	*/
+Example 1:
 
-	res := isStrobogrammatic("101")
-	fmt.Println(res)
-}
+Input:  "69"
+Output: true
+Example 2:
 
+Input:  "88"
+Output: true
+Example 3:
+
+Input:  "962"
+Output: false
+*/
+
+/*
+	use cases:
+	"968018661806000118986811000908199810896"
+	"96"
+	"88"
+	"101"
+*/
+// 没有说num的范围 不像rotated_digits那道题的条件是0 - 10000
 func isStrobogrammatic(num string) bool {
-	// oriNum := num
 	if num == "0" {
 		return true
 	}
@@ -48,8 +56,6 @@ func isStrobogrammatic(num string) bool {
 		return false
 	}
 
-	// fmt.Println(string(rotated))
-	// fmt.Println(num)
 	if string(rotated) == num {
 		return true
 	}
