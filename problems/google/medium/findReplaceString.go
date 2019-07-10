@@ -1,3 +1,5 @@
+import "sort"
+
 // https://leetcode.com/problems/find-and-replace-in-string/
 /*
 To some string S, we will perform some replacement operations that replace groups of letters with new ones (not necessarily the same size).
@@ -28,6 +30,45 @@ Notes:
 0 < indexes[i] < S.length <= 1000
 All characters in given inputs are lowercase letters.
 */
-func findReplaceString(S string, indexes []int, sources []string, targets []string) string {
+/*
+	use cases:
+		"abcd"
+		[0, 2]
+		["a", "cd"]
+		["eee", "ffff"]
+		expected: "eeebffff"
+*/
 
+/*
+   "vmokgggqzp"
+   [3,5,1]
+   ["kg","ggq","mo"]
+   ["s","so","bfr"]
+   expected: "vbfrssozp"
+*/
+// the index maybe is not sort
+func findReplaceString(S string, indexes []int, sources []string, targets []string) string {
+	res := make([]byte, 0)
+	start := 0
+	sourcesMap := make(map[int]string, len(sources))
+	targetsMap := make(map[int]string, len(targets))
+	for i := 0; i < len(indexes); i++ {
+		sourcesMap[indexes[i]] = sources[i]
+		targetsMap[indexes[i]] = targets[i]
+	}
+	sort.Ints(indexes)
+	for i := 0; i < len(S); i++ {
+		if start < len(indexes) && i == indexes[start] {
+			if string(S[i:(i+len(sourcesMap[indexes[start]]))]) == sourcesMap[indexes[start]] {
+				res = append(res, []byte(targetsMap[indexes[start]])...)
+				i = i + len(sourcesMap[indexes[start]]) - 1
+			} else {
+				res = append(res, S[i])
+			}
+			start++
+		} else {
+			res = append(res, S[i])
+		}
+	}
+	return string(res)
 }
