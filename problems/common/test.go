@@ -36,7 +36,7 @@ func addBoldTag(s string, dict []string) string {
 	if len(dict) == 0 {
 		return s
 	}
-	res := make([]string, 5000)
+	res := make([]string, 0)
 	closeSlice := make([][2]int, 0)
 	tagS := ""
 	// boldStart := make(map[int]bool)
@@ -44,15 +44,16 @@ func addBoldTag(s string, dict []string) string {
 	// generate close position according to dict
 	for i := 0; i < len(dict); i++ {
 		if len(closeSlice) == 0 && strings.Index(s, dict[i]) >= 0 {
-			first := [2]int{strings.Index(s, dict[i]), strings.Index(s, dict[i]) + len(dict[i]) + 1}
+			first := [2]int{strings.Index(s, dict[i]), strings.Index(s, dict[i]) + len(dict[i]) - 1}
 			closeSlice = append(closeSlice, first)
 		}
+
 		for j := 0; j < len(closeSlice); j++ {
 			curStart := closeSlice[j][0]
 			curEnd := closeSlice[j][1]
 			if strings.Index(s, dict[i]) >= 0 {
 				start := strings.Index(s, dict[i])
-				end := strings.Index(s, dict[i]) + len(dict[i]) + 1
+				end := strings.Index(s, dict[i]) + len(dict[i]) - 1
 				//check [curStart, curEnd] overlap or sequence to [start, end]
 				if (start <= curEnd && end >= curStart) || start == curEnd+1 || end == curStart+1 {
 					closeSlice[j] = [2]int{min(start, curStart), max(end, curEnd)}
@@ -63,20 +64,26 @@ func addBoldTag(s string, dict []string) string {
 
 		}
 	}
-	fmt.Println(closeSlice)
+	// fmt.Println(closeSlice)
+	boldStart := make(map[int]bool)
+	boldEnd := make(map[int]bool)
 	for i := 0; i < len(closeSlice); i++ {
 		start := closeSlice[i][0]
 		end := closeSlice[i][1]
-		res[start+2*i] = "<b>"
-		res[end+2*i] = "</b>"
+		boldStart[start] = true
+		boldEnd[end] = true
 	}
 
 	for i := 0; i < len(s); i++ {
-		k := i
-		for res[k] != "" {
-			k++
+		if boldStart[i] == true {
+			res = append(res, "<b>")
+			res = append(res, string(s[i]))
+		} else if boldEnd[i] == true {
+			res = append(res, string(s[i]))
+			res = append(res, "</b>")
+		} else {
+			res = append(res, string(s[i]))
 		}
-		res[k] = string(s[i])
 	}
 
 	for i := 0; i < len(res); i++ {
