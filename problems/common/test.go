@@ -8,27 +8,31 @@ import (
 
 func main() {
 	/*
-								Input:
-						s = "aaabbcc"
-						dict = ["aaa","aab","bc"]
-						Output:
-						"<b>aaabbc</b>c"
+										Input:
+								s = "aaabbcc"
+								dict = ["aaa","aab","bc"]
+								Output:
+								"<b>aaabbc</b>c"
 
-								Input:
-						s = "abcxyz123"
-						dict = ["abc","123"]
-						Output:
-						"<b>abc</b>xyz<b>123</b>"
+										Input:
+								s = "abcxyz123"
+								dict = ["abc","123"]
+								Output:
+								"<b>abc</b>xyz<b>123</b>"
 
-						"aaabbcc"
-				["d"]
+								"aaabbcc"
+						["d"]
 
 				"zxioozhirtosxhlkaeociwdsgyqnvxuxizhvfrkestehiiwpmayhlyybhnpgfcxfjltnhlwppzfhxyozlaorrcfdhpbjxwalxtxutnperhobhatxwnvowtolsbsxfwzpyttpksrhhkvtfycpuvztjeeabraqqwustqubzzmjkuzafwcuixdbiuwqgexmlqzlyjxdwjzwjuxopecpcbojkrrceysozvkabzirctyroynqbyomecatnjupiqjexevltvtspnkpkzajzqcagsqnkagrludmpsgczbtkvbbcbjenacgrtowsjxazboxcjdhvjnhcaqsjokztkskntlwpnrecnrfuhuseuhshqoddhutcocgrbvnxgnliiinbjcoydtdlyvfjlmpzegscxcfoacxhwaqusneoptvmfrbljkpsbixsjlbvatkyoillejllsvlqfuvxqaareawgfwwultacnjgepmzqhykqalbqfhxohzfntgiatttqupukfhcvghqjzrutxlwidbfqrssrrnbtbjnsggdvrxrbotvwpofpxrwgcecbcqczuuxlrfpnskznmjdcbqktilxijkilpjwywplxdnirjhgoisfwamuauljoqzbmxlvtzdqocbvrusvxyvslufvbcigggddwlubnjjlxmmmcrcefssuqwvtvmwkhovflsxxraneluwdraknumssfluujdlayviukvaqgumpdefzivsqpjkymhlkltojsbyzmvyusmnuxytexhjcszblvimywfoqwsihtchhqnotxvibjzqhthhojreuuknhbfhzmivqnbofrwktfwlcbajoygobbesqeeiemullkrqwplsmsuvskuifbojrdvtffpqm"
-		["zx","oo","hi","to","xh","ka","oc","wd","gy","nv","ux","zh","fr","es","eh","iw","ma","hl","yb","np","fc","fj","tn","lw","pz","hx","oz","ao","rc","dh","bj"]
+				["zx","oo","hi","to","xh","ka","oc","wd","gy","nv","ux","zh","fr","es","eh","iw","ma","hl","yb","np","fc","fj","tn","lw","pz","hx","oz","ao","rc","dh","bj"]
+
+		"aaabbcc"
+		["a","b","c"]
 
 	*/
 
-	res := addBoldTag("zxioozhirtosxhlkaeociwdsgyqnvxuxizhvfrkestehiiwpmayhlyybhnpgfcxfjltnhlwppzfhxyozlaorrcfdhpbjxwalxtxutnperhobhatxwnvowtolsbsxfwzpyttpksrhhkvtfycpuvztjeeabraqqwustqubzzmjkuzafwcuixdbiuwqgexmlqzlyjxdwjzwjuxopecpcbojkrrceysozvkabzirctyroynqbyomecatnjupiqjexevltvtspnkpkzajzqcagsqnkagrludmpsgczbtkvbbcbjenacgrtowsjxazboxcjdhvjnhcaqsjokztkskntlwpnrecnrfuhuseuhshqoddhutcocgrbvnxgnliiinbjcoydtdlyvfjlmpzegscxcfoacxhwaqusneoptvmfrbljkpsbixsjlbvatkyoillejllsvlqfuvxqaareawgfwwultacnjgepmzqhykqalbqfhxohzfntgiatttqupukfhcvghqjzrutxlwidbfqrssrrnbtbjnsggdvrxrbotvwpofpxrwgcecbcqczuuxlrfpnskznmjdcbqktilxijkilpjwywplxdnirjhgoisfwamuauljoqzbmxlvtzdqocbvrusvxyvslufvbcigggddwlubnjjlxmmmcrcefssuqwvtvmwkhovflsxxraneluwdraknumssfluujdlayviukvaqgumpdefzivsqpjkymhlkltojsbyzmvyusmnuxytexhjcszblvimywfoqwsihtchhqnotxvibjzqhthhojreuuknhbfhzmivqnbofrwktfwlcbajoygobbesqeeiemullkrqwplsmsuvskuifbojrdvtffpqm", []string{"zx", "oo", "hi", "to", "xh", "ka", "oc", "wd", "gy", "nv", "ux", "zh", "fr", "es", "eh", "iw", "ma", "hl", "yb", "np", "fc", "fj", "tn", "lw", "pz", "hx", "oz", "ao", "rc", "dh", "bj"})
+	// res := addBoldTag("zxioozhirtosxhlkaeociwdsgyqnvxuxizhvfrkestehiiwpmayhlyybhnpgfcxfjltnhlwppzfhxyozlaorrcfdhpbjxwalxtxutnperhobhatxwnvowtolsbsxfwzpyttpksrhhkvtfycpuvztjeeabraqqwustqubzzmjkuzafwcuixdbiuwqgexmlqzlyjxdwjzwjuxopecpcbojkrrceysozvkabzirctyroynqbyomecatnjupiqjexevltvtspnkpkzajzqcagsqnkagrludmpsgczbtkvbbcbjenacgrtowsjxazboxcjdhvjnhcaqsjokztkskntlwpnrecnrfuhuseuhshqoddhutcocgrbvnxgnliiinbjcoydtdlyvfjlmpzegscxcfoacxhwaqusneoptvmfrbljkpsbixsjlbvatkyoillejllsvlqfuvxqaareawgfwwultacnjgepmzqhykqalbqfhxohzfntgiatttqupukfhcvghqjzrutxlwidbfqrssrrnbtbjnsggdvrxrbotvwpofpxrwgcecbcqczuuxlrfpnskznmjdcbqktilxijkilpjwywplxdnirjhgoisfwamuauljoqzbmxlvtzdqocbvrusvxyvslufvbcigggddwlubnjjlxmmmcrcefssuqwvtvmwkhovflsxxraneluwdraknumssfluujdlayviukvaqgumpdefzivsqpjkymhlkltojsbyzmvyusmnuxytexhjcszblvimywfoqwsihtchhqnotxvibjzqhthhojreuuknhbfhzmivqnbofrwktfwlcbajoygobbesqeeiemullkrqwplsmsuvskuifbojrdvtffpqm", []string{"zx", "oo", "hi", "to", "xh", "ka", "oc", "wd", "gy", "nv", "ux", "zh", "fr", "es", "eh", "iw", "ma", "hl", "yb", "np", "fc", "fj", "tn", "lw", "pz", "hx", "oz", "ao", "rc", "dh", "bj"})
+	res := addBoldTag("abcxyz123", []string{"abc", "123"})
 	fmt.Println(res)
 }
 
@@ -37,62 +41,34 @@ func addBoldTag(s string, dict []string) string {
 		return s
 	}
 	res := make([]string, 0)
-	closeSlice := make([][2]int, 0)
-	tagS := ""
-	// boldStart := make(map[int]bool)
-	// boldEnd := make(map[int]bool)
-	// generate close position according to dict
-	for i := 0; i < len(dict); i++ {
-		if len(closeSlice) == 0 && strings.Index(s, dict[i]) >= 0 {
-			first := [2]int{strings.Index(s, dict[i]), strings.Index(s, dict[i]) + len(dict[i]) - 1}
-			closeSlice = append(closeSlice, first)
-		}
-
-		for j := 0; j < len(closeSlice); j++ {
-			curStart := closeSlice[j][0]
-			curEnd := closeSlice[j][1]
-			if strings.Index(s, dict[i]) >= 0 {
-				start := strings.Index(s, dict[i])
-				end := strings.Index(s, dict[i]) + len(dict[i]) - 1
-				//check [curStart, curEnd] overlap or sequence to [start, end]
-				if (start <= curEnd && end >= curStart) || start == curEnd+1 || end == curStart+1 {
-					closeSlice[j] = [2]int{min(start, curStart), max(end, curEnd)}
-				} else {
-					closeSlice = append(closeSlice, [2]int{start, end})
-				}
+	bold := make(map[int]bool)
+	end := 0
+	for i := 0; i < len(s); i++ {
+		for j := 0; j < len(dict); j++ {
+			if (i+len(dict[j]) <= len(s)) && s[i:(i+len(dict[j]))] == dict[j] {
+				end = max(end, i+len(dict[j]))
 			}
-
 		}
-	}
-	// fmt.Println(closeSlice)
-	boldStart := make(map[int]bool)
-	boldEnd := make(map[int]bool)
-	for i := 0; i < len(closeSlice); i++ {
-		start := closeSlice[i][0]
-		end := closeSlice[i][1]
-		boldStart[start] = true
-		boldEnd[end] = true
+		if end > i {
+			bold[i] = true
+		}
+
 	}
 
 	for i := 0; i < len(s); i++ {
-		if boldStart[i] == true {
-			res = append(res, "<b>")
+		if _, ok := bold[i]; !ok {
 			res = append(res, string(s[i]))
-		} else if boldEnd[i] == true {
-			res = append(res, string(s[i]))
-			res = append(res, "</b>")
-		} else {
-			res = append(res, string(s[i]))
+			continue
 		}
-	}
+		j := i
+		for j < len(s) && bold[j] == true {
+			j++
+		}
 
-	for i := 0; i < len(res); i++ {
-		if res[i] == "" {
-			break
-		}
-		tagS += res[i]
+		res = append(res, "<b>"+s[i:j]+"</b>")
+		i = j - 1
 	}
-	return tagS
+	return strings.Join(res, "")
 }
 
 func max(a, b int) int {
@@ -102,45 +78,32 @@ func max(a, b int) int {
 	return b
 }
 
-func min(a, b int) int {
-	if a > b {
-		return b
-	}
-	return a
-}
-
 /*
-class Solution {
-    public String boldWords(String S, String[] words) {
-        int N = S.length();
-        boolean[] mask = new boolean[N];
-        for (int i = 0; i < N; ++i)
-            for (String word: words) search: {
-                for (int k = 0; k < word.length(); ++k)
-                    if (k+i >= S.length() || S.charAt(k+i) != word.charAt(k))
-                        break search;
-
-                for (int j = i; j < i+word.length(); ++j)
-                    mask[j] = true;
+public class Solution {
+    public String addBoldTag(String s, String[] dict) {
+        boolean[] bold = new boolean[s.length()];
+        for (int i = 0, end = 0; i < s.length(); i++) {
+            for (String word : dict) {
+                if (s.startsWith(word, i)) {
+                    end = Math.max(end, i + word.length());
+                }
             }
-
-        StringBuilder ans = new StringBuilder();
-        int anchor = 0;
-        for (int i = 0; i < N; ++i) {
-            if (mask[i] && (i == 0 || !mask[i-1]))
-                ans.append("<b>");
-            ans.append(S.charAt(i));
-            if (mask[i] && (i == N-1 || !mask[i+1]))
-                ans.append("</b>");
+            bold[i] = end > i;
         }
-        return ans.toString();
-    }
 
-    public boolean match(String S, int i, int j, String T) {
-        for (int k = i; k < j; ++k)
-            if (k >= S.length() || S.charAt(k) != T.charAt(k-i))
-                return false;
-        return true;
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            if (!bold[i]) {
+                result.append(s.charAt(i));
+                continue;
+            }
+            int j = i;
+            while (j < s.length() && bold[j]) j++;
+            result.append("<b>" + s.substring(i, j) + "</b>");
+            i = j - 1;
+        }
+
+        return result.toString();
     }
 }
 */
