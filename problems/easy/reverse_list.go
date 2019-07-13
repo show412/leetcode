@@ -19,11 +19,11 @@ A linked list can be reversed either iteratively or recursively. Could you imple
  * }
  */
 func reverseList(head *ListNode) *ListNode {
-	var pre ListNode
+	var pre *ListNode
 	cur := head
 	for cur != nil {
 		nextNode := cur.Next
-		cur.Next = *pre
+		cur.Next = pre
 		pre = cur
 		cur = nextNode
 	}
