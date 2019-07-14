@@ -18,6 +18,7 @@ S will consist of lowercase letters and have length in range [1, 500].
 */
 // 把出现最多的字符放在偶数index， 然后剩下的跳跃着放到奇数位 肯定就是不重的了
 // 重要的是重复的数字如果超过 (len(S)+1)/2 就肯定组成不了no duplicate adjacent的结果了
+// TC is O(N+P)  SC is O(P) P is types number of character in S
 func reorganizeString(S string) string {
 	if len(S) == 1 {
 		return S
