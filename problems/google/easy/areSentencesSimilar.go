@@ -26,6 +26,8 @@ use case:
 [["great","fine"],["drama","acting"],["skills","talent"]]
 true
 */
+// Time Complexity: O(N+P)O(N+P)
+// Space Complexity: O(P)O(P)
 func areSentencesSimilar(words1 []string, words2 []string, pairs [][]string) bool {
 	if len(words1) != len(words2) {
 		return false

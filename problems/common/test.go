@@ -2,51 +2,52 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	// "math"
 )
 
 /*
 test case:
-Input: nums = [0, 1, 3, 50, 75], lower = 0 and upper = 99,
-Output: ["2", "4->49", "51->74", "76->99"]
-
-
-[]
-1
-1
-
-output: ["1"]
+"kkkkzrkatkwpkkkktrq"
+"bbbbaaaaababaababab"
 */
 func main() {
-	res := findMissingRanges([]int{}, 1, 3)
+	res := reorganizeString("bbbbaaaaababaababab")
 	fmt.Println(res)
 }
 
-func findMissingRanges(nums []int, lower int, upper int) []string {
-	res := make([]string, 0)
-	if len(nums) == 0 {
-		res = append(res, formatRange(lower, upper))
-		return res
+func reorganizeString(S string) string {
+	if len(S) == 1 {
+		return S
 	}
-	if lower < nums[0] {
-		res = append(res, formatRange(lower, nums[0]-1))
-	}
-	for i := 0; i < len(nums)-1; i++ {
-		if nums[i+1]-nums[i] > 1 {
-			res = append(res, formatRange(nums[i]+1, nums[i+1]-1))
+	res := make([]byte, len(S))
+	m := make(map[byte]int)
+	max := 0
+	var maxLetter byte
+	for i := 0; i < len(S); i++ {
+		m[S[i]] += 1
+		if m[S[i]] > max {
+			max = m[S[i]]
+			maxLetter = S[i]
 		}
 	}
-	if nums[len(nums)-1] < upper {
-		res = append(res, formatRange(nums[len(nums)-1]+1, upper))
+	if max > (len(S)+1)/2 {
+		return ""
 	}
-	return res
-}
-
-func formatRange(s int, e int) string {
-	str := strconv.Itoa(s) + "->" + strconv.Itoa(e)
-	if s == e {
-		str = strconv.Itoa(s)
+	index := 0
+	for m[maxLetter] > 0 {
+		res[index] = maxLetter
+		m[maxLetter]--
+		index += 2
 	}
-	return str
+	for k, _ := range m {
+		for m[k] > 0 {
+			if index >= len(S) {
+				index = 1
+			}
+			res[index] = k
+			m[k]--
+			index += 2
+		}
+	}
+	return string(res)
 }
