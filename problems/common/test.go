@@ -2,27 +2,51 @@ package main
 
 import (
 	"fmt"
-	"math"
+	"strconv"
 	// "math"
 )
 
+/*
+test case:
+Input: nums = [0, 1, 3, 50, 75], lower = 0 and upper = 99,
+Output: ["2", "4->49", "51->74", "76->99"]
+
+
+[]
+1
+1
+
+output: ["1"]
+*/
 func main() {
-	res := new21Game(21, 17, 10)
+	res := findMissingRanges([]int{}, 1, 3)
 	fmt.Println(res)
 }
 
-func new21Game(N int, K int, W int) float64 {
-	// dp[x] = the answer when Alice has x points
-	dp := make([]float64, N+W+1)
+func findMissingRanges(nums []int, lower int, upper int) []string {
+	res := make([]string, 0)
+	if len(nums) == 0 {
+		res = append(res, formatRange(lower, upper))
+		return res
+	}
+	if lower < nums[0] {
+		res = append(res, formatRange(lower, nums[0]-1))
+	}
+	for i := 0; i < len(nums)-1; i++ {
+		if nums[i+1]-nums[i] > 1 {
+			res = append(res, formatRange(nums[i]+1, nums[i+1]-1))
+		}
+	}
+	if nums[len(nums)-1] < upper {
+		res = append(res, formatRange(nums[len(nums)-1]+1, upper))
+	}
+	return res
+}
 
-	for k := K; k <= N; k++ {
-		dp[k] = 1.0
+func formatRange(s int, e int) string {
+	str := strconv.Itoa(s) + "->" + strconv.Itoa(e)
+	if s == e {
+		str = strconv.Itoa(s)
 	}
-	// S = dp[k+1] + dp[k+2] + ... + dp[k+W]
-	S := math.Min(float64(N-K+1), float64(W))
-	for k := K - 1; k >= 0; k-- {
-		dp[k] = S / float64(W)
-		S += dp[k] - dp[k+W]
-	}
-	return dp[0]
+	return str
 }
