@@ -26,6 +26,7 @@ If the first player choose 1, the second player can only choose integers from 2 
 The second player will win by choosing 10 and get a total = 11, which is >= desiredTotal.
 Same with other integers chosen by the first player, the second player will always win.
 */
+// TBD
 func canIWin(maxChoosableInteger int, desiredTotal int) bool {
 
 }
