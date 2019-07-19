@@ -11,43 +11,38 @@ test case:
 "bbbbaaaaababaababab"
 */
 func main() {
-	res := reorganizeString("bbbbaaaaababaababab")
+	res := canTransform("XXXXXLXXXX", "LXXXXXXXXX")
 	fmt.Println(res)
 }
 
-func reorganizeString(S string) string {
-	if len(S) == 1 {
-		return S
-	}
-	res := make([]byte, len(S))
-	m := make(map[byte]int)
-	max := 0
-	var maxLetter byte
-	for i := 0; i < len(S); i++ {
-		m[S[i]] += 1
-		if m[S[i]] > max {
-			max = m[S[i]]
-			maxLetter = S[i]
+func canTransform(start string, end string) bool {
+	if len(start) == 1 {
+		if start == end {
+			return true
+		} else {
+			return false
 		}
 	}
-	if max > (len(S)+1)/2 {
-		return ""
-	}
-	index := 0
-	for m[maxLetter] > 0 {
-		res[index] = maxLetter
-		m[maxLetter]--
-		index += 2
-	}
-	for k, _ := range m {
-		for m[k] > 0 {
-			if index >= len(S) {
-				index = 1
+	m := map[string]string{"XL": "LX", "RX": "XR"}
+	for i := 0; i < len(start)-1; i++ {
+		if start[i] == end[i] {
+			continue
+		} else {
+			s := string(start[i]) + string(start[i+1])
+			e := string(end[i]) + string(end[i+1])
+			fmt.Println("*****")
+			fmt.Println(i)
+			fmt.Println(s)
+			fmt.Println(e)
+			if v, _ := m[s]; v == e {
+				i++
+			} else {
+				return false
 			}
-			res[index] = k
-			m[k]--
-			index += 2
 		}
 	}
-	return string(res)
+	if start[len(start)-1] != end[len(end)-1] {
+		return false
+	}
+	return true
 }
