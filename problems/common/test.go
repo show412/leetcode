@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	// "math"
 )
 
@@ -11,37 +12,64 @@ test case:
 "bbbbaaaaababaababab"
 */
 func main() {
-	res := canTransform("XLLR", "LXLX")
+	res := getHint("1123", "0111")
 	fmt.Println(res)
 }
 
-func canTransform(start string, end string) bool {
-	if len(start) == 1 {
-		if start == end {
-			return true
-		} else {
-			return false
-		}
+func getHint(secret string, guess string) string {
+	//the map is for index to value
+	mPtov := make(map[int]int)
+	//the map is for value to position
+	mVtop := make(map[int][]int)
+	A := make([]int, 0)
+	B := make([]int, 0)
+	cow := make([]int, 0)
+	for i := 0; i < len(secret); i++ {
+		digit, _ := strconv.Atoi(string(secret[i]))
+		mPtov[i] = digit
+		mVtop[digit] = append(mVtop[digit], i)
 	}
-	i := 0
-	j := 0
-	for i < len(start) && j < len(start) {
-		for i < len(start) && start[i] == 'X' {
-			i++
-		}
-		for j < len(start) && end[j] == 'X' {
-			j++
-		}
-		if (i < len(start) && j >= len(start)) || (i >= len(start) && j < len(start)) {
-			return false
-		}
-		if i < len(start) && j < len(start) {
-			if start[i] != end[j] || (start[i] == 'L' && i < j) || (start[i] == 'R' && i > j) {
-				return false
+	fmt.Println(mPtov)
+	fmt.Println(mVtop)
+	for j := 0; j < len(guess); j++ {
+		digit, _ := strconv.Atoi(string(guess[j]))
+		if mPtov[j] == digit {
+			A = append(A, digit)
+			Postion(mVtop, digit, j)
+			if len(mVtop[digit]) == 0 {
+				delete(mVtop, digit)
+			}
+		} else {
+			if _, ok := mVtop[digit]; ok {
+				// B = append(B, digit)
+				// Postion(mVtop, digit, mVtop[digit][0])
+				cow = append(cow, digit)
 			}
 		}
-		i++
-		j++
 	}
-	return true
+	for k := 0; k < len(cow); k++ {
+		digit := cow[k]
+		if _, ok := mVtop[digit]; ok {
+			B = append(B, digit)
+			Postion(mVtop, digit, mVtop[digit][0])
+			if len(mVtop[digit]) == 0 {
+				delete(mVtop, digit)
+			}
+		}
+	}
+	res := strconv.Itoa(len(A)) + "A" + strconv.Itoa(len(B)) + "B"
+	return res
+}
+
+func Postion(m map[int][]int, key int, index int) {
+	for k := 0; k < len(m[key]); k++ {
+		if m[key][k] == index {
+			if k < len(m[key])-1 {
+				m[key] = append(m[key][:k], m[key][k+1:]...)
+			} else {
+				m[key] = m[key][:k]
+			}
+			break
+		}
+	}
 }
