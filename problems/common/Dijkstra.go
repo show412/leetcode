@@ -20,6 +20,7 @@ func networkDelayTime(times [][]int, N int, K int) int {
 		canNode := -1
 		canDist := math.MaxInt32
 		for i := 1; i <= N; i++ {
+			// determine which node will be to out from S in this loop
 			if _, ok := seen[i]; !ok && dist[i] < canDist {
 				canDist = dist[i]
 				canNode = i
