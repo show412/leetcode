@@ -1,20 +1,4 @@
-package main
-
-import (
-	"fmt"
-	"math"
-	// "math"
-)
-
-/*
-test case:
-"kkkkzrkatkwpkkkktrq"
-"bbbbaaaaababaababab"
-*/
-func main() {
-	res := networkDelayTime([][]int{{2, 1, 1}, {2, 3, 1}, {3, 4, 1}}, 4, 2)
-	fmt.Println(res)
-}
+import "math"
 
 func networkDelayTime(times [][]int, N int, K int) int {
 	// generate the graph
