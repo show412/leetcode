@@ -12,55 +12,42 @@ test case:
 "bbbbaaaaababaababab"
 */
 func main() {
-	res := networkDelayTime([][]int{{2, 1, 1}, {2, 3, 1}, {3, 4, 1}}, 4, 2)
+	res := maxDistToClosest([]int{1, 0, 0, 0})
 	fmt.Println(res)
 }
 
-func networkDelayTime(times [][]int, N int, K int) int {
-	// generate the graph
-	graph := make(map[int][][]int)
-	for _, edge := range times {
-		graph[edge[0]] = append(graph[edge[0]], []int{edge[1], edge[2]})
-	}
-	// generate the distance, dist means S in Dijkstra
-	dist := make(map[int]int)
-	for i := 1; i <= N; i++ {
-		dist[i] = math.MaxInt32
-	}
-	dist[K] = 0
-	// seen act as U in Dijkstra
-	seen := make(map[int]bool)
-	// the Dijkstra loop solution
-	// start to refine the U and S
-	for {
-		canNode := -1
-		canDist := math.MaxInt32
-		for i := 1; i <= N; i++ {
-			if _, ok := seen[i]; !ok && dist[i] < canDist {
-				canDist = dist[i]
-				canNode = i
-			}
+func maxDistToClosest(seats []int) int {
+	Forward := make([]int, len(seats))
+	Afterward := make([]int, len(seats))
+	curF := -1
+	for i := 0; i < len(seats); i++ {
+		if seats[i] == 1 {
+			curF = i
+			Forward[i] = 0
+			continue
 		}
-		if canNode < 0 {
-			break
-		}
-		seen[canNode] = true
-		if _, ok := graph[canNode]; ok {
-			for _, info := range graph[canNode] {
-				dist[info[0]] = min(dist[info[0]], dist[canNode]+info[1])
-			}
+		if curF == -1 {
+			Forward[i] = math.MaxInt32
+		} else {
+			Forward[i] = i - curF
 		}
 	}
-	// start to find the shortest distance
-	// notice it's to find the max time to some one node.package medium
-	// it means that it will finish all the singal transfer
+	curA := -1
+	for i := len(seats) - 1; i >= 0; i-- {
+		if seats[i] == 1 {
+			curA = i
+			Afterward[i] = 0
+			continue
+		}
+		if curA == -1 {
+			Afterward[i] = math.MaxInt32
+		} else {
+			Afterward[i] = curA - i
+		}
+	}
 	res := 0
-	for _, cand := range dist {
-		// it means there is node impossible to arrive
-		if cand == math.MaxInt32 {
-			return -1
-		}
-		res = max(res, cand)
+	for i := 0; i < len(seats); i++ {
+		res = max(res, min(Forward[i], Afterward[i]))
 	}
 	return res
 }
