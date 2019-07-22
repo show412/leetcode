@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 	// "math"
 )
 
@@ -12,57 +11,72 @@ test case:
 "bbbbaaaaababaababab"
 */
 func main() {
-	res := maxDistToClosest([]int{1, 0, 0, 0})
+	res := minDominoRotations([]int{2, 1, 1, 3, 2, 1, 2, 2, 1}, []int{3, 2, 3, 1, 3, 2, 3, 3, 2})
 	fmt.Println(res)
 }
 
-func maxDistToClosest(seats []int) int {
-	Forward := make([]int, len(seats))
-	Afterward := make([]int, len(seats))
-	curF := -1
-	for i := 0; i < len(seats); i++ {
-		if seats[i] == 1 {
-			curF = i
-			Forward[i] = 0
+func minDominoRotations(A []int, B []int) int {
+	if len(A) == 0 {
+		return -1
+	}
+	if len(A) == 1 {
+		return 0
+	}
+	resA := 0
+	resAB := 0
+	flagA := false
+	// A[0] is the standard
+	for i := 1; i < len(A); i++ {
+		if A[i] == A[0] {
+			flagA = true
+			resAB++
 			continue
-		}
-		if curF == -1 {
-			Forward[i] = math.MaxInt32
+		} else if B[i] == A[0] {
+			resA++
 		} else {
-			Forward[i] = i - curF
+			flagA = false
+			break
 		}
+		flagA = true
 	}
-	curA := -1
-	for i := len(seats) - 1; i >= 0; i-- {
-		if seats[i] == 1 {
-			curA = i
-			Afterward[i] = 0
+	fmt.Println(resA)
+	fmt.Println(resAB)
+	ra := min(resA, resAB)
+	// B[0] is the standard
+	resB := 0
+	resBA := 0
+	flagB := false
+	// A[0] is the standard
+	for i := 1; i < len(B); i++ {
+		if B[i] == B[0] {
+			flagB = true
+			resBA++
 			continue
-		}
-		if curA == -1 {
-			Afterward[i] = math.MaxInt32
+		} else if A[i] == B[0] {
+			resB++
 		} else {
-			Afterward[i] = curA - i
+			flagB = false
+			break
 		}
+		flagB = true
 	}
-	res := 0
-	for i := 0; i < len(seats); i++ {
-		res = max(res, min(Forward[i], Afterward[i]))
+	fmt.Println(resB)
+	// fmt.Println(len(B))
+	rb := min(resB, resBA)
+	if flagA == false && flagB == false {
+		return -1
 	}
-	return res
+	if flagA == true && flagB == true {
+		return min(ra, rb)
+	}
+	if flagA == true {
+		return ra
+	}
+	return rb
 }
-
-func max(a int, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 func min(a, b int) int {
 	if a < b {
 		return a
 	}
-
 	return b
 }
