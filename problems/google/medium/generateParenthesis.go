@@ -30,6 +30,7 @@ func recursionAdd(n int, str string, open int, close int, res *[]string) {
 		*res = append(*res, str)
 		return
 	}
+	// it seems a DFS recursion
 	if open < n {
 		recursionAdd(n, str+"(", open+1, close, res)
 	}
