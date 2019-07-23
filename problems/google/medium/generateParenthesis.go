@@ -12,6 +12,33 @@ import "strconv"
 //   "()(())",
 //   "()()()"
 // ]
+
+// solution of answer
+// because only the open bracket size is bigger than the close bracket size
+// it will be reseanable
+func generateParenthesis(n int) []string {
+	if n == 0 {
+		return []string{}
+	}
+	res := make([]string, 0)
+	str := ""
+	recursionAdd(n, str, 0, 0, &res)
+	return res
+}
+func recursionAdd(n int, str string, open int, close int, res *[]string) {
+	if len(str) == 2*n {
+		*res = append(*res, str)
+		return
+	}
+	if open < n {
+		recursionAdd(n, str+"(", open+1, close, res)
+	}
+	if close < open {
+		recursionAdd(n, str+")", open, close+1, res)
+	}
+	return
+}
+
 // DFS like permutation
 // "(" means 1 ")" means -1
 // if sum >=0 it's valid
@@ -88,31 +115,3 @@ func isValid(arr []int) bool {
 	}
 	return true
 }
-
-// solution of answer
-// because only the open bracket size is bigger than the close bracket size
-// it will be reseanable
-func generateParenthesis(n int) []string {
-	if n == 0 {
-		return []string{}
-	}
-	res := make([]string, 0)
-	str := ""
-	recursionAdd(n, str, 0, 0, &res)
-	return res
-}
-func recursionAdd(n int, str string, open int, close int, res *[]string) {
-	if len(str) == 2*n {
-		*res = append(*res, str)
-		return
-	}
-	if open < n {
-		recursionAdd(n, str+"(", open+1, close, res)
-	}
-	if close < open {
-		recursionAdd(n, str+")", open, close+1, res)
-	}
-	return
-}
-
-
