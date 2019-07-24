@@ -1,20 +1,14 @@
-package main
-
-import (
-	"fmt"
-	// "math"
-)
-
+// https://leetcode.com/problems/strobogrammatic-number-ii/
 /*
-test case:
-"kkkkzrkatkwpkkkktrq"
-"bbbbaaaaababaababab"
-*/
-func main() {
-	res := findStrobogrammatic(8)
-	fmt.Println(res)
-}
+A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).
 
+Find all strobogrammatic numbers that are of length = n.
+
+Example:
+
+Input:  n = 2
+Output: ["11","69","88","96"]
+*/
 func findStrobogrammatic(n int) []string {
 	if n == 1 {
 		return []string{"0", "1", "8"}
