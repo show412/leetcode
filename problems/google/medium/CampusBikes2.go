@@ -1,5 +1,4 @@
 import (
-	"fmt"
 	"math"
 	"sort"
 )
@@ -40,6 +39,45 @@ Note:
 All worker and bike locations are distinct.
 1 <= workers.length <= bikes.length <= 10
 */
+
+func assignBikes(workers [][]int, bikes [][]int) int {
+	res := math.MaxInt64
+	cur := 0
+	visit := make(map[int]bool, len(bikes))
+	dfs(visit, workers, 0, bikes, cur, &res)
+	return res
+}
+
+func dfs(visit map[int]bool, workers [][]int, start int, bikes [][]int, cur int, res *int) {
+	if start >= len(workers) {
+		*res = min(cur, *res)
+		return
+	}
+	if cur > *res {
+		return
+	}
+	for i := 0; i < len(bikes); i++ {
+		if visit[i] == true {
+			continue
+		}
+		visit[i] = true
+		dfs(visit, workers, start+1, bikes, cur+dis(workers[start], bikes[i]), res)
+		visit[i] = false
+	}
+}
+
+func dis(worker []int, bike []int) int {
+	return int(math.Abs(float64(worker[0]-bike[0]))) + int(math.Abs(float64(worker[1]-bike[1])))
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+}
+
+// TBD
 type DistanceSlice []Distance
 
 func (d DistanceSlice) Len() int {
@@ -75,8 +113,11 @@ func assignBikes(workers [][]int, bikes [][]int) int {
 		}
 	}
 	sort.Sort(DistanceSlice(distanceArray))
-	fmt.Println(distanceArray)
-	workerCount := 0
+	dfs(workerMap, bikeMap, distanceArray, &res)
+
+}
+func dfs(workerMap map[int]bool, bikeMap map[int]bool, distanceArray []Distance, res *int) {
+
 	for i := 0; i < len(distanceArray); i++ {
 		cur := distanceArray[i]
 		v1, ok1 := workerMap[cur.workerIndex]
@@ -90,4 +131,3 @@ func assignBikes(workers [][]int, bikes [][]int) int {
 	}
 	return res
 }
-

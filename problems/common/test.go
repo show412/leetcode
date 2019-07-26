@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	// "math"
 )
 
@@ -11,40 +12,43 @@ test case:
 "bbbbaaaaababaababab"
 */
 func main() {
-	res := findStrobogrammatic(8)
+	res := assignBikes([][]int{[]int{0, 0}, []int{2, 1}}, [][]int{[]int{1, 2}, []int{3, 3}})
 	fmt.Println(res)
 }
 
-func findStrobogrammatic(n int) []string {
-	if n == 1 {
-		return []string{"0", "1", "8"}
-	}
-	if n == 2 {
-		return []string{"11", "69", "88", "96"}
-	}
-	res := make([]string, 0)
-	for _, v := range helper(n-2, res) {
-		res = append(res, "1"+v+"1")
-		res = append(res, "8"+v+"8")
-		res = append(res, "6"+v+"9")
-		res = append(res, "9"+v+"6")
-	}
+func assignBikes(workers [][]int, bikes [][]int) int {
+	res := math.MaxInt64
+	cur := 0
+	visit := make(map[int]bool, len(bikes))
+	dfs(visit, workers, 0, bikes, cur, &res)
 	return res
 }
-func helper(n int, res []string) []string {
-	if n == 0 {
-		return []string{""}
+
+func dfs(visit map[int]bool, workers [][]int, start int, bikes [][]int, cur int, res *int) {
+	if start >= len(workers) {
+		*res = min(cur, *res)
+		return
 	}
-	if n == 1 {
-		return []string{"0", "1", "8"}
+	if cur > *res {
+		return
 	}
-	// res := make([]string, 0)
-	for _, v := range helper(n-2, res) {
-		res = append(res, "0"+v+"0")
-		res = append(res, "1"+v+"1")
-		res = append(res, "8"+v+"8")
-		res = append(res, "6"+v+"9")
-		res = append(res, "9"+v+"6")
+	for i := 0; i < len(bikes); i++ {
+		if visit[i] == true {
+			continue
+		}
+		visit[i] = true
+		dfs(visit, workers, start+1, bikes, cur+dis(workers[start], bikes[i]), res)
+		visit[i] = false
 	}
-	return res
+}
+
+func dis(worker []int, bike []int) int {
+	return int(math.Abs(float64(worker[0]-bike[0]))) + int(math.Abs(float64(worker[1]-bike[1])))
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
