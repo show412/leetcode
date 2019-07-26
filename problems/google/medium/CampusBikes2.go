@@ -56,6 +56,8 @@ func dfs(visit map[int]bool, workers [][]int, start int, bikes [][]int, cur int,
 	if cur > *res {
 		return
 	}
+	// because the bikes number is bigger than workers, so it should use bikes to loop
+	// the workers number
 	for i := 0; i < len(bikes); i++ {
 		if visit[i] == true {
 			continue
@@ -77,7 +79,7 @@ func min(a, b int) int {
 	return b
 }
 
-// TBD
+// it's difficult to reslove with this solution
 type DistanceSlice []Distance
 
 func (d DistanceSlice) Len() int {
@@ -99,7 +101,7 @@ type Distance struct {
 }
 
 func assignBikes(workers [][]int, bikes [][]int) int {
-	res := 0
+	res := math.MaxInt64
 	distanceArray := make([]Distance, 0)
 	workerMap := make(map[int]bool, len(workers))
 	bikeMap := make(map[int]bool, len(bikes))
@@ -113,21 +115,30 @@ func assignBikes(workers [][]int, bikes [][]int) int {
 		}
 	}
 	sort.Sort(DistanceSlice(distanceArray))
-	dfs(workerMap, bikeMap, distanceArray, &res)
-
+	workerCount := 0
+	dis := 0
+	dfs(workerMap, bikeMap, distanceArray, workerCount, dis, &res, len(workers))
+	return res
 }
-func dfs(workerMap map[int]bool, bikeMap map[int]bool, distanceArray []Distance, res *int) {
-
+func dfs(workerMap map[int]bool, bikeMap map[int]bool, distanceArray []Distance, workerCount int, dis int, res *int, workerNum int) {
+	if workerCount >= workerNum {
+		*res = min(dis, *res)
+		return
+	}
+	if dis > *res {
+		return
+	}
 	for i := 0; i < len(distanceArray); i++ {
 		cur := distanceArray[i]
-		v1, ok1 := workerMap[cur.workerIndex]
-		v2, ok2 := bikeMap[cur.bikeIndex]
-		if !ok1 && !ok2 && v1 != true && v2 != true && workerCount < len(workers) {
-			res += cur.dis
-			workerCount++
-			workerMap[cur.workerIndex] = true
-			bikeMap[cur.bikeIndex] = true
+
+		if workerMap[cur.workerIndex] == true && bikeMap[cur.bikeIndex] == true {
+			continue
 		}
+		workerMap[cur.workerIndex] = true
+		bikeMap[cur.bikeIndex] = true
+		dfs(workerMap, bikeMap, distanceArray, workerCount+1, dis+cur.dis, res, workerNum)
+		workerMap[cur.workerIndex] = false
+		bikeMap[cur.bikeIndex] = false
 	}
-	return res
+	return
 }
