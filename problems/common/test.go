@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"sort"
+	"strings"
 	// "math"
 )
 
@@ -11,40 +13,28 @@ test case:
 "bbbbaaaaababaababab"
 */
 func main() {
-	res := shortestWay("aaaaa", "aaaaaaaaaaaaa")
+	res := expand("{a,b}c{d,e}f")
 	fmt.Println(res)
 }
 
-func shortestWay(source string, target string) int {
-	for i := 0; i < len(target); i++ {
-		char := target[i]
-		flag := false
-		for j := 0; j < len(source); j++ {
-			if source[j] == char {
-				flag = true
-				continue
-			}
-		}
-		if flag == false {
-			return -1
-		}
-	}
-	pt := 0
-	res := 0
-	for pt < len(target) {
-		ps := 0
-		for ps < len(source) {
-			if pt > len(target)-1 {
-				break
-			}
-			if source[ps] != target[pt] {
-				ps++
-			} else {
-				pt++
-				ps++
-			}
-		}
-		res++
-	}
+var result []string
+
+func expand(S string) []string {
+	res := make([]string, 0)
+	expandStr(S, &res)
 	return res
+}
+
+func expandStr(S string, res *[]string) {
+	if strings.Index(S, "{") == -1 {
+		*res = append(*res, S)
+		return
+	}
+	openIndex := strings.Index(S, "{")
+	closeIndex := strings.Index(S, "}")
+	options := strings.Split(S[openIndex+1:closeIndex], ",")
+	sort.Strings(options)
+	for i := 0; i < len(options); i++ {
+		expandStr(S[:openIndex]+options[i]+S[closeIndex+1:], res)
+	}
 }
