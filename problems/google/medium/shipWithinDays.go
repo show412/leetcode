@@ -46,6 +46,7 @@ Note:
 1 <= D <= weights.length <= 50000
 1 <= weights[i] <= 500
 */
+// 主要是这个二分的思路 中间这个加1减1的是难点
 func shipWithinDays(weights []int, D int) int {
 	start := 0
 	end := 0
@@ -63,9 +64,12 @@ func shipWithinDays(weights []int, D int) int {
 		mid := start + (end-start)/2
 		// bigger than 0 means the mid is small
 		// so we need to make start = mid+1
+		// in order to no LTE, start = mid+1
 		if checkCapacity(weights, mid, D) > 0 {
 			start = mid + 1
 		} else {
+			// if checkCapacity <=0, it means the mid is big
+			// we could try to narrow the range
 			end = mid
 		}
 	}
