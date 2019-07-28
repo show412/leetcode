@@ -1,6 +1,11 @@
 // https://leetcode.com/problems/swap-adjacent-in-lr-string/
 /*
-In a string composed of 'L', 'R', and 'X' characters, like "RXXLRXRXL", a move consists of either replacing one occurrence of "XL" with "LX", or replacing one occurrence of "RX" with "XR". Given the starting string start and the ending string end, return True if and only if there exists a sequence of moves to transform one string to the other.
+In a string composed of 'L', 'R', and 'X' characters, like "RXXLRXRXL",
+a move consists of either replacing one occurrence of "XL" with "LX",
+or replacing one occurrence of "RX" with "XR".
+Given the starting string start and the ending string end,
+return True if and only if there exists a sequence of moves
+to transform one string to the other.
 
 Example:
 
@@ -28,11 +33,13 @@ test case:
 // not from left to right
 // solution https://leetcode.com/problems/swap-adjacent-in-lr-string/solution/
 /*
-L postion in start must be not smaller than L postion in end, becasue L only move to left
-R postion in start must be not bigger than R postion in end, becasue R only move to right
+L postion in start must be not smaller than L postion at the end,
+becasue L only move to left
+R postion in start must be not bigger than R postion at the end,
+becasue R only move to right
 It's the sufficent condition for this problem
 
-Time Complexity: O(N)O(N), where NN is the length of start and end.
+Time Complexity: O(N)O(N), where N is the length of start and end.
 Space Complexity: O(1)O(1).
 */
 func canTransform(start string, end string) bool {
