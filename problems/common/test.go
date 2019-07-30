@@ -11,73 +11,59 @@ test case:
 "bbbbaaaaababaababab"
 */
 func main() {
-	res := expressiveWords("heeellooo", []string{"hello", "hi", "helo"})
+	res := searchRange([]int{5, 7, 7, 8, 8, 10}, 8)
 	fmt.Println(res)
 }
 
-func expressiveWords(S string, words []string) int {
-	if len(words) == 0 {
-		return 0
+func searchRange(nums []int, target int) []int {
+	if len(nums) == 0 {
+		return []int{-1, -1}
 	}
-	res := 0
-	SByteArray, SByteNum := generatePair(S)
-	fmt.Println(SByteArray)
-	fmt.Println(SByteNum)
-	for i := 0; i < len(words); i++ {
-		word := words[i]
-		wordByteArray, wordByteNum := generatePair(word)
-		fmt.Println(wordByteArray)
-		fmt.Println(wordByteNum)
-		if sliceEqual(SByteArray, wordByteArray) == true {
-			for j := 0; j < len(wordByteNum); j++ {
-				if (SByteNum[j] < 3 && SByteNum[j] != wordByteNum[j]) || SByteNum[j] < wordByteNum[j] {
-					break
-				}
-
-				if j == len(wordByteNum)-1 {
-					res++
-				}
-
-			}
+	res := make([]int, 2)
+	start := 0
+	end := len(nums) - 1
+	// find the boundary left
+	for start+1 < end {
+		mid := start + (end-start)/2
+		if nums[mid] > target {
+			end = mid
+		} else if nums[mid] == target {
+			// because we need to find the left boundary, so it needs to find the small range
+			// so end = mid there
+			end = mid
+		} else {
+			start = mid
 		}
+	}
+	if nums[start] == target {
+		res[0] = start
+	} else if nums[end] == target {
+		res[0] = end
+	} else {
+		return []int{-1, -1}
+	}
+
+	// find the boundary right
+	start = 0
+	end = len(nums) - 1
+	for start+1 < end {
+		mid := start + (end-start)/2
+		if nums[mid] > target {
+			end = mid
+		} else if nums[mid] == target {
+			// because we need to find the right boundary, so it needs to find the big range
+			// so start = mid there
+			start = mid
+		} else {
+			start = mid
+		}
+	}
+	if nums[end] == target {
+		res[1] = end
+	} else if nums[start] == target {
+		res[1] = start
+	} else {
+		return []int{-1, -1}
 	}
 	return res
-}
-
-func generatePair(s string) ([]byte, []int) {
-	var byteArray []byte
-	var byteNum []int
-	byteArray = append(byteArray, s[0])
-	num := 1
-	for i := 1; i < len(s); i++ {
-		if s[i] == s[i-1] {
-			num++
-		} else {
-			byteArray = append(byteArray, s[i])
-			byteNum = append(byteNum, num)
-			num = 1
-		}
-		if i == len(s)-1 {
-			byteNum = append(byteNum, num)
-		}
-	}
-	return byteArray, byteNum
-}
-
-func sliceEqual(s1, s2 []byte) bool {
-	if len(s1) != len(s2) {
-		return false
-	}
-
-	if (s1 == nil) != (s2 == nil) {
-		return false
-	}
-
-	for i, v := range s1 {
-		if v != s2[i] {
-			return false
-		}
-	}
-
-	return true
 }
