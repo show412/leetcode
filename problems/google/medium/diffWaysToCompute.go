@@ -49,6 +49,8 @@ func diffWaysToCompute(input string) []int {
 			}
 		}
 	}
+	// notice this should be len(res) == 0,
+	// it is to make the recusion to the last step for one single number
 	if len(res) == 0 {
 		v, _ := strconv.Atoi(input)
 		res = append(res, v)
