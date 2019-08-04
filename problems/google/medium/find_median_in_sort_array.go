@@ -1,4 +1,25 @@
+import "math"
+
 // https://leetcode.com/problems/median-of-two-sorted-arrays/
+/*
+There are two sorted arrays nums1 and nums2 of size m and n respectively.
+Find the median of the two sorted arrays.
+The overall run time complexity should be O(log (m+n)).
+You may assume nums1 and nums2 cannot be both empty.
+
+Example 1:
+
+nums1 = [1, 3]
+nums2 = [2]
+
+The median is 2.0
+Example 2:
+
+nums1 = [1, 2]
+nums2 = [3, 4]
+
+The median is (2 + 3)/2 = 2.5
+*/
 func findMedianSortedArrays(nums1 []int, nums2 []int) float64 {
 	len1 := len(nums1)
 	len2 := len(nums2)
@@ -37,8 +58,8 @@ func findKth(nums1 []int, nums2 []int, k int) int {
 		而且不可能同时有nums1和nums2都不满足剩余k/2个元素的情况 否则的话第k个是怎么来的呢
 		就没有意义了
 	*/
-	nums1K := int(^uint(0) >> 1)
-	nums2K := int(^uint(0) >> 1)
+	nums1K := math.MaxInt64
+	nums2K := math.MaxInt64
 	if ((k / 2) - 1) <= len(nums1)-1 {
 		nums1K = nums1[(k/2)-1]
 	}

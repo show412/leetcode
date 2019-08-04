@@ -18,6 +18,7 @@ Each temperature will be an integer in the range [30, 100].
 Solutions:
 	The brute force could solve the problem but it has low performance with TC and SC
 	TC is O(n^2)
+	最佳方法在最下面
 */
 func dailyTemperatures(T []int) []int {
 	if len(T) == 1 {
