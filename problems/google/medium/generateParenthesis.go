@@ -42,6 +42,23 @@ func recursionAdd(n int, str string, open int, close int, res *[]string) {
 }
 
 // the solution is like divided conquer
+func generateParenthesis(n int) []string {
+	res := make([]string, 0)
+	if n == 0 {
+		res = append(res, "")
+		return res
+	}
+	for c := 0; c < n; c++ {
+		for _, left := range generateParenthesis(c) {
+			for _, right := range generateParenthesis(n-1-c) {
+				res = append(res, "(" + left + ")" + right)
+			}
+		}
+	}
+	return res
+}
+
+// the solution is like divided conquer
 class Solution {
     public List<String> generateParenthesis(int n) {
         List<String> ans = new ArrayList();

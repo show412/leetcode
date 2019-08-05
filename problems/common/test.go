@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 	// "math"
 )
 
@@ -12,21 +11,22 @@ test case:
 "bbbbaaaaababaababab"
 */
 func main() {
-	res := repeatedStringMatch("aaaaaaaaaaaaaaaaaaaaaab", "ba")
+	res := generateParenthesis(3)
 	fmt.Println(res)
 }
 
-func repeatedStringMatch(A string, B string) int {
-	S := A
-	res := 1
-	for ; len(S) < len(B); res++ {
-		S = S + A
-	}
-	if strings.Index(S, B) >= 0 {
+func generateParenthesis(n int) []string {
+	res := make([]string, 0)
+	if n == 0 {
+		res = append(res, "")
 		return res
 	}
-	if strings.Index(S+A, B) >= 0 {
-		return res + 1
+	for c := 0; c < n; c++ {
+		for _, left := range generateParenthesis(c) {
+			for _, right := range generateParenthesis(n - 1 - c) {
+				res = append(res, "("+left+")"+right)
+			}
+		}
 	}
-	return -1
+	return res
 }
