@@ -60,16 +60,21 @@ func minDominoRotations(A []int, B []int) int {
 	resA := 0
 	resAB := 0
 	flagA := false
-	// A[0] is the standard
+	// A[0] is the standard 都往A翻 让A的所有元素都变成A[0]
+	// 如果这个最后有答案 肯定一样的数不是A[0]就是B[0]
+	// 注意i要从0开始遍历 因为得比较B[0]和A[0]
 	for i := 0; i < len(A); i++ {
 		if A[i] != A[0] && B[i] != A[0] {
+			// 这个意思就是不管第i个元素怎么翻也不会有A和B完全相等的 所以就break退出了
 			flagA = false
 			break
 			// notice there is "!=" if use "==" it will be duplicate count
 		} else if B[i] != A[0] {
+			// 让B的所有元素等于A[0]
 			resAB++
 			// continue
 		} else if A[i] != A[0] {
+			// 让A的所有元素等于A[0]
 			resA++
 		}
 		flagA = true
@@ -79,15 +84,17 @@ func minDominoRotations(A []int, B []int) int {
 	resB := 0
 	resBA := 0
 	flagB := false
-	// A[0] is the standard
+	// B[0] is the standard
 	for i := 0; i < len(B); i++ {
 		if A[i] != B[0] && B[i] != B[0] {
 			flagB = false
 			break
 			// notice there is "!=" if use "==" it will be duplicate count
 		} else if B[i] != B[0] {
+			// 让B的所有元素等于B[0]
 			resBA++
 		} else if A[i] != B[0] {
+			// 让A的所有元素等于B[0]
 			resB++
 		}
 		flagB = true
@@ -110,7 +117,3 @@ func min(a, b int) int {
 	}
 	return b
 }
-
-/*
-
- */

@@ -19,6 +19,7 @@ func minAreaFreeRect(points [][]int) float64 {
 				if ABx*ACx+ABy*ACy != 0 {
 					continue
 				}
+				// 这里代表可以不是parallel的ABCD的四个点 也是本题的重点
 				D := [2]int{B[0] - A[0] + C[0], B[1] - A[1] + C[1]}
 				if _, ok := m[D]; !ok {
 					continue

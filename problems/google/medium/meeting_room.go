@@ -4,7 +4,7 @@ import (
 )
 
 // https://leetcode.com/problems/meeting-rooms-ii/
-
+// 会议开始的时候 会议室记做使用+1 当用完之后-1 按时间顺序最大的时候就是应该用的最少的会议室
 func minMeetingRooms(intervals [][]int) int {
 	if len(intervals) == 0 {
 		return 0
@@ -28,7 +28,6 @@ func minMeetingRooms(intervals [][]int) int {
 		arr = append(arr, item[1])
 	}
 	cnt := 0
-	// fmt.Println(m)
 	sort.Ints(arr)
 	for k, v := range arr {
 		if k != 0 && v == arr[k-1] {

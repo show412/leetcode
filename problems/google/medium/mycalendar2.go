@@ -47,6 +47,7 @@ func Constructor() MyCalendarTwo {
 func (this *MyCalendarTwo) Book(start int, end int) bool {
 	for _, v := range this.calendarTwo {
 		// it should have the overlap not the cover
+		// 这是这道题的关键 如何判断有overlap
 		if end > v[0] && start < v[1] {
 			return false
 		}
@@ -57,6 +58,7 @@ func (this *MyCalendarTwo) Book(start int, end int) bool {
 			this.calendarTwo = append(this.calendarTwo, [2]int{max(start, v[0]), min(end, v[1])})
 		}
 	}
+	// 这也要记录 因为start end可能会为后续的overlap做判断使用
 	this.calendarOne = append(this.calendarOne, [2]int{start, end})
 	return true
 }
