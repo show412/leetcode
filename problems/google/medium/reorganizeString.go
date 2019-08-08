@@ -1,8 +1,11 @@
 // https://leetcode.com/problems/reorganize-string/
 /*
-Given a string S, check if the letters can be rearranged so that two characters that are adjacent to each other are not the same.
+Given a string S,
+check if the letters can be rearranged
+so that two characters that are adjacent to each other are not the same.
 
-If possible, output any possible result.  If not possible, return the empty string.
+If possible, output any possible result.
+If not possible, return the empty string.
 
 Example 1:
 
@@ -21,7 +24,9 @@ test case:
 "kkkkzrkatkwpkkkktrq"
 "bbbbaaaaababaababab"
 */
-// 把出现最多的字符放在偶数index， 然后剩下的跳跃着放到奇数位 肯定就是不重的了
+// 把出现最多的字符放在偶数index(index 是偶数 如果按1开始的话是奇数位
+// 因为一个小于等于数的奇数肯定大于等于偶数多)，
+// 然后剩下的跳跃着放到奇数位 肯定就是不重的了
 // 重要的是重复的数字如果超过 (len(S)+1)/2 就肯定组成不了no duplicate adjacent的结果了
 // TC is O(N+P)  SC is O(P) P is types number of character in S
 func reorganizeString(S string) string {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	// "math"
 )
 
@@ -11,22 +12,42 @@ test case:
 "bbbbaaaaababaababab"
 */
 func main() {
-	res := generateParenthesis(3)
+	res := reconstructQueue([][]int{{7, 0}, {4, 4}, {7, 1}, {5, 0}, {6, 1}, {5, 2}})
 	fmt.Println(res)
 }
 
-func generateParenthesis(n int) []string {
-	res := make([]string, 0)
-	if n == 0 {
-		res = append(res, "")
-		return res
+func reconstructQueue(people [][]int) [][]int {
+	if len(people) == 0 {
+		return people
 	}
-	for c := 0; c < n; c++ {
-		for _, left := range generateParenthesis(c) {
-			for _, right := range generateParenthesis(n - 1 - c) {
-				res = append(res, "("+left+")"+right)
+	res := make([][]int, len(people))
+	// sort.Sort should use the defined type
+	sort.Sort(peopleSlice(people))
+	fmt.Println(people)
+	for i := 0; i < len(people); i++ {
+		start := 0
+		for j := 0; j < len(res); j++ {
+			if res[j] != nil {
+				continue
 			}
+			if start == people[i][1] {
+				res[j] = people[i]
+			}
+			fmt.Println(res)
+			start++
 		}
 	}
 	return res
+}
+
+type peopleSlice [][]int
+
+func (a peopleSlice) Len() int {
+	return len(a)
+}
+func (a peopleSlice) Less(i, j int) bool {
+	return a[i][0] < a[j][0] || (a[i][0] == a[j][0] && a[i][1] > a[j][1])
+}
+func (a peopleSlice) Swap(i, j int) {
+	a[i], a[j] = a[j], a[i]
 }

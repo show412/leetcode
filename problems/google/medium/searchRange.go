@@ -62,7 +62,8 @@ func searchRange(nums []int, target int) []int {
 		if nums[mid] > target {
 			end = mid
 		} else if nums[mid] == target {
-			// because we need to find the right boundary, so it needs to find the big range
+			// because we need to find the right boundary,
+			// so it needs to find the big range
 			// so start = mid there
 			start = mid
 		} else {

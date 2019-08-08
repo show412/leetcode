@@ -27,7 +27,12 @@ the a should be on k index position of the left free index
 if a and b have same h, bigger k should be first
 because the if smaller k is first to book index
 in next loop the index will go to next index, it's wrong
+思路和这个很像 只是这道题是反着思考的
+https://leetcode.com/problems/queue-reconstruction-by-height/solution/
+根本思想是 “矮子插队无所谓，反正高个子看不到”
+所以先处理最矮的k 肯定是正好的位置 剩下的就处理剩下的 把当前已经占了的位置不算在里面
 */
+
 func reconstructQueue(people [][]int) [][]int {
 	if len(people) == 0 {
 		return people
@@ -37,6 +42,7 @@ func reconstructQueue(people [][]int) [][]int {
 	sort.Sort(peopleSlice(people))
 
 	for i := 0; i < len(people); i++ {
+		// start=0 就是把当前里面的不算在实际计算的index里
 		start := 0
 		for j := 0; j < len(res); j++ {
 			if res[j] != nil {

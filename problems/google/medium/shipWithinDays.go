@@ -1,10 +1,15 @@
 // https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
 /*
-A conveyor belt has packages that must be shipped from one port to another within D days.
+A conveyor belt has packages that must be shipped
+from one port to another within D days.
 
-The i-th package on the conveyor belt has a weight of weights[i].  Each day, we load the ship with packages on the conveyor belt (in the order given by weights). We may not load more weight than the maximum weight capacity of the ship.
+The i-th package on the conveyor belt has a weight of weights[i].
+Each day, we load the ship with packages on the conveyor belt
+(in the order given by weights).
+We may not load more weight than the maximum weight capacity of the ship.
 
-Return the least weight capacity of the ship that will result in all the packages on the conveyor belt being shipped within D days.
+Return the least weight capacity of the ship
+that will result in all the packages on the conveyor belt being shipped within D days.
 
 
 
@@ -20,7 +25,10 @@ A ship capacity of 15 is the minimum to ship all the packages in 5 days like thi
 4th day: 9
 5th day: 10
 
-Note that the cargo must be shipped in the order given, so using a ship of capacity 14 and splitting the packages into parts like (2, 3, 4, 5), (1, 6, 7), (8), (9), (10) is not allowed.
+Note that the cargo must be shipped in the order given,
+so using a ship of capacity 14
+and splitting the packages into parts
+like (2, 3, 4, 5), (1, 6, 7), (8), (9), (10) is not allowed.
 Example 2:
 
 Input: weights = [3,2,2,4,1,4], D = 3
@@ -64,7 +72,7 @@ func shipWithinDays(weights []int, D int) int {
 		mid := start + (end-start)/2
 		// bigger than 0 means the mid is small
 		// so we need to make start = mid+1
-		// in order to no LTE, start = mid+1
+		// in order to no LTE, start = mid+1 因为当前的mid不行 那start可能至少比mid大1
 		if checkCapacity(weights, mid, D) > 0 {
 			start = mid + 1
 		} else {
@@ -84,6 +92,7 @@ func checkCapacity(weights []int, capacity int, D int) int {
 	for i := 0; i < len(weights); i++ {
 		if (sum + weights[i]) > capacity {
 			count++
+			// 意味着weights[i]装不下了 只能装到下一个package里 所以sum=weights[i]
 			sum = weights[i]
 		} else {
 			sum += weights[i]
