@@ -4,7 +4,9 @@ import "math"
 /*
 Alice plays the following game, loosely based on the card game "21".
 
-Alice starts with 0 points, and draws numbers while she has less than K points.  During each draw, she gains an integer number of points randomly from the range [1, W], where W is an integer.  Each draw is independent and the outcomes have equal probabilities.
+Alice starts with 0 points, and draws numbers while she has less than K points.
+During each draw, she gains an integer number of points randomly from the range [1, W], where W is an integer.
+Each draw is independent and the outcomes have equal probabilities.
 
 Alice stops drawing numbers when she gets K or more points.  What is the probability that she has N or less points?
 
@@ -35,11 +37,13 @@ The judging time limit has been reduced for this question.
 /*
 Intuition
 
-It is clear that the probability that Alice wins the game is only related to how many points x she starts the next draw with, so we can try to formulate an answer in terms of x.
+It is clear that the probability that Alice wins the game is only related to how many points x
+she starts the next draw with, so we can try to formulate an answer in terms of x.
 
 Algorithm
 
-Let f(x) be the answer when we already have x points. When she has between K and N points, then she stops drawing and wins. If she has more than N points, then she loses.
+Let f(x) be the answer when we already have x points.
+When she has between K and N points, then she stops drawing and wins. If she has more than N points, then she loses.
 
 The key recursion is f(x) = (\frac{1}{W}) * (f(x+1) + f(x+2) + ... + f(x+W))f(x)=(
 W

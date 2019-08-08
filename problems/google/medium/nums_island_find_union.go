@@ -53,6 +53,8 @@ func numIslands(grid [][]byte) int {
 
 }
 
+// 典型的并查集的find union 的写法
+// f[x]是指 x 的 parent
 func unity(x int, y int, f []int) []int {
 	x = find(x, f)
 	y = find(y, f)
@@ -66,6 +68,7 @@ func find(x int, f []int) int {
 	if f[x] == x {
 		return x
 	} else {
+		// 路径压缩 使之后的查找效率更高
 		f[x] = find(f[x], f)
 	}
 	return f[x]

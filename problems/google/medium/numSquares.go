@@ -30,6 +30,7 @@ func numSquares(n int) int {
 	f[0] = 0
 	for i := 1; i <= n; i++ {
 		// i could be the first i-1 square sum + 1
+		// 这个定义必须写在这 因为下面是一个循环 f[i]每次都是动态更新的
 		f[i] = f[i-1] + 1
 		for j := 1; j*j <= i; j++ {
 			// For each i, it must be the sum of some number (i - j*j) and
