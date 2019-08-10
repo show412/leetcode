@@ -19,58 +19,7 @@ Explanation:
 There are four good numbers in the range [1, 10] : 2, 5, 6, 9.
 Note that 1 and 10 are not good numbers, since they remain unchanged after rotating.
 */
-// it's a wrong solution
-/* func rotatedDigits(N int) int {
-	if N < 0 {
-		return 0
-	}
-	res := make([]int, 0, N)
-	sub := make([]string, 0, N)
-	// visit := make(map[int]bool, 0)
-	nums := []int{0, 1, 2, 5, 6, 8, 9}
-	dfs(nums, N, sub, &res)
-	return len(res)
-}
 
-func dfs(nums []int, max int, sub []string, res *[]int) {
-	subString := strings.Join(sub, "")
-	if strings.IndexAny(subString, "2569") >= 0 {
-		v, _ := strconv.Atoi(subString)
-		if v != 0 && v <= max {
-			// fmt.Println(v)
-			*res = append(*res, v)
-		} else {
-			return
-		}
-	}
-
-	// if v > max {
-	// 	return
-	// }
-
-	for i := 0; i < len(nums); i++ {
-		// if len(*res) == 0 && len(visit) == 0 && i == 0 {
-		// 	continue
-		// }
-		// if visit[nums[i]] == true {
-		// 	continue
-		// } else {
-		sub = append(sub, strconv.Itoa(nums[i]))
-		// visit[nums[i]] = true
-		v, _ := strconv.Atoi(strings.Join(sub, ""))
-		if v > max {
-			// sub = sub[:len(sub)-1]
-			// visit[nums[i]] = false
-			break
-		}
-		dfs(nums, max, sub, res)
-		sub = sub[:len(sub)-1]
-		// visit[nums[i]] = false
-		// }
-	}
-	return
-}
-*/
 // TC is O(NlogN) The SC is O(logN) if we consider the good function store
 func rotatedDigits(N int) int {
 	if N < 0 {
