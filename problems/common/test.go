@@ -11,36 +11,38 @@ test case:
 "bbbbaaaaababaababab"
 */
 func main() {
-	nums1 := []int{1, 2, 3, 0, 0, 0}
-	nums2 := []int{2, 5, 6}
-	merge(nums1, 3, nums2, 3)
-	fmt.Println(nums1)
+	res := intervalIntersection([][]int{{0, 2}, {5, 10}, {13, 23}, {24, 25}}, [][]int{{1, 5}, {8, 12}, {15, 24}, {25, 26}})
+	fmt.Println(res)
 }
 
-func merge(nums1 []int, m int, nums2 []int, n int) {
-	i := m - 1
-	j := n - 1
-	l := m + n - 1
-	for i >= 0 && j >= 0 {
-		if nums1[i] > nums2[j] {
-			nums1[l] = nums1[i]
-			l--
-			i--
+func intervalIntersection(A [][]int, B [][]int) [][]int {
+	i := 0
+	j := 0
+	m := len(A)
+	n := len(B)
+	res := make([][]int, 0)
+	for i < m && j < n {
+		// it's wrong to split interval
+		if B[j][0] >= A[i][0] && B[j][0] <= A[i][1] {
+			res = append(res, []int{max(A[i][0], B[j][0]), min(A[i][1], B[j][1])})
+		}
+		if A[i][1] < B[j][1] {
+			i++
 		} else {
-			nums1[l] = nums2[j]
-			l--
-			j--
+			j++
 		}
 	}
-	for i >= 0 {
-		nums1[l] = nums1[i]
-		l--
-		i--
+	return res
+}
+func max(a, b int) int {
+	if a > b {
+		return a
 	}
-	for j >= 0 {
-		nums1[l] = nums2[j]
-		l--
-		j--
+	return b
+}
+func min(a, b int) int {
+	if a < b {
+		return a
 	}
-	return
+	return b
 }
