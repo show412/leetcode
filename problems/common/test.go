@@ -11,33 +11,36 @@ test case:
 "bbbbaaaaababaababab"
 */
 func main() {
-	res := productExceptSelf([]int{1, 2, 3, 4})
-	fmt.Println(res)
+	nums1 := []int{1, 2, 3, 0, 0, 0}
+	nums2 := []int{2, 5, 6}
+	merge(nums1, 3, nums2, 3)
+	fmt.Println(nums1)
 }
 
-func productExceptSelf(nums []int) []int {
-	res := make([]int, len(nums))
-	prefix := make([]int, len(nums))
-	suffix := make([]int, len(nums))
-	for i := 0; i < len(nums); i++ {
-		product := 1
-		if i != 0 {
-			product = prefix[i-1] * nums[i-1]
+func merge(nums1 []int, m int, nums2 []int, n int) {
+	i := m - 1
+	j := n - 1
+	l := m + n - 1
+	for i >= 0 && j >= 0 {
+		if nums1[i] > nums2[j] {
+			nums1[l] = nums1[i]
+			l--
+			i--
+		} else {
+			nums1[l] = nums2[j]
+			l--
+			j--
 		}
-		prefix[i] = product
 	}
-	fmt.Println(prefix)
-	for i := len(nums) - 1; i >= 0; i-- {
-		product := 1
-		if i != len(nums)-1 {
-			product = suffix[i+1] * nums[i+1]
-		}
-		suffix[i] = product
+	for i >= 0 {
+		nums1[l] = nums1[i]
+		l--
+		i--
 	}
-	fmt.Println(suffix)
-	for i := 0; i < len(nums); i++ {
-		res[i] = prefix[i] * suffix[i]
+	for j >= 0 {
+		nums1[l] = nums2[j]
+		l--
+		j--
 	}
-
-	return res
+	return
 }
