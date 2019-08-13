@@ -87,3 +87,32 @@ func leastInterval(tasks []byte, n int) int {
 
 	return cycle
 }
+
+/*
+Algorithm
+
+Instead of making use of sorting as done in the last approach,
+we can also make use of a Max-Heap(queuequeue) to pick the order
+in which the tasks need to be executed.
+But we need to ensure that the heapification occurs only
+after the intervals of cooling time, nn, as done in the last approach.
+
+To do so, firstly, we put only those elements from mapmap into the queuequeue
+which have non-zero number of instances.
+Then, we start picking up the largest task from the queuequeue for current execution.
+(Again, at every instant, we update the current timetime as well.)
+We pop this element from the queuequeue.
+We also decrement its pending number of instances and
+if any more instances of the current task are pending,
+we store them(count) in a temporary temptemp list,
+to be added later on back into the queuequeue.
+We keep on doing so, till a cycle of cooling time has been finished.
+After every such cycle,
+we add the generated temptemp list back to the queuequeue
+for considering the most critical task again.
+
+We keep on doing so till the queuequeue(and temptemp) become totally empty.
+At this instant, the current value of timetime gives the required result.
+
+
+*/
