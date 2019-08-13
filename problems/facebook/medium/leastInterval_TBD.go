@@ -1,4 +1,7 @@
-import "container/heap"
+import (
+	"container/heap"
+	"sort"
+)
 
 // https://leetcode.com/problems/task-scheduler/
 /*
@@ -24,6 +27,27 @@ Note:
 The number of tasks is in the range [1, 10000].
 The integer n is in the range [0, 100].
 */
+// refer to https://www.cnblogs.com/grandyang/p/7098764.html
+func leastInterval(tasks []byte, n int) int {
+	cnt := make([]int, 26)
+	for _, task := range tasks {
+		cnt[task-'A']++
+	}
+	sort.Ints(cnt)
+	i, maxCount := 25, cnt[25]
+	for i >= 0 && cnt[i] == maxCount {
+		i--
+	}
+	return max(len(tasks), (maxCount-1)*(n+1)+25-i)
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
 // 这个解法正确 但是不是很好理解 唯一学到的就是golang heap的使用 至于为什么最小堆可以解出来还得想想
 type Node struct {
 	nextCycle, count int
