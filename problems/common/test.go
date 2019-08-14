@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	// "math"
 )
 
@@ -11,58 +12,29 @@ test case:
 "bbbbaaaaababaababab"
 */
 func main() {
-	res := addBinary("0", "0")
+	res := isPalindrome("0P")
 	fmt.Println(res)
 }
 
-func addBinary(a string, b string) string {
-	i := len(a) - 1
-	j := len(b) - 1
-	l := max(i+1, j+1) + 1
-	res := make([]byte, l)
-	// carry := byte(0) - '0'
-	for i >= 0 && j >= 0 {
-		a := a[i] - '0'
-		b := b[j] - '0'
-		res[l-1] = a + b
-		i--
-		j--
-		l--
-	}
-	for i >= 0 {
-		a := a[i] - '0'
-		res[l-1] = a
-		i--
-		l--
-	}
-	for j >= 0 {
-		b := b[j] - '0'
-		res[l-1] = b
-		j--
-		l--
-	}
-	// deal with the carry
-	for k := len(res) - 1; k >= 0; k-- {
-		if k > 0 {
-			res[k-1] = res[k]/2 + res[k-1]
+func isPalindrome(s string) bool {
+	s = strings.ToLower(s)
+	start := 0
+	end := len(s) - 1
+	for start != end && start <= end {
+		for start < len(s) && checkCase(s[start]) == false {
+			start++
 		}
-
-		res[k] = res[k]%2 + '0'
+		for end >= 0 && checkCase(s[end]) == false {
+			end--
+		}
+		if start <= end && s[start] != s[end] {
+			return false
+		}
+		start++
+		end--
 	}
-	// when the first index is 0, no carry, remove the first index 0
-	if res[0] == '0' {
-		res = res[1:]
-	}
-	if len(res) == 0 {
-		return "0"
-	}
-
-	return string(res)
+	return true
 }
-
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
+func checkCase(a byte) bool {
+	return (a >= 'a' && a <= 'z') || (a >= '0' && a <= '9')
 }
