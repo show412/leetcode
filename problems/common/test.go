@@ -2,39 +2,42 @@ package main
 
 import (
 	"fmt"
-	"strings"
 	// "math"
 )
 
 /*
 test case:
-"kkkkzrkatkwpkkkktrq"
-"bbbbaaaaababaababab"
+["fxasxpc","dfbdrifhp","nwzgs","cmwqriv","ebulyfyve","miracx","sxckdwzv","dtijzluhts","wwbmnge","qmjwymmyox"]
+"zkgwaverfimqxbnctdplsjyohu"
 */
 func main() {
-	res := isPalindrome("0P")
+	res := isAlienSorted([]string{"fxasxpc", "dfbdrifhp", "nwzgs", "cmwqriv", "ebulyfyve", "miracx", "sxckdwzv", "dtijzluhts", "wwbmnge", "qmjwymmyox"}, "zkgwaverfimqxbnctdplsjyohu")
 	fmt.Println(res)
 }
 
-func isPalindrome(s string) bool {
-	s = strings.ToLower(s)
-	start := 0
-	end := len(s) - 1
-	for start != end && start <= end {
-		for start < len(s) && checkCase(s[start]) == false {
+func isAlienSorted(words []string, order string) bool {
+	lexi := make(map[byte]int, 0)
+	for k, v := range order {
+		if _, ok := lexi[byte(v)]; !ok {
+			lexi[byte(v)] = k
+		}
+	}
+	for i := 0; i < len(words)-1; i++ {
+		word1 := words[i]
+		word2 := words[i+1]
+		start := 0
+		for start < len(word1) {
+			if start >= len(word2) {
+				return false
+			}
+			if lexi[word1[start]] < lexi[word2[start]] {
+				break
+			}
+			if lexi[word1[start]] > lexi[word2[start]] {
+				return false
+			}
 			start++
 		}
-		for end >= 0 && checkCase(s[end]) == false {
-			end--
-		}
-		if start <= end && s[start] != s[end] {
-			return false
-		}
-		start++
-		end--
 	}
 	return true
-}
-func checkCase(a byte) bool {
-	return (a >= 'a' && a <= 'z') || (a >= '0' && a <= '9')
 }
