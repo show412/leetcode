@@ -30,6 +30,28 @@ The substring with start index = 0 is "ab", which is an anagram of "ab".
 The substring with start index = 1 is "ba", which is an anagram of "ab".
 The substring with start index = 2 is "ab", which is an anagram of "ab".
 */
+
+/*
+test case:
+"cbaebabacd", "abc"
+	[0, 6]
+
+	Input:
+s: "abab" p: "ab"
+
+Output:
+[0, 1, 2]
+
+Input
+"ababababab"
+"aab"
+Output
+[0,1,2,3,4,5,6,7]
+Expected
+[0,2,4,6]
+
+https://leetcode.com/submissions/detail/253837170/testcase/
+*/
 func findAnagrams(s string, p string) []int {
 	res := make([]int, 0)
 	if len(s) == 0 || len(p) == 0 {
