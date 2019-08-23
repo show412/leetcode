@@ -140,6 +140,7 @@ func findAnagrams(s string, p string) []int {
 }
 
 // best solution split window
+// https://www.cnblogs.com/grandyang/p/6014408.html
 class Solution {
 	public:
 			vector<int> findAnagrams(string s, string p) {
