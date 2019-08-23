@@ -52,6 +52,38 @@ Expected
 
 https://leetcode.com/submissions/detail/253837170/testcase/
 */
+// 小写字母注意可以用数组来记录, 只要不一样肯定有一个会小于0
+func findAnagrams(s string, p string) []int {
+	res := make([]int, 0)
+	if len(s) == 0 || len(p) == 0 {
+		return res
+	}
+	pl := len(p) - 1
+	cnt := make([]int, 128)
+	for k := 0; k < len(p); k++ {
+		cnt[p[k]]++
+	}
+	for i := 0; i < len(s)-pl; i++ {
+		sub := s[i:(i + pl + 1)]
+		flag := true
+		tmp := make([]int, 128)
+		copy(tmp, cnt)
+		for j := 0; j < len(sub); j++ {
+			tmp[sub[j]]--
+			if tmp[sub[j]] < 0 {
+				flag = false
+				break
+			}
+		}
+
+		if flag == true {
+			res = append(res, i)
+		}
+	}
+	return res
+}
+
+// for big data casef, it's LTE
 func findAnagrams(s string, p string) []int {
 	res := make([]int, 0)
 	if len(s) == 0 || len(p) == 0 {
@@ -106,3 +138,20 @@ func findAnagrams(s string, p string) []int {
 	}
 	return res
 }
+
+// best solution split window
+class Solution {
+	public:
+			vector<int> findAnagrams(string s, string p) {
+					if (s.empty()) return {};
+					vector<int> res, m(256, 0);
+					int left = 0, right = 0, cnt = p.size(), n = s.size();
+					for (char c : p) ++m[c];
+					while (right < n) {
+							if (m[s[right++]]-- >= 1) --cnt;
+							if (cnt == 0) res.push_back(left);
+							if (right - left == p.size() && m[s[left++]]++ >= 0) ++cnt;
+					}
+					return res;
+			}
+	};
