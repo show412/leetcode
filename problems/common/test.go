@@ -39,51 +39,34 @@ func findAnagrams(s string, p string) []int {
 	if len(s) == 0 || len(p) == 0 {
 		return res
 	}
-	pl := len(p) - 1
-	mp := make(map[byte]int, 0)
-	for k := 0; k < len(p); k++ {
-		if _, ok := mp[p[k]]; !ok {
-			mp[p[k]] = 1
-		} else {
-			mp[p[k]]++
-		}
+	m := make(map[byte]int, 0)
+	left := 0
+	right := 0
+	cnt := len(p)
+	n := len(s)
+	for i := 0; i < len(p); i++ {
+		m[p[i]]++
 	}
-	for i := 0; i < len(s)-pl; i++ {
-		sub := s[i:(i + pl + 1)]
-		flag := true
-		// fmt.Println(sub)
-		ms := make(map[byte]int, 0)
-
-		for j := 0; j < len(sub); j++ {
-			if _, ok := ms[sub[j]]; !ok {
-				ms[sub[j]] = 1
-			} else {
-				ms[sub[j]]++
+	for right < n {
+		if v, ok := m[s[right]]; ok {
+			if v >= 1 {
+				cnt--
 			}
-			if ms[sub[j]] > mp[sub[j]] {
-				flag = false
-				break
-			}
+			m[s[right]]--
+		}
+		right++
+		if cnt == 0 {
+			res = append(res, left)
 		}
 
-		if flag == true {
-			for k, v := range ms {
-				if mp[byte(k)] != v {
-					flag = false
-					break
+		if (right - left + 1) == len(p) {
+			if v, ok := m[s[left]]; ok {
+				if v >= 0 {
+					cnt++
 				}
+				m[s[left]]++
 			}
-		}
-
-		if flag == true {
-			for k, v := range mp {
-				if ms[byte(k)] != v {
-					flag = false
-				}
-			}
-		}
-		if flag == true {
-			res = append(res, i)
+			left++
 		}
 	}
 	return res

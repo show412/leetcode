@@ -83,7 +83,46 @@ func findAnagrams(s string, p string) []int {
 	return res
 }
 
-// for big data casef, it's LTE
+// best solution split window for TC and SC
+// https://www.cnblogs.com/grandyang/p/6014408.html
+func findAnagrams(s string, p string) []int {
+	res := make([]int, 0)
+	if len(s) == 0 || len(p) == 0 {
+		return res
+	}
+	m := make(map[byte]int, 0)
+	left := 0
+	right := 0
+	cnt := len(p)
+	n := len(s)
+	for i := 0; i < len(p); i++ {
+		m[p[i]]++
+	}
+	for right < n {
+		if v, ok := m[s[right]]; ok {
+			if v >= 1 {
+				cnt--
+			}
+			m[s[right]]--
+		}
+		right++
+		if cnt == 0 {
+			res = append(res, left)
+		}
+		if right >= len(p) {
+			if v, ok := m[s[left]]; ok {
+				if v >= 0 {
+					cnt++
+				}
+				m[s[left]]++
+			}
+			left++
+		}
+	}
+	return res
+}
+
+// for big data case, it's LTE
 func findAnagrams(s string, p string) []int {
 	res := make([]int, 0)
 	if len(s) == 0 || len(p) == 0 {
@@ -138,21 +177,3 @@ func findAnagrams(s string, p string) []int {
 	}
 	return res
 }
-
-// best solution split window
-// https://www.cnblogs.com/grandyang/p/6014408.html
-class Solution {
-	public:
-			vector<int> findAnagrams(string s, string p) {
-					if (s.empty()) return {};
-					vector<int> res, m(256, 0);
-					int left = 0, right = 0, cnt = p.size(), n = s.size();
-					for (char c : p) ++m[c];
-					while (right < n) {
-							if (m[s[right++]]-- >= 1) --cnt;
-							if (cnt == 0) res.push_back(left);
-							if (right - left == p.size() && m[s[left++]]++ >= 0) ++cnt;
-					}
-					return res;
-			}
-	};
