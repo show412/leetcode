@@ -30,42 +30,37 @@ Expected
 
 */
 func main() {
-	res := intersect([]int{4, 9, 5}, []int{9, 4, 9, 8, 4})
+	res := permute([]int{1, 2, 3})
 	fmt.Println(res)
 }
 
-func intersect(nums1 []int, nums2 []int) []int {
-	res := make([]int, 0)
-	m1 := make(map[int]int, 0)
-	m2 := make(map[int]int, 0)
-	for _, v := range nums1 {
-		if _, ok := m1[v]; !ok {
-			m1[v] = 1
-		} else {
-			m1[v]++
-		}
-	}
-	for _, v := range nums2 {
-		if _, ok := m2[v]; !ok {
-			m2[v] = 1
-		} else {
-			m2[v]++
-		}
-	}
-	for k, _ := range m1 {
-		if m2[k] >= 1 {
-			i := 0
-			for i < min(m1[k], m2[k]) {
-				res = append(res, k)
-				i++
-			}
-		}
-	}
+func permute(nums []int) [][]int {
+	res := [][]int{}
+	visit := make(map[int]bool)
+	entry := []int{}
+	dfs(nums, visit, &entry, &res)
 	return res
 }
-func min(a, b int) int {
-	if a < b {
-		return a
+
+func dfs(nums []int, visit map[int]bool, entry *[]int, res *[][]int) {
+	if len(*entry) == len(nums) {
+		cpy := make([]int, len(*entry))
+		copy(cpy, *entry)
+		*res = append(*res, cpy)
+		return
 	}
-	return b
+
+	for i := 0; i < len(nums); i++ {
+
+		if visit[nums[i]] == true {
+			continue
+		} else {
+			visit[nums[i]] = true
+			*entry = append(*entry, nums[i])
+			dfs(nums, visit, entry, res)
+			visit[nums[i]] = false
+			*entry = (*entry)[:len(*entry)-1]
+		}
+	}
+	return
 }
