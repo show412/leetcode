@@ -109,6 +109,11 @@ func findAnagrams(s string, p string) []int {
 		if cnt == 0 {
 			res = append(res, left)
 		}
+		/*
+			there could use this kind of code, when right minus left is len(p),
+			means that the slide window should move forwards
+			if (right - left) == len(p) {
+		*/
 		if right >= len(p) {
 			if v, ok := m[s[left]]; ok {
 				if v >= 0 {

@@ -30,44 +30,42 @@ Expected
 
 */
 func main() {
-	res := findAnagrams("cbaebabacd", "abc")
+	res := intersect([]int{4, 9, 5}, []int{9, 4, 9, 8, 4})
 	fmt.Println(res)
 }
 
-func findAnagrams(s string, p string) []int {
+func intersect(nums1 []int, nums2 []int) []int {
 	res := make([]int, 0)
-	if len(s) == 0 || len(p) == 0 {
-		return res
-	}
-	m := make(map[byte]int, 0)
-	left := 0
-	right := 0
-	cnt := len(p)
-	n := len(s)
-	for i := 0; i < len(p); i++ {
-		m[p[i]]++
-	}
-	for right < n {
-		if v, ok := m[s[right]]; ok {
-			if v >= 1 {
-				cnt--
-			}
-			m[s[right]]--
+	m1 := make(map[int]int, 0)
+	m2 := make(map[int]int, 0)
+	for _, v := range nums1 {
+		if _, ok := m1[v]; !ok {
+			m1[v] = 1
+		} else {
+			m1[v]++
 		}
-		right++
-		if cnt == 0 {
-			res = append(res, left)
+	}
+	for _, v := range nums2 {
+		if _, ok := m2[v]; !ok {
+			m2[v] = 1
+		} else {
+			m2[v]++
 		}
-
-		if (right - left + 1) == len(p) {
-			if v, ok := m[s[left]]; ok {
-				if v >= 0 {
-					cnt++
-				}
-				m[s[left]]++
+	}
+	for k, _ := range m1 {
+		if m2[k] >= 1 {
+			i := 0
+			for i < min(m1[k], m2[k]) {
+				res = append(res, k)
+				i++
 			}
-			left++
 		}
 	}
 	return res
+}
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
