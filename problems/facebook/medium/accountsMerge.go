@@ -39,6 +39,7 @@ The length of accounts will be in the range [1, 1000].
 The length of accounts[i] will be in the range [1, 10].
 The length of accounts[i][j] will be in the range [1, 30].
 */
+// find union solution
 type DSU struct {
 	parent []int
 }
