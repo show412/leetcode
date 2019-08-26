@@ -1,8 +1,3 @@
-import (
-	"regexp"
-	"strings"
-)
-
 // https://leetcode.com/problems/add-and-search-word-data-structure-design/
 /*
 
@@ -82,57 +77,3 @@ func (this *WordDictionary) Search(word string) bool {
 	// 有可能word 只是一部分 而不是完整的词 比如字典里存的是 abcd  word 是 abc 上面的流程也能走通 但是应该返回 false
 	return this.isWord
 }
-
-// we use the regex, it maybe trigger the LTE for the complex case
-// there is a tire solution for this more fase
-// https://leetcode.com/problems/add-and-search-word-data-structure-design/discuss/341154/go%3A-simple-solution
-type WordDictionary struct {
-	dict map[string]bool
-}
-
-/** Initialize your data structure here. */
-func Constructor() WordDictionary {
-	return WordDictionary{dict: make(map[string]bool, 0)}
-}
-
-/** Adds a word into the data structure. */
-func (this *WordDictionary) AddWord(word string) {
-	this.dict[word] = true
-}
-
-/** Returns if the word is in the data structure. A word could contain the dot character '.' to represent any one letter. */
-func (this *WordDictionary) Search(word string) bool {
-	strArray := make([]string, 0)
-	flag := false
-	for i := 0; i < len(word); i++ {
-		if word[i] == '.' {
-
-			strArray = append(strArray, "(.)")
-
-			flag = true
-		} else {
-			strArray = append(strArray, string(word[i]))
-		}
-	}
-	str := strings.Join(strArray, "")
-	// fmt.Println(str)
-	if flag == false {
-		return this.dict[str]
-	} else {
-		str = "^" + str + "$"
-	}
-	for k, _ := range this.dict {
-		match, _ := regexp.MatchString(str, k)
-		if match == true {
-			return true
-		}
-	}
-	return false
-}
-
-/**
- * Your WordDictionary object will be instantiated and called as such:
- * obj := Constructor();
- * obj.AddWord(word);
- * param_2 := obj.Search(word);
- */
