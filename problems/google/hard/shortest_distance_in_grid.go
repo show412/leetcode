@@ -1,4 +1,5 @@
 import "math"
+
 // https://leetcode.com/problems/shortest-distance-from-all-buildings/
 // Share
 // You want to build a house on an empty land which reaches all buildings in the shortest amount of distance. You can only move up, down, left and right. You are given a 2D grid of values 0, 1 or 2, where:
@@ -89,75 +90,6 @@ func getDistance(size int, house []int, distance []int) {
   int nextRow = curr[0] + shift[k];
   int nextCol = curr[1] + shift[k + 1];
 */
-public class Solution {
-    public int shortestDistance(int[][] grid) {
-        if (grid == null || grid[0].length == 0) return 0;
-				// 上下左右利用这个数组 然后遍历这样的code去实现
-				// int nextRow = curr[0] + shift[k];
-        // int nextCol = curr[1] + shift[k + 1];
-				final int[] shift = new int[] {0, 1, 0, -1, 0};
-
-        int row  = grid.length, col = grid[0].length;
-        int[][] distance = new int[row][col];
-        int[][] reach = new int[row][col];
-        int buildingNum = 0;
-
-        for (int i = 0; i < row; i++) {
-            for (int j =0; j < col; j++) {
-                if (grid[i][j] == 1) {
-                    buildingNum++;
-                    Queue<int[]> myQueue = new LinkedList<int[]>();
-                    myQueue.offer(new int[] {i,j});
-
-                    boolean[][] isVisited = new boolean[row][col];
-                    int level = 1;
-
-                    while (!myQueue.isEmpty()) {
-                        int qSize = myQueue.size();
-                        for (int q = 0; q < qSize; q++) {
-                            int[] curr = myQueue.poll();
-
-                            for (int k = 0; k < 4; k++) {
-                                int nextRow = curr[0] + shift[k];
-                                int nextCol = curr[1] + shift[k + 1];
-
-                                if (nextRow >= 0 && nextRow < row && nextCol >= 0 && nextCol < col
-                                    && grid[nextRow][nextCol] == 0 && !isVisited[nextRow][nextCol]) {
-                                        //The shortest distance from [nextRow][nextCol] to this building
-                                        // is 'level'.
-                                        distance[nextRow][nextCol] += level;
-                                        reach[nextRow][nextCol]++;
-
-                                        isVisited[nextRow][nextCol] = true;
-                                        myQueue.offer(new int[] {nextRow, nextCol});
-                                    }
-                            }
-                        }
-                        level++;
-                    }
-                }
-            }
-        }
-				/*
-					distance[i][j] 不一定和reach[i][j]就是相等的
-					distance是记距离的 reach是记有多少个1可以到这
-					因为level是每次queue之后都会加1
-				*/
-        int shortest = Integer.MAX_VALUE;
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (grid[i][j] == 0 && reach[i][j] == buildingNum) {
-                    shortest = Math.min(shortest, distance[i][j]);
-                }
-            }
-        }
-
-        return shortest == Integer.MAX_VALUE ? -1 : shortest;
-
-
-    }
-}
-
 // this is typical BFS for a matrix
 func shortestDistance(grid [][]int) int {
 	if grid == nil || len(grid[0]) == 0 {
