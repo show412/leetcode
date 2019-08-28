@@ -44,6 +44,7 @@ matches with index = 0 whose value is 23. Thus, its possbile
 Time complexity : O(n)O(n). Only one traversal of the array numsnums is done.
 Space complexity : O(min(n,k))O(min(n,k)). The HashMap can contain upto min(n,k)min(n,k) different pairings.
 */
+// common question
 func checkSubarraySum(nums []int, k int) bool {
 	modMap := make(map[int]int, 0)
 	sumArray := make([]int, len(nums))
