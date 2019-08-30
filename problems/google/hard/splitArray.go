@@ -46,6 +46,7 @@ func splitArray(nums []int, m int) int {
 	f[0][0] = 0
 	for i := 1; i <= len(nums); i++ {
 		for j := 1; j <= m; j++ {
+			// once the state of a certain stage is determined, it is not affected by the state in the future.
 			for k := 0; k < i; k++ {
 				/*
 					this is the key of this problem
@@ -77,7 +78,10 @@ Intuition
 
 The problem satisfies the non-aftereffect property. We can try to use dynamic programming to solve it.
 
-The non-aftereffect property means, once the state of a certain stage is determined, it is not affected by the state in the future. In this problem, if we get the largest subarray sum for splitting nums[0..i] into j parts, this value will not be affected by how we split the remaining part of nums.
+The non-aftereffect property means, once the state of a certain stage is determined,
+it is not affected by the state in the future.
+In this problem, if we get the largest subarray sum for splitting nums[0..i] into j parts,
+this value will not be affected by how we split the remaining part of nums.
 
 To know more about non-aftereffect property, this link may be helpful : http://www.programering.com/a/MDOzUzMwATM.html
 
@@ -85,7 +89,9 @@ Algorithm
 
 Let's define f[i][j] to be the minimum largest subarray sum for splitting nums[0..i] into j parts.
 
-Consider the jth subarray. We can split the array from a smaller index k to i to form it. Thus f[i][j] can be derived from max(f[k][j - 1], nums[k + 1] + ... + nums[i]). For all valid index k, f[i][j] should choose the minimum value of the above formula.
+Consider the jth subarray. We can split the array from a smaller index k to i to form it.
+Thus f[i][j] can be derived from max(f[k][j - 1], nums[k + 1] + ... + nums[i]).
+For all valid index k, f[i][j] should choose the minimum value of the above formula.
 
 The final answer should be f[n][m], where n is the size of the array.
 
