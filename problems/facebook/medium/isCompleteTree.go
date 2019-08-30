@@ -1,3 +1,5 @@
+import "fmt"
+
 // https://leetcode.com/problems/check-completeness-of-a-binary-tree/
 /*
 Given a binary tree, determine if it is a complete binary tree.
@@ -41,17 +43,18 @@ The tree will have between 1 and 100 nodes.
  * }
  */
 func isCompleteTree(root *TreeNode) bool {
-	if root == nil {
-		return true
+	q := []*TreeNode{root}
+	for len(q) != 0 && q[0] != nil {
+		node := q[0]
+		q = append(q, node.Left, node.Right)
+		q = q[1:]
 	}
-	lflag := false
-	rflag := false
-	if root.Left != nil {
-		lflag = isCompleteTree(root.Left)
-	}
-	if root.Right != nil {
-		rflag = isCompleteTree(root.Right)
+	fmt.Println(q)
+	for i := 0; i < len(q); i++ {
+		if q[i] != nil {
+			return false
+		}
 	}
 
-	return isCompleteTree()
+	return true
 }
