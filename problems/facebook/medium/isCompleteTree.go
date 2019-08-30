@@ -1,5 +1,3 @@
-import "fmt"
-
 // https://leetcode.com/problems/check-completeness-of-a-binary-tree/
 /*
 Given a binary tree, determine if it is a complete binary tree.
@@ -49,7 +47,6 @@ func isCompleteTree(root *TreeNode) bool {
 		q = append(q, node.Left, node.Right)
 		q = q[1:]
 	}
-	fmt.Println(q)
 	for i := 0; i < len(q); i++ {
 		if q[i] != nil {
 			return false
