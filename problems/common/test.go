@@ -29,40 +29,27 @@ true
 true
 */
 func main() {
-	res := checkSubarraySum([]int{23, 2, 4, 6, 7}, 6)
+	res := isOneEditDistance("1203", "1213")
 	fmt.Println(res)
 }
 
-func checkSubarraySum(nums []int, k int) bool {
-	modMap := make(map[int]int, 0)
-	sumArray := make([]int, len(nums))
-	sumArray[0] = nums[0]
-
-	if k != 0 {
-		modMap[nums[0]%k] = 0
-	} else {
-		modMap[nums[0]] = 0
+func isOneEditDistance(s string, t string) bool {
+	ls := len(s)
+	lt := len(t)
+	if ls > lt {
+		return isOneEditDistance(t, s)
 	}
-	for i := 1; i < len(nums); i++ {
-		sumArray[i] = nums[i] + sumArray[i-1]
-		if sumArray[i] == k || (k != 0 && sumArray[i]%k == 0) {
-			return true
-		}
-		mod := sumArray[i]
-		if k != 0 {
-			mod = sumArray[i] % k
-		}
-		if v, ok := modMap[mod]; ok {
-			if i-v > 1 {
-				return true
+	if lt-ls > 1 {
+		return false
+	}
+	for i := 0; i < ls; i++ {
+		if s[i] != t[i] {
+			if ls == lt {
+				return s[(i+1):] == t[(i+1):]
 			} else {
-				continue
+				return s[i:] == t[(i+1):]
 			}
 		}
-		modMap[mod] = i
-
 	}
-	// fmt.Println(sumArray)
-	// fmt.Println(modMap)
-	return false
+	return ls+1 == lt
 }
