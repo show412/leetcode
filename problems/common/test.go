@@ -29,27 +29,27 @@ true
 true
 */
 func main() {
-	res := isOneEditDistance("1203", "1213")
+	res := isMonotonic([]int{1, 1, 1})
 	fmt.Println(res)
 }
 
-func isOneEditDistance(s string, t string) bool {
-	ls := len(s)
-	lt := len(t)
-	if ls > lt {
-		return isOneEditDistance(t, s)
-	}
-	if lt-ls > 1 {
-		return false
-	}
-	for i := 0; i < ls; i++ {
-		if s[i] != t[i] {
-			if ls == lt {
-				return s[(i+1):] == t[(i+1):]
-			} else {
-				return s[i:] == t[(i+1):]
-			}
+func isMonotonic(A []int) bool {
+	asc := true
+	dec := true
+	for i := 1; i < len(A); i++ {
+		if A[i] < A[i-1] {
+			asc = false
+			break
 		}
 	}
-	return ls+1 == lt
+	for i := 1; i < len(A); i++ {
+		if A[i] > A[i-1] {
+			dec = false
+			break
+		}
+	}
+	if asc == false && dec == false {
+		return false
+	}
+	return true
 }
