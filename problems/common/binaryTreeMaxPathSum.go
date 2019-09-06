@@ -41,6 +41,7 @@ Output: 42
 // singlePath means the max path to be through root
 // maxPath means the max path unnessary to be through root,but at least one node here
 // this struct is KEY
+// 思路就是 最大路径要不就通过 root 要不就在左子树或者右子树
 type ResultType struct {
 	singlePath int
 	maxPath    int
@@ -58,7 +59,7 @@ func helper(root *TreeNode) ResultType {
 	// Conquer
 	singlePath := max(0, max(left.singlePath, right.singlePath)) + root.Val
 	maxPath := max(left.maxPath, right.maxPath)
-	// maxPath is in the maxPath not through root or through the root
+	// maxPath is in the maxPath of left or the maxPath of right or through the root
 	maxPath = max(maxPath, max(left.singlePath, 0)+max(right.singlePath, 0)+root.Val)
 	return ResultType{singlePath: singlePath, maxPath: maxPath}
 }
