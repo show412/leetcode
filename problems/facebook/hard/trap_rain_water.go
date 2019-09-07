@@ -21,6 +21,7 @@ https://leetcode.com/problems/trapping-rain-water/solution/
 TC: O(n)
 SC: O(n)
 */
+// back home comment
 func trap(height []int) int {
 	res := 0
 	index := 0
