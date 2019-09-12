@@ -79,7 +79,8 @@ func (this *MedianFinder) AddNum(num int) {
 	}
 	if this.maxHeap.Len() > this.minHeap.Len()+1 {
 		// pop出最小堆中的最小值
-		// 这调的pop不是上面自定义的pop 而是先把第0和n-1个交换再拿出n-1个
+		// 这调的pop不是上面自定义的pop 而是先把第0和n-1个交换 再拿出n-1个
+		// 实际是把n-1个元素脱离开这个堆
 		// refer to https://studygolang.com/articles/13173#43-heappop
 		heap.Push(this.minHeap, -heap.Pop(this.maxHeap).(int))
 	} else if this.minHeap.Len() > this.maxHeap.Len()+1 {

@@ -1,37 +1,23 @@
-package main
+import "container/heap"
 
-import (
-	"container/heap"
-	"fmt"
-)
-
+// https://leetcode.com/problems/top-k-frequent-elements/
 /*
-test case:
-[0,0]
--1
-true
+Given a non-empty array of integers, return the k most frequent elements.
 
-[0,1,0]
-0
-false
+Example 1:
 
-[23, 2, 6, 4, 7],  k=0
-false
+Input: nums = [1,1,1,2,2,3], k = 2
+Output: [1,2]
+Example 2:
 
-[5,0,0]
-0
-true
+Input: nums = [1], k = 1
+Output: [1]
+Note:
 
-{23, 2, 6, 4, 7}, 6
-true
-
-[23, 2, 4, 6, 7], 6
-true
+You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
+Your algorithm's time complexity must be better than O(n log n),
+where n is the array's size.
 */
-func main() {
-	res := topKFrequent([]int{1}, 1)
-	fmt.Println(res)
-}
 
 type item struct {
 	value int
@@ -45,6 +31,7 @@ func (h ItemHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }
 
 // heap 堆也要实现push和pop的方法 用指针
 func (h *ItemHeap) Push(x interface{}) {
+	// 断言 断言只是在接口和类型之间的转换 这里参数是interface
 	*h = append(*h, x.(item))
 }
 
@@ -61,6 +48,7 @@ func topKFrequent(nums []int, k int) []int {
 	heapItem := &ItemHeap{}
 	hashItem := make(map[int]int, 0)
 	res := make([]int, 0)
+	// init heap
 	heap.Init(heapItem)
 	for i := 0; i < len(nums); i++ {
 		num := nums[i]
@@ -78,6 +66,7 @@ func topKFrequent(nums []int, k int) []int {
 
 	count := 0
 	for count < k {
+		// 断言 断言只是在接口和类型之间的转换 这里返回的是interface
 		res = append(res, heap.Pop(heapItem).(item).value)
 		if len(*heapItem) == 0 {
 			break

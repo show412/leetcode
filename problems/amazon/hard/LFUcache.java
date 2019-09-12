@@ -28,7 +28,13 @@ cache.put(4, 4);    // evicts key 1.
 cache.get(1);       // returns -1 (not found)
 cache.get(3);       // returns 3
 cache.get(4);       // returns 4
-
+和LRU的区别是 LRU是最近最少使用淘汰，LFU是在使用次数最少的前提下淘汰最早的那个页面
+LRU可以用双向链表实现 LFU也是用双向链表实现 但是多了一个hash记录访问次数对应的node
+存储的是所有访问次数为i的最后一个节点。接下来就简单了，只要某个节点被访问，
+就令它的次数num加1，从原来的位置摘除，并插入到次数为num的地方。
+如果这里已经有次数为num 的节点，则插入到mcount【num】这地址的后面，
+如果不存在，就插入到原来的mcount【num-1】的后面，成为第一个次数为num的节点
+https://blog.csdn.net/qq_41445952/article/details/81878065
 */
 class LFUCache {
 
@@ -119,3 +125,62 @@ class LFUCache {
         hashMap.remove(lastNode.key);
     }
 }
+
+// 用三个hash来存储 一个是key value的hash  一个是key count的， 一个是count对应的一个link
+class LFUCache {
+    private HashMap<Integer,Integer> vals;
+    private HashMap<Integer,Integer> counter;
+    private HashMap<Integer,LinkedHashSet<Integer>> list;
+    private int min = -1;
+    private int capacity;
+    public LFUCache(int capacity) {
+        this.capacity = capacity;
+        vals = new HashMap<>();
+        counter=new HashMap<>();
+        list = new HashMap<>();
+        list.put(1,new LinkedHashSet<>());
+    }
+
+    public int get(int key) {
+        if(!vals.containsKey(key)){
+            return -1;
+        }
+        int count = counter.get(key);
+        counter.put(key,count+1);
+        list.get(count).remove(key);
+        if(count == min && list.get(count).size()==0)
+            min++;
+        if(!list.containsKey(count+1))
+            list.put(count+1,new LinkedHashSet<>());
+        list.get(count+1).add(key);
+        return vals.get(key);
+    }
+
+    public void put(int key, int value) {
+        if(capacity<=0)
+            return;
+        if(vals.containsKey(key)){
+            vals.put(key,value);
+            get(key);
+            return;
+        }else {
+            if(vals.size()>=capacity){
+                int evict = list.get(min).iterator().next();
+                list.get(min).remove(evict);
+                vals.remove(evict);
+                counter.remove(evict);
+            }
+            min =1;
+            vals.put(key,value);
+            counter.put(key,1);
+            list.get(1).add(key);
+        }
+    }
+}
+
+/**
+ * Your LFUCache object will be instantiated and called as such:
+ * LFUCache obj = new LFUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
