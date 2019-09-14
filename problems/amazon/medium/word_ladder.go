@@ -68,6 +68,7 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 		// hot -> hog -> cog -> dog
 		// 所以第一次bfs 可以变成 tot pot dot
 		// 第二次bfs应该从这些里面都试一次看看有没有能达到endWord的 这也是BFS的算法实质
+		// 因为是遍历所有可能性 所有BFS保证了结果是最短路径
 		size := len(queue)
 		for k := 0; k < size; k++ {
 			word := queue[0]

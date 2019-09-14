@@ -36,48 +36,75 @@ Explanation: The endWord "cog" is not in wordList, therefore no possible transfo
 
 */
 func findLadders(beginWord string, endWord string, wordList []string) [][]string {
-	dict := make(map[string]struct{})
-	current, trace := make(map[string]struct{}), make(map[string][]string)
-	for _, s := range wordList {
-		dict[s] = struct{}{}
-		trace[s] = make([]string, 0)
+
+	result := make([][]string, 0)
+
+	wordMap := make(map[string]bool)
+
+	for _, w := range wordList {
+		wordMap[w] = true
 	}
-	dict[beginWord] = struct{}{}
-	trace[beginWord] = make([]string, 0)
-	current[beginWord] = struct{}{}
-	_, ok := current[endWord]
-	for len(current) != 0 && !ok {
-		for word, _ := range current {
-			delete(dict, word)
-		}
-		next := make(map[string]struct{})
-		for word, _ := range current {
-			for i := range word {
-				for _, c := range "abcdefghijklmnopqrstuvwxyz" {
-					candidate := word[:i] + string(c) + word[i+1:]
-					if _, ok := dict[candidate]; ok {
-						trace[candidate] = append(trace[candidate], word)
-						next[candidate] = struct{}{}
-					}
+
+	if !wordMap[endWord] {
+		return result
+	}
+
+	// create a queue, track the path
+	queue := make([][]string, 0)
+	queue = append(queue, []string{beginWord})
+
+	// queueLen is used to track how many slices in queue are in the same level
+	// if found a result, I still need to finish checking current level cause I need to return all possible paths
+	queueLen := 1
+	// use to track strings that this level has visited
+	// when queueLen == 0, remove levelMap keys in wordMap
+	// levelMap is to prevent the cycle to travers
+	levelMap := make(map[string]bool)
+
+	for len(queue) > 0 {
+		path := queue[0]
+		queue = queue[1:]
+
+		lastWord := path[len(path)-1]
+
+		for i := 0; i < len(lastWord); i++ {
+			for c := 'a'; c <= 'z'; c++ {
+				nextWord := lastWord[:i] + string(c) + lastWord[i+1:]
+
+				if nextWord == endWord {
+					path = append(path, endWord)
+					result = append(result, path)
+					continue
+				}
+				if wordMap[nextWord] {
+					// different from word ladder, don't remove the word from wordMap immediately
+					// same level could reuse the key.
+					// delete from wordMap only when currently level is done.
+					levelMap[nextWord] = true
+					newPath := make([]string, len(path))
+					copy(newPath, path)
+					newPath = append(newPath, nextWord)
+					queue = append(queue, newPath)
+
 				}
 			}
 		}
-		current = next
-		_, ok = current[endWord]
-	}
-	var results [][]string
-	if len(current) != 0 {
-		backtrace(&results, trace, []string{}, endWord)
-	}
-	return results
-}
 
-func backtrace(results *[][]string, trace map[string][]string, path []string, word string) {
-	if len(trace[word]) == 0 {
-		*results = append(*results, append([]string{word}, path...))
-	} else {
-		for _, prev := range trace[word] {
-			backtrace(results, trace, append([]string{word}, path...), prev)
+		queueLen--
+		// if queueLen is 0, means finish traversing current level. if result is not empty, return result
+		if queueLen == 0 {
+			if len(result) > 0 {
+				return result
+			}
+			for k, _ := range levelMap {
+				delete(wordMap, k)
+			}
+			// clear levelMap
+			levelMap = make(map[string]bool)
+			queueLen = len(queue)
 		}
+
 	}
+
+	return result
 }
