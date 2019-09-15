@@ -141,12 +141,14 @@ class Solution {
                 List<String> children = getNextLevel(word, dict);
                 for (String child : children) {
                     if (child.equals(endWord)) foundEnd = true;
+                    // 防止环 减少时间复杂度
                     if (!visited.contains(child)) {
                         if (!graph.containsKey(word)) {
                             graph.put(word, new ArrayList<String>());
                         }
                         graph.get(word).add(child);
                     }
+                    // 防止重复寻找
                     if (!visited.contains(child) && !toVisit.contains(child)) {
                         queue.offer(child);
                         toVisit.add(child);
