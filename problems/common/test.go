@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 /*
@@ -33,76 +34,93 @@ func main() {
 }
 
 func findLadders(beginWord string, endWord string, wordList []string) [][]string {
-
+	path := make([]string, 0)
 	result := make([][]string, 0)
-
-	wordMap := make(map[string]bool)
-
-	for _, w := range wordList {
-		wordMap[w] = true
+	graph := make(map[string][]string, 0)
+	dict := make(map[string]bool, 0)
+	for _, v := range wordList {
+		dict[v] = true
 	}
+	buildGraph(beginWord, endWord, graph, dict)
+	dfs(beginWord, endWord, graph, &path, &result)
+	return result
+}
 
-	if !wordMap[endWord] {
-		return result
-	}
-
-	// create a queue, track the path
-	queue := make([][]string, 0)
-	queue = append(queue, []string{beginWord})
-
-	// queueLen is used to track how many slices in queue are in the same level
-	// if found a result, I still need to finish checking current level cause I need to return all possible paths
-	queueLen := 1
-	// use to track strings that this level has visited
-	// when queueLen == 0, remove levelMap keys in wordMap
-	// levelMap is to prevent the cycle to travers
-	levelMap := make(map[string]bool)
-
-	for len(queue) > 0 {
-		path := queue[0]
-		queue = queue[1:]
-
-		lastWord := path[len(path)-1]
-
-		for i := 0; i < len(lastWord); i++ {
-			for c := 'a'; c <= 'z'; c++ {
-				nextWord := lastWord[:i] + string(c) + lastWord[i+1:]
-
-				if nextWord == endWord {
-					path = append(path, endWord)
-					result = append(result, path)
-					continue
+func buildGraph(beginWord string, endWord string, graph map[string][]string, dict map[string]bool) {
+	visited := make(map[string]bool, 0)
+	toVisit := make(map[string]bool, 0)
+	queue := make([]string, 0)
+	queue = append(queue, beginWord)
+	toVisit[beginWord] = true
+	foundEnd := false
+	for len(queue) != 0 {
+		for k, v := range toVisit {
+			visited[k] = v
+		}
+		// visited = toVisit
+		toVisit = map[string]bool{}
+		count := len(queue)
+		for i := 0; i < count; i++ {
+			word := queue[0]
+			queue = queue[1:]
+			children := getNextLevel(word, dict)
+			for _, child := range children {
+				if child == endWord {
+					foundEnd = true
 				}
-				if wordMap[nextWord] {
-					// different from word ladder, don't remove the word from wordMap immediately
-					// same level could reuse the key.
-					// delete from wordMap only when currently level is done.
-
-					levelMap[nextWord] = true
-					newPath := make([]string, len(path))
-					copy(newPath, path)
-					newPath = append(newPath, nextWord)
-					queue = append(queue, newPath)
-
+				if _, ok := visited[child]; !ok {
+					if _, ok1 := graph[word]; !ok1 {
+						graph[word] = make([]string, 0)
+					}
+					graph[word] = append(graph[word], child)
+				}
+				// 防止重复寻找
+				_, ok2 := visited[child]
+				_, ok3 := toVisit[child]
+				if !ok2 && !ok3 {
+					queue = append(queue, child)
+					toVisit[child] = true
 				}
 			}
 		}
-
-		queueLen--
-		// if queueLen is 0, means finish traversing current level. if result is not empty, return result
-		if queueLen == 0 {
-			if len(result) > 0 {
-				return result
-			}
-			for k, _ := range levelMap {
-				delete(wordMap, k)
-			}
-			// clear levelMap
-			levelMap = make(map[string]bool)
-			queueLen = len(queue)
+		if foundEnd == true {
+			break
 		}
-
 	}
+	return
+}
 
+func dfs(curWord string, endWord string, graph map[string][]string, path *[]string, result *[][]string) {
+	*path = append(*path, curWord)
+	if curWord == endWord {
+		tmp := make([]string, len(*path))
+		copy(tmp, *path)
+		*result = append(*result, tmp)
+	} else if _, ok := graph[curWord]; ok {
+		for _, nextWord := range graph[curWord] {
+			dfs(nextWord, endWord, graph, path, result)
+		}
+	}
+	*path = (*path)[:len(*path)-1]
+	return
+}
+
+func getNextLevel(word string, dict map[string]bool) []string {
+	result := make([]string, 0)
+	wordArray := strings.Split(word, "")
+	for i := 0; i < len(wordArray); i++ {
+		tmp := make([]string, len(wordArray))
+		copy(tmp, wordArray)
+		for j := 'a'; j <= 'z'; j++ {
+			tmp[i] = string(j)
+			transWord := strings.Join(tmp, "")
+			if transWord == word {
+				continue
+			}
+			if _, ok := dict[transWord]; ok {
+				result = append(result, transWord)
+			}
+		}
+	}
 	return result
 }
