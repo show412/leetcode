@@ -27,11 +27,8 @@ Note:
 All inputs are consist of lowercase letters a-z.
 The values of words are distinct.
 */
-
-func findWords(board [][]byte, words []string) []string {
-
-}
-
+// tire solution
+// TC is O(n^3)? SC is O(n)
 type trienode struct {
 	val  rune
 	word string
@@ -39,16 +36,19 @@ type trienode struct {
 }
 
 func findWords(board [][]byte, words []string) []string {
+	// this should be a point, common for struct
 	root := &trienode{next: map[rune]*trienode{}}
 	for _, w := range words {
 		p := root
 		for i, b := range w {
 			if _, ok := p.next[b]; !ok {
+				// notice the defination for next loop
 				p.next[b] = &trienode{val: b, next: map[rune]*trienode{}}
 			}
 			if i == len(w)-1 {
 				p.next[b].word = w
 			}
+			// notice the defination for next loop
 			p = p.next[b]
 		}
 	}
@@ -64,6 +64,7 @@ func findWords(board [][]byte, words []string) []string {
 }
 
 func dfs(brd [][]byte, res *[]string, node *trienode, i, j int, visited map[string]bool) {
+	// use i and j as the combination key to prevent use letter more than once
 	k := fmt.Sprintf("%v_%v", i, j)
 
 	if i < 0 || j < 0 || i >= len(brd) || j >= len(brd[0]) || visited[k] {
