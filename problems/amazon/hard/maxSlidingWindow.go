@@ -27,6 +27,7 @@ Could you solve it in linear time?
 1， 直接遍历  Time complexity : O(nk) Space complexity : O(n−k+1)
 2， 堆排序  Time complexity: O(nlogk) Space complexity: O(n)
 3, 动态规划  Time complexity: O(n) Space complexity: O(n)
+refer to https://leetcode.com/articles/sliding-window-maximum/
 */
 func maxSlidingWindow(nums []int, k int) []int {
 	n := len(nums)
