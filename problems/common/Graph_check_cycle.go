@@ -111,9 +111,7 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
 // 这是BFS遍历图的方法
 /* 广度指的是从一个节点开始 发散性地遍历 周围节点。
 从某个节点出发，访问它的所有邻接节点，
-再从这些节点出发，访问它们未被访问过得邻接节点…直到所有节点访问完毕。
-写法 https://segmentfault.com/a/1190000015358961?utm_source=tag-newest
-*/
+再从这些节点出发，访问它们未被访问过得邻接节点…直到所有节点访问完毕。*/
 /*
 func checkCycle(g Graph) bool {
 
