@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
-	"unicode"
 )
 
 /*
@@ -17,44 +15,34 @@ banned = ["hit"]
 Output: "ball"
 */
 func main() {
-	res := mostCommonWord("a, a, a, a, b,b,b,c, c", []string{"a"})
+	res := longestArithSeqLength([]int{83, 20, 17, 43, 52, 78, 68, 45})
 	// res := canFinish(4, [][]int{[]int{0, 1}})
 	fmt.Println(res)
 }
 
-func mostCommonWord(paragraph string, banned []string) string {
-	bannedMap := make(map[string]bool, 0)
-	for _, v := range banned {
-		bannedMap[v] = true
-	}
-	pureText := make([]byte, 0)
-	for i := 0; i < len(paragraph); i++ {
-		letter := paragraph[i]
-		if unicode.IsLetter(rune(letter)) || unicode.IsSpace(rune(letter)) {
-			pureText = append(pureText, letter)
-		} else {
-			pureText = append(pureText, ' ')
-		}
-	}
-	wordArray := strings.Split(strings.ToLower(string(pureText)), " ")
-	fmt.Println(wordArray)
-	wordMap := make(map[string]int, 0)
-	maxWord := ""
-	maxNum := 0
-	for i := 0; i < len(wordArray); i++ {
-		word := strings.TrimSpace(wordArray[i])
+// type m map[int]int
 
-		if bannedMap[word] == true || len(word) == 0 {
-			continue
-		}
-		if _, ok := wordMap[word]; !ok {
-			wordMap[word] = 0
-		}
-		wordMap[word] += 1
-		if wordMap[word] > maxNum {
-			maxWord = word
-			maxNum = wordMap[word]
+func longestArithSeqLength(A []int) int {
+	if len(A) == 2 {
+		return 2
+	}
+	max := 2
+	// 在第几个数差值有多少个 这个数据结构是这道题的关键
+	dp := make([]map[int]int, len(A))
+	for i := 0; i < len(A); i++ {
+		x := A[i]
+		dp[i] = make(map[int]int, 0)
+		for j := 0; j < i; j++ {
+			y := A[j]
+			d := x - y
+			if _, ok := dp[j][d]; !ok {
+				dp[j][d] = 1
+			}
+			dp[i][d] = dp[j][d] + 1
+			if dp[i][d] > max {
+				max = dp[i][d]
+			}
 		}
 	}
-	return maxWord
+	return max
 }
