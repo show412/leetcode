@@ -2,47 +2,76 @@ package main
 
 import (
 	"fmt"
+	"sort"
 )
 
 /*
 test case:
-"a, a, a, a, b,b,b,c, c"
-["a"]
-"b"
+101, 56, 69, 48, 30
+4
 
-paragraph = "Bob hit a ball, the hit BALL flew far after it was hit."
-banned = ["hit"]
-Output: "ball"
+[8,85,24,85,69]
+4
+
+[73,106,39,6,26,15,30,100,71,35,46,112,6,60,110]
+29
+
+[98,60,24,89,84,51,61,96,108,87,68,29,14,11,13,50,13,104,57,8,57,111,92,87,9,59,65,116,56,39,55,11,21,105,57,36,48,93,20,94,35,68,64,41,37,11,50,47,8,9]
+439
 */
 func main() {
-	res := longestArithSeqLength([]int{83, 20, 17, 43, 52, 78, 68, 45})
+	res := numFriendRequests([]int{98, 60, 24, 89, 84, 51, 61, 96, 108, 87, 68, 29, 14, 11, 13, 50, 13, 104, 57, 8, 57, 111, 92, 87, 9, 59, 65, 116, 56, 39, 55, 11, 21, 105, 57, 36, 48, 93, 20, 94, 35, 68, 64, 41, 37, 11, 50, 47, 8, 9})
 	// res := canFinish(4, [][]int{[]int{0, 1}})
 	fmt.Println(res)
 }
 
 // type m map[int]int
 
-func longestArithSeqLength(A []int) int {
-	if len(A) == 2 {
-		return 2
+func numFriendRequests(ages []int) int {
+	if len(ages) == 1 {
+		return 0
 	}
-	max := 2
-	// 在第几个数差值有多少个 这个数据结构是这道题的关键
-	dp := make([]map[int]int, len(A))
-	for i := 0; i < len(A); i++ {
-		x := A[i]
-		dp[i] = make(map[int]int, 0)
-		for j := 0; j < i; j++ {
-			y := A[j]
-			d := x - y
-			if _, ok := dp[j][d]; !ok {
-				dp[j][d] = 1
+	res := 0
+	sort.Ints(ages)
+	fmt.Println(ages)
+	for i := len(ages) - 1; i > 0; i-- {
+		age := ages[i]
+		if age >= 100 {
+			// age[B] <= 0.5 * age[A] + 7
+			j := sort.Search(len(ages[0:i]), func(j int) bool { return ages[j] > (age/2 + 7) })
+			fmt.Println("**>100**")
+			fmt.Println(i)
+			fmt.Println(j)
+			// if j < i {
+			a := i - j
+			res += a
+			// }
+
+		} else {
+			j := sort.Search(len(ages[0:i]), func(j int) bool { return ages[j] > (age/2+7) && ages[j] <= 100 })
+			fmt.Println("**<100**")
+			fmt.Println(i)
+			fmt.Println(j)
+			// if j < i {
+			a := i - j
+			res += a
+			// }
+		}
+
+	}
+
+	m := make(map[int]int, 0)
+	for i := 0; i < len(ages); i++ {
+		age := ages[i]
+		if _, ok := m[age]; !ok {
+			m[age] = 1
+		} else {
+			fmt.Println("add")
+			if age > 14 {
+				res += m[age]
 			}
-			dp[i][d] = dp[j][d] + 1
-			if dp[i][d] > max {
-				max = dp[i][d]
-			}
+			m[age] += 1
 		}
 	}
-	return max
+	return res
 }
