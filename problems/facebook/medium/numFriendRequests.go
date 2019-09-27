@@ -38,6 +38,15 @@ Notes:
 1 <= ages.length <= 20000.
 1 <= ages[i] <= 120.
 */
+/*
+三个条件:
+1, 通过 hash key 是 age value 是公式值
+2, 排序 大的只能向小的发 request
+3, 二分 分成 >100 <=100 两组
+*/
 func numFriendRequests(ages []int) int {
+	if len(ages) == 1 {
+		return 0
+	}
 
 }
