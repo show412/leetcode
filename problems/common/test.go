@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"sort"
 )
 
 /*
@@ -20,58 +19,29 @@ test case:
 439
 */
 func main() {
-	res := numFriendRequests([]int{98, 60, 24, 89, 84, 51, 61, 96, 108, 87, 68, 29, 14, 11, 13, 50, 13, 104, 57, 8, 57, 111, 92, 87, 9, 59, 65, 116, 56, 39, 55, 11, 21, 105, 57, 36, 48, 93, 20, 94, 35, 68, 64, 41, 37, 11, 50, 47, 8, 9})
-	// res := canFinish(4, [][]int{[]int{0, 1}})
+	res := canPartition([]int{1, 5, 11, 5})
 	fmt.Println(res)
 }
 
-// type m map[int]int
-
-func numFriendRequests(ages []int) int {
-	if len(ages) == 1 {
-		return 0
+func canPartition(nums []int) bool {
+	sum := 0
+	for i := 0; i < len(nums); i++ {
+		sum += nums[i]
 	}
-	res := 0
-	sort.Ints(ages)
-	fmt.Println(ages)
-	for i := len(ages) - 1; i > 0; i-- {
-		age := ages[i]
-		if age >= 100 {
-			// age[B] <= 0.5 * age[A] + 7
-			j := sort.Search(len(ages[0:i]), func(j int) bool { return ages[j] > (age/2 + 7) })
-			fmt.Println("**>100**")
-			fmt.Println(i)
-			fmt.Println(j)
-			// if j < i {
-			a := i - j
-			res += a
-			// }
-
-		} else {
-			j := sort.Search(len(ages[0:i]), func(j int) bool { return ages[j] > (age/2+7) && ages[j] <= 100 })
-			fmt.Println("**<100**")
-			fmt.Println(i)
-			fmt.Println(j)
-			// if j < i {
-			a := i - j
-			res += a
-			// }
-		}
-
+	// sum is odd, return false
+	if sum%2 == 1 {
+		return false
 	}
-
-	m := make(map[int]int, 0)
-	for i := 0; i < len(ages); i++ {
-		age := ages[i]
-		if _, ok := m[age]; !ok {
-			m[age] = 1
-		} else {
-			fmt.Println("add")
-			if age > 14 {
-				res += m[age]
-			}
-			m[age] += 1
+	sum = sum / 2
+	// dp[i] define that if or not there is nums could combine into i
+	dp := make([]bool, sum+1)
+	dp[0] = true
+	// state function
+	for _, num := range nums {
+		fmt.Println(dp)
+		for i := sum; i >= num; i-- {
+			dp[i] = dp[i] || dp[i-num]
 		}
 	}
-	return res
+	return dp[sum]
 }
