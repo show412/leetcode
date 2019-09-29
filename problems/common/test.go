@@ -19,36 +19,25 @@ test case:
 439
 */
 func main() {
-	res := multiply("999", "999")
+	res := minAddToMakeValid("()))((")
 	// 998001
 	fmt.Println(res)
 }
 
-func multiply(num1 string, num2 string) string {
-	if num1 == "0" || num2 == "0" {
-		return "0"
-	}
-	num1Array := []byte(num1)
-	num2Array := []byte(num2)
-	l1 := len(num1Array)
-	l2 := len(num2Array)
-	l := l1 + l2
-	res := make([]int, l)
-	str := ""
-	for i := l1 - 1; i >= 0; i-- {
-		for j := l2 - 1; j >= 0; j-- {
-			mul := (num1[i] - '0') * (num2[j] - '0')
-			p1 := i + j
-			p2 := i + j + 1
-			sum := int(mul) + res[p2]
-			res[p1] += sum / 10
-			res[p2] = sum % 10
+func minAddToMakeValid(S string) int {
+	stack := make([]byte, 0)
+	for i := len(S) - 1; i >= 0; i-- {
+		s := S[i]
+		if len(stack) == 0 {
+			stack = append(stack, s)
+		} else {
+			b := stack[len(stack)-1]
+			if s == '(' && b == ')' {
+				stack = stack[:len(stack)-1]
+			} else {
+				stack = append(stack, s)
+			}
 		}
 	}
-	for _, v := range res {
-		if str != "" || v != 0 {
-			str += string(byte(v + '0'))
-		}
-	}
-	return str
+	return len(stack)
 }
