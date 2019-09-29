@@ -19,29 +19,36 @@ test case:
 439
 */
 func main() {
-	res := canPartition([]int{1, 5, 11, 5})
+	res := multiply("999", "999")
+	// 998001
 	fmt.Println(res)
 }
 
-func canPartition(nums []int) bool {
-	sum := 0
-	for i := 0; i < len(nums); i++ {
-		sum += nums[i]
+func multiply(num1 string, num2 string) string {
+	if num1 == "0" || num2 == "0" {
+		return "0"
 	}
-	// sum is odd, return false
-	if sum%2 == 1 {
-		return false
-	}
-	sum = sum / 2
-	// dp[i] define that if or not there is nums could combine into i
-	dp := make([]bool, sum+1)
-	dp[0] = true
-	// state function
-	for _, num := range nums {
-		fmt.Println(dp)
-		for i := sum; i >= num; i-- {
-			dp[i] = dp[i] || dp[i-num]
+	num1Array := []byte(num1)
+	num2Array := []byte(num2)
+	l1 := len(num1Array)
+	l2 := len(num2Array)
+	l := l1 + l2
+	res := make([]int, l)
+	str := ""
+	for i := l1 - 1; i >= 0; i-- {
+		for j := l2 - 1; j >= 0; j-- {
+			mul := (num1[i] - '0') * (num2[j] - '0')
+			p1 := i + j
+			p2 := i + j + 1
+			sum := int(mul) + res[p2]
+			res[p1] += sum / 10
+			res[p2] = sum % 10
 		}
 	}
-	return dp[sum]
+	for _, v := range res {
+		if str != "" || v != 0 {
+			str += string(byte(v + '0'))
+		}
+	}
+	return str
 }
