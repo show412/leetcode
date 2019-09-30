@@ -1,6 +1,10 @@
+import "math"
+
 // https://leetcode.com/problems/bulb-switcher-ii/solution/
 /*
-There is a room with n lights which are turned on initially and 4 buttons on the wall. After performing exactly m unknown operations towards buttons, you need to return how many different kinds of status of the n lights could be.
+There is a room with n lights which are turned on initially and 4 buttons on the wall.
+After performing exactly m unknown operations towards buttons,
+you need to return how many different kinds of status of the n lights could be.
 
 Suppose n lights are labeled as number [1, 2, 3 ..., n], function of these 4 buttons are given below:
 
@@ -33,7 +37,67 @@ Explanation: Status can be: [off, on, off], [on, off, on], [off, off, off], [off
 
 Note: n and m both fit in range [0, 1000].
 */
-// refer to https://www.cnblogs.com/grandyang/p/5100098.html
-func flipLights(n int, m int) int {
+/*
+The first 6 lights uniquely determine the rest of the lights.
+This is because every operation that modifies the x-th light also modifies the (x+6)-th light.
+Intuition and Algorithm
 
+As before, the first 6 lights uniquely determine the rest of the lights. This is because every operation that modifies the xx-th light also modifies the (x+6)(x+6)-th light, so the xx-th light is always equal to the (x+6)(x+6)-th light.
+
+Actually, the first 3 lights uniquely determine the rest of the sequence, as shown by the table below for performing the operations a, b, c, d:
+
+Light 1 = 1 + a + c + d
+Light 2 = 1 + a + b
+Light 3 = 1 + a + c
+Light 4 = 1 + a + b + d
+Light 5 = 1 + a + c
+Light 6 = 1 + a + b
+So that (modulo 2):
+
+Light 4 = (Light 1) + (Light 2) + (Light 3)
+Light 5 = Light 3
+Light 6 = Light 2
+The above justifies taking n = min(n, 3)n=min(n,3) without loss of generality. The rest is now casework.
+
+Let's denote the state of lights by the tuple (a, b, c)(a,b,c). The transitions are to XOR by (1, 1, 1), (0, 1, 0), (1, 0, 1),(1,1,1),(0,1,0),(1,0,1), or (1, 0, 0)(1,0,0).
+
+When m = 0m=0, all the lights are on, and there is only one state (1, 1, 1)(1,1,1). The answer in this case is always 1.
+
+When m = 1, we could get states (0, 0, 0)(0,0,0), (1, 0, 1)(1,0,1), (0, 1, 0)(0,1,0), or (0, 1, 1)(0,1,1).
+The answer in this case is either 2, 3, 4 for n = 1, 2, 3 respectively.
+
+When m = 2m=2, we can manually check that we can get 7 states: all of them except for (0, 1, 1)(0,1,1). The answer in this case is either 2, 4, 72,4,7 for n = 1, 2, 3n=1,2,3 respectively.
+
+When m = 3m=3, we can get all 8 states. The answer in this case is either 2, 4, 82,4,8 for n = 1, 2, 3n=1,2,3 respectively.
+*/
+func flipLights(n int, m int) int {
+	n = int(math.Min(float64(n), 3.0))
+	if m == 0 {
+		return 1
+	}
+	if m == 1 {
+		if n == 1 {
+			return 2
+		}
+		if n == 2 {
+			return 3
+		}
+		return 4
+	}
+	if m == 2 {
+		if n == 1 {
+			return 2
+		}
+		if n == 2 {
+			return 4
+		}
+		return 7
+	}
+	if n == 1 {
+		return 2
+	}
+	if n == 2 {
+		return 4
+	}
+	return 8
 }
