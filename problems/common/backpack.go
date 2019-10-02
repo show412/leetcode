@@ -2,7 +2,7 @@
 // 假设背包的大小为m，每个物品的大小为A[i]
 // https://www.jiuzhang.com/solutions/backpack/
 func backPack(m int, A []int) int {
-	// f[i][j] means first i items could fill pack whose size is j
+	// f[i][j] means i items could fill pack whose size is j
 	// It's the way to define a two-dimension array
 	f := make([][]bool, len(A)+1)
 	for i := 0; i < len(A)+1; i++ {
@@ -22,6 +22,7 @@ func backPack(m int, A []int) int {
 	}
 
 	for i := m; i >= 0; i-- {
+		// 上面的循环 总会使一个j值使f[m][j]为true 所以这里返回的是f[len(A)][i]
 		if f[len(A)][i] {
 			return i
 		}
