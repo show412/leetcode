@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
 /*
@@ -13,36 +14,21 @@ test case:
 6
 */
 func main() {
-	res := longestOnes([]int{1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0}, 2)
+	res := toGoatLatin("The quick brown fox jumped over the lazy dog")
 	// 998001
 	fmt.Println(res)
 }
 
-func longestOnes(A []int, K int) int {
-	if K == len(A) {
-		return len(A)
-	}
-	s, e := 0, 0
-	res := 0
-	n := 0
-	for s <= e && e < len(A) {
-		if A[e] == 0 {
-			n++
+func toGoatLatin(S string) string {
+	arr := strings.Split(S, " ")
+	vowel := map[byte]bool{'a': true, 'e': true, 'i': true, 'o': true, 'u': true, 'A': true, 'E': true, 'I': true, 'O': true, 'U': true}
+	for i := 0; i < len(arr); i++ {
+		if _, ok := vowel[arr[i][0]]; ok {
+			arr[i] += "ma"
+		} else {
+			arr[i] = arr[i][1:] + string(arr[i][0]) + "ma"
 		}
-		for n > K {
-			if A[s] == 0 {
-				n--
-			}
-			s++
-		}
-		e++
-		res = max(res, e-s)
+		arr[i] += strings.Repeat("a", i+1)
 	}
-	return res
-}
-func max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
+	return strings.Join(arr, " ")
 }
