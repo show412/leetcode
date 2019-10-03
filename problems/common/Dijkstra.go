@@ -54,12 +54,21 @@ func networkDelayTime(times [][]int, N int, K int) int {
 				canNode = i
 			}
 		}
+		// 没找到有对应的最小的点的时候 break循环
 		if canNode < 0 {
 			break
 		}
 		seen[canNode] = true
 		if _, ok := graph[canNode]; ok {
 			for _, info := range graph[canNode] {
+				/*
+							  canNode ---- N1
+						  /
+						/
+					N3
+					N1 -> N3 = dist[info[0]]
+					N1 -> canNode -> N3 = dist[canNode]+info[1]
+				*/
 				dist[info[0]] = min(dist[info[0]], dist[canNode]+info[1])
 			}
 		}
