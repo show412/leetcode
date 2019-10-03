@@ -1,24 +1,30 @@
-package main
+import "unicode"
 
-import (
-	"fmt"
-	"unicode"
-)
-
+// https://leetcode.com/problems/basic-calculator-ii/
 /*
-test case:
-[]int{0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1}, 3
-10
+Implement a basic calculator to evaluate a simple expression string.
 
-[]int{1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0}, 2
-6
+The expression string contains only non-negative integers,
++, -, *, / operators and empty spaces .
+The integer division should truncate toward zero.
+
+Example 1:
+
+Input: "3+2*2"
+Output: 7
+Example 2:
+
+Input: " 3/2 "
+Output: 1
+Example 3:
+
+Input: " 3+5 / 2 "
+Output: 5
+Note:
+
+You may assume that the given expression is always valid.
+Do not use the eval built-in library function.
 */
-func main() {
-	res := calculate("3+5 / 2")
-	// 998001
-	fmt.Println(res)
-}
-
 func calculate(s string) int {
 	l1, o1, l2, o2 := 0, 1, 1, 1
 	if s[0] == '-' {
