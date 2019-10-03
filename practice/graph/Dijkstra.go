@@ -65,9 +65,8 @@ func networkDelayTime(times [][]int, N int, K int) int {
 		}
 	}
 	// start to find the shortest distance
-	// notice it's to find the max time to some one node
+	// notice it's to find the max time to some one node.package medium
 	// it means that it will finish all the singal transfer
-	// 因为它是说全遍历完 到最后一个节点 所以是拿最大
 	res := 0
 	for _, cand := range dist {
 		// it means there is node impossible to arrive

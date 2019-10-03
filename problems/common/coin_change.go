@@ -25,6 +25,7 @@ You may assume that you have an infinite number of each kind of coin.
 // refer to explain to https://www.cnblogs.com/grandyang/p/5138186.html
 func coinChange(coins []int, amount int) int {
 	// f[i] means the minize coins number for i amount
+	// it's the key for this problem
 	f := make([]int, amount+1)
 	for i := 0; i < amount+1; i++ {
 		f[i] = amount + 1
