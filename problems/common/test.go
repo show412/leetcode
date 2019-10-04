@@ -13,47 +13,44 @@ test case:
 6
 */
 func main() {
-	res := mincostTickets([]int{1, 4, 6, 7, 8, 20}, []int{2, 7, 15})
+	// [][]int{[]int{0, 1}, []int{0, 4}, []int{1, 4}, []int{2, 3}}
+	// []int{0, 1}, []int{1, 2}, []int{2, 3}, []int{1, 3}, []int{1, 4}
+	// [][]int{[]int{0, 1}, []int{0, 2}, []int{0, 3}, []int{1, 4}}
+	res := validTree(5, [][]int{[]int{0, 1}, []int{0, 4}, []int{1, 4}, []int{2, 3}})
 	// 998001
 	fmt.Println(res)
 }
 
-func mincostTickets(days []int, costs []int) int {
-	if len(days) == 1 {
-		return costs[0]
+func validTree(n int, edges [][]int) bool {
+	fa := make([]int, n)
+	for i := 0; i < len(fa); i++ {
+		fa[i] = i
 	}
-	memo := make([]int, 51)
-	dayset := make(map[int]bool, 0)
-	for _, v := range days {
-		dayset[v] = true
+	for _, edge := range edges {
+		unity(edge[0], edge[1], fa)
 	}
-	return dp(1, &memo, dayset, costs)
+	fmt.Println(fa)
+	last := fa[0]
+	for _, v := range fa {
+		if v != last {
+			return false
+		}
+	}
+	return len(edges) == n-1
 }
 
-func dp(i int, memo *[]int, dayset map[int]bool, costs []int) int {
-	if i > 50 {
-		return 0
-	}
-	if (*memo)[i] != 0 {
-		return (*memo)[i]
-	}
-	var ans int
-	if _, ok := dayset[i]; ok {
-		ans = min(dp(i+1, memo, dayset, costs)+costs[0], dp(i+7, memo, dayset, costs)+costs[1])
-		ans = min(ans, dp(i+30, memo, dayset, costs)+costs[2])
+func unity(x int, y int, fa []int) {
+	x = find(x, fa)
+	y = find(y, fa)
+	fa[y] = x
+	return
+}
+
+func find(x int, fa []int) int {
+	if fa[x] == x {
+		return x
 	} else {
-		ans = dp(i+1, memo, dayset, costs)
+		fa[x] = find(fa[x], fa)
 	}
-	(*memo)[i] = ans
-	fmt.Println("****")
-	fmt.Println(i)
-	fmt.Println(*memo)
-	return ans
-}
-
-func min(a, b int) int {
-	if a < b {
-		return a
-	}
-	return b
+	return fa[x]
 }
