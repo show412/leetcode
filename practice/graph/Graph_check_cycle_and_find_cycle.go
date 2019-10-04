@@ -92,6 +92,7 @@ func dfs(g Graph, i int, visited map[int]bool, visiting map[int]bool) bool {
 			neighbour := g.edges[i][j]
 			if visited[neighbour] != true && dfs(g, neighbour, visited, visiting) {
 				return true
+				// 注意这里是visiting
 			} else if visiting[neighbour] == true {
 				return true
 			}
@@ -108,28 +109,78 @@ func canFinish(numCourses int, prerequisites [][]int) bool {
 	return res
 }
 
-// 这是BFS遍历图的方法
-/* 广度指的是从一个节点开始 发散性地遍历 周围节点。
-从某个节点出发，访问它的所有邻接节点，
-再从这些节点出发，访问它们未被访问过得邻接节点…直到所有节点访问完毕。*/
+//https://leetcode.com/problems/course-schedule-ii/
 /*
-func checkCycle(g Graph) bool {
+	这个题实际是用拓扑排序, 下面的方法是找出环 和这个题和没关系
+*/
+type Graph struct {
+	nodes []int
+	edges map[int][]int
+}
 
+func generateGraph(num int, edges [][]int) Graph {
+	g := Graph{nodes: make([]int, 0), edges: make(map[int][]int, 0)}
+	for i := 0; i < num; i++ {
+		g.nodes = append(g.nodes, i)
+	}
+	for i := 0; i < len(edges); i++ {
+		s := edges[i][0]
+		e := edges[i][1]
+		g.edges[s] = append(g.edges[s], e)
+	}
+	return g
+}
+
+func findOrder(numCourses int, prerequisites [][]int) []int {
+	g := generateGraph(numCourses, prerequisites)
+	res := make([]int, 0)
+	if findPrerequisites(g, numCourses, &res) == false {
+		return []int{}
+	} else {
+		// 这是按顺序找出一个环
+		for i, j := 0, len(res)-1; i < j; i, j = i+1, j-1 {
+			res[i], res[j] = res[j], res[i]
+		}
+		return res
+	}
+}
+
+func findPrerequisites(g Graph, num int, res *[]int) bool {
 	visited := make(map[int]bool, 0)
-	q := make([]int, 0)
-	q = append(q, g.nodes[0])
-	visited[g.nodes[0]] = true
-	for len(q) != 0 {
-		node := q[0]
-		q = q[1:]
-		visited[node] = true
-		for _, neighbour := range g.edges[node] {
-			if visited[neighbour] == true {
-				return false
-			}
-			q = append(q, neighbour)
+	visiting := make(map[int]bool, 0)
+	list := make([]int, 0)
+	for i := 0; i < num; i++ {
+		if len(g.edges[i]) <= 0 {
+			continue
+		}
+		if dfs(g, i, visited, visiting, &list, res) == true {
+			return false
 		}
 	}
 	return true
 }
-*/
+
+func dfs(g Graph, node int, visited map[int]bool, visiting map[int]bool, list *[]int, res *[]int) bool {
+	if visited[node] != true {
+		visited[node] = true
+		visiting[node] = true
+		*list = append(*list, node)
+		for j := 0; j < len(g.edges[node]); j++ {
+			neighbour := g.edges[node][j]
+			if visited[neighbour] != true && dfs(g, neighbour, visited, visiting, list, res) {
+				return true
+			} else if visiting[neighbour] == true {
+				return true
+			}
+		}
+	}
+	visiting[node] = false
+	if len(*list) == len(g.nodes) {
+		cpy := make([]int, len(g.nodes))
+		copy(cpy, *list)
+		*res = cpy
+		return false
+	}
+
+	return false
+}
