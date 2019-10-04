@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"unicode"
 )
 
 /*
@@ -14,45 +13,47 @@ test case:
 6
 */
 func main() {
-	res := calculate("3+5 / 2")
+	res := mincostTickets([]int{1, 4, 6, 7, 8, 20}, []int{2, 7, 15})
 	// 998001
 	fmt.Println(res)
 }
 
-func calculate(s string) int {
-	l1, o1, l2, o2 := 0, 1, 1, 1
-	if s[0] == '-' {
-		s = "0" + s
+func mincostTickets(days []int, costs []int) int {
+	if len(days) == 1 {
+		return costs[0]
 	}
-	for i := 0; i < len(s); i++ {
-		c := rune(s[i])
-		if unicode.IsDigit(c) {
-			num := int(c - '0')
-			for (i+1) < len(s) && unicode.IsDigit(rune(s[i+1])) {
-				num = num*10 + int(s[i+1]-'0')
-				i++
-			}
-			if o2 == 1 {
-				l2 = l2 * num
-			} else {
-				l2 = l2 / num
-			}
-		} else if c == '*' || c == '/' {
-			if c == '*' {
-				o2 = 1
-			} else {
-				o2 = -1
-			}
-		} else if c == '+' || c == '-' {
-			l1 = l1 + o1*l2
-			if c == '+' {
-				o1 = 1
-			} else {
-				o1 = -1
-			}
-			o2 = 1
-			l2 = 1
-		}
+	memo := make([]int, 51)
+	dayset := make(map[int]bool, 0)
+	for _, v := range days {
+		dayset[v] = true
 	}
-	return l1 + o1*l2
+	return dp(1, &memo, dayset, costs)
+}
+
+func dp(i int, memo *[]int, dayset map[int]bool, costs []int) int {
+	if i > 50 {
+		return 0
+	}
+	if (*memo)[i] != 0 {
+		return (*memo)[i]
+	}
+	var ans int
+	if _, ok := dayset[i]; ok {
+		ans = min(dp(i+1, memo, dayset, costs)+costs[0], dp(i+7, memo, dayset, costs)+costs[1])
+		ans = min(ans, dp(i+30, memo, dayset, costs)+costs[2])
+	} else {
+		ans = dp(i+1, memo, dayset, costs)
+	}
+	(*memo)[i] = ans
+	fmt.Println("****")
+	fmt.Println(i)
+	fmt.Println(*memo)
+	return ans
+}
+
+func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
 }
