@@ -59,6 +59,7 @@ func topKFrequent(words []string, k int) []string {
 	heapItem := &ItemHeap{}
 	hashItem := make(map[string]int, 0)
 	res := make([]string, 0)
+	// 不一定非要init
 	heap.Init(heapItem)
 	for i := 0; i < len(words); i++ {
 		word := words[i]
