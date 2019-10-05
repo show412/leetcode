@@ -13,44 +13,40 @@ test case:
 6
 */
 func main() {
-	// [][]int{[]int{0, 1}, []int{0, 4}, []int{1, 4}, []int{2, 3}}
-	// []int{0, 1}, []int{1, 2}, []int{2, 3}, []int{1, 3}, []int{1, 4}
-	// [][]int{[]int{0, 1}, []int{0, 2}, []int{0, 3}, []int{1, 4}}
-	res := validTree(5, [][]int{[]int{0, 1}, []int{0, 4}, []int{1, 4}, []int{2, 3}})
+	res := maxProduct([]int{2, 3, -2, 4})
 	// 998001
 	fmt.Println(res)
 }
 
-func validTree(n int, edges [][]int) bool {
-	fa := make([]int, n)
-	for i := 0; i < len(fa); i++ {
-		fa[i] = i
+func maxProduct(nums []int) int {
+	if len(nums) == 1 {
+		return nums[0]
 	}
-	for _, edge := range edges {
-		unity(edge[0], edge[1], fa)
-	}
-	fmt.Println(fa)
-	last := fa[0]
-	for _, v := range fa {
-		if v != last {
-			return false
+	res, imax, imin := nums[0], nums[0], nums[0]
+	for i := 1; i < len(nums); i++ {
+		num := nums[i]
+		if num < 0 {
+			// when num is smaller than 0, max multiply it will be more smaller
+			// so swap max and min
+			imax, imin = imin, imax
 		}
+		imax = max(num, num*imax)
+		imin = min(num, num*imin)
+		res = max(res, imax)
 	}
-	return len(edges) == n-1
+	return res
 }
 
-func unity(x int, y int, fa []int) {
-	x = find(x, fa)
-	y = find(y, fa)
-	fa[y] = x
-	return
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
 
-func find(x int, fa []int) int {
-	if fa[x] == x {
-		return x
-	} else {
-		fa[x] = find(fa[x], fa)
+func min(a, b int) int {
+	if a < b {
+		return a
 	}
-	return fa[x]
+	return b
 }
