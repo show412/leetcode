@@ -6,61 +6,60 @@ import (
 
 /*
 test case:
-[]int{0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1}, 3
-10
+"adc"
+"dcda"
+true
 
-[]int{1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0}, 2
-6
+"hello"
+"ooolleoooleh"
+false
+
+"abc"
+"bbbca"
+true
+
+"abcdxabcde"
+"abcdeabcdx"
+true
+
+https://leetcode.com/submissions/detail/267059201/testcase/
+false
+
+https://leetcode.com/submissions/detail/267059572/testcase/
+true
 */
+
 func main() {
-	res := sortedSquares([]int{-1, 2, 2})
+	res := checkInclusion("ab", "eidboaoo")
 	// 998001
 	fmt.Println(res)
 }
+func checkInclusion(s1 string, s2 string) bool {
+	if len(s1) > len(s2) {
+		return false
+	}
+	arr1 := make([]int, 26)
+	arr2 := make([]int, 26)
+	// init the arr1 and arr2 at the same time to reduce the time
+	for i := 0; i < len(s1); i++ {
+		arr1[s1[i]-'a']++
+		arr2[s2[i]-'a']++
+	}
+	for i := 0; i < len(s2)-len(s1); i++ {
+		if match(arr1, arr2) {
+			return true
+		}
+		arr2[s2[i+len(s1)]-'a']++
+		arr2[s2[i]-'a']--
+	}
+	return match(arr1, arr2)
+}
 
-func sortedSquares(A []int) []int {
-	res := make([]int, 0)
-	if A[len(A)-1] <= 0 {
-		for i := len(A) - 1; i >= 0; i-- {
-			res = append(res, A[i]*A[i])
-		}
-		return res
-	}
-	if A[0] >= 0 {
-		for i := 0; i < len(A); i++ {
-			res = append(res, A[i]*A[i])
-		}
-		return res
-	}
-	p1 := 0
-	p2 := 0
-	for i := 0; i < len(A); i++ {
-		if A[i] >= 0 && A[i-1] <= 0 {
-			p1 = i - 1
-			p2 = i
-			break
-		}
-	}
-	for p1 >= 0 && p2 <= len(A)-1 {
-		if A[p1]*A[p1] < A[p2]*A[p2] {
-			res = append(res, A[p1]*A[p1])
-			p1--
-		} else {
-			res = append(res, A[p2]*A[p2])
-			p2++
+func match(arr1 []int, arr2 []int) bool {
+	for i := 0; i < 26; i++ {
+		if arr1[i] != arr2[i] {
+			return false
 		}
 	}
-	for p1 >= 0 {
-
-		res = append(res, A[p1]*A[p1])
-		p1--
-
-	}
-	for p2 <= len(A)-1 {
-
-		res = append(res, A[p2]*A[p2])
-		p2++
-
-	}
-	return res
+	return true
 }

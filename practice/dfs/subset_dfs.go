@@ -1,26 +1,5 @@
 // https://leetcode.com/problems/subsets/
 func subsets(nums []int) [][]int {
-	res := make([][]int, 0, len(nums))
-	entry := make([]int, 0, len(nums))
-
-	backtrack(0, nums, &entry, &res)
-	return res
-}
-
-func backtrack(start int, nums []int, entry *[]int, res *[][]int) {
-	cpy := make([]int, len(*entry))
-	copy(cpy, *entry)
-	*res = append(*res, cpy)
-
-	for i := start; i < len(nums); i++ {
-			*entry = append(*entry, nums[i])
-			backtrack(i+1, nums, entry, res)
-			*entry = (*entry)[:len(*entry)-1]
-	}
-}
-
-
-func subsets(nums []int) [][]int {
 	results := make([][]int, len(nums))
 	if nums == nil {
 		return results
@@ -45,3 +24,22 @@ func dfs(subsets *[]int, nums []int, start int, *results [][]int) {
 	}
 }
 
+func subsets(nums []int) [][]int {
+	res := make([][]int, 0, len(nums))
+	entry := make([]int, 0, len(nums))
+
+	backtrack(0, nums, &entry, &res)
+	return res
+}
+
+func backtrack(start int, nums []int, entry *[]int, res *[][]int) {
+	cpy := make([]int, len(*entry))
+	copy(cpy, *entry)
+	*res = append(*res, cpy)
+
+	for i := start; i < len(nums); i++ {
+			*entry = append(*entry, nums[i])
+			backtrack(i+1, nums, entry, res)
+			*entry = (*entry)[:len(*entry)-1]
+	}
+}
