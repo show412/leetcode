@@ -17,6 +17,7 @@ Example:
 Input: [1,8,6,2,5,4,8,3,7]
 Output: 49
 */
+// 可以用双指针也可以用单调递增栈
 func maxArea(height []int) int {
 
 }
