@@ -53,38 +53,9 @@ Expected
 
 https://leetcode.com/submissions/detail/253837170/testcase/
 */
-// 小写字母注意可以用数组来记录, 只要不一样肯定有一个会小于0
-func findAnagrams(s string, p string) []int {
-	res := make([]int, 0)
-	if len(s) == 0 || len(p) == 0 {
-		return res
-	}
-	pl := len(p) - 1
-	cnt := make([]int, 128)
-	for k := 0; k < len(p); k++ {
-		cnt[p[k]]++
-	}
-	for i := 0; i < len(s)-pl; i++ {
-		sub := s[i:(i + pl + 1)]
-		flag := true
-		tmp := make([]int, 128)
-		copy(tmp, cnt)
-		for j := 0; j < len(sub); j++ {
-			tmp[sub[j]]--
-			if tmp[sub[j]] < 0 {
-				flag = false
-				break
-			}
-		}
-
-		if flag == true {
-			res = append(res, i)
-		}
-	}
-	return res
-}
 
 // typical slide window for string
+// 类似一种伸缩窗口
 func findAnagrams(s string, p string) []int {
 	if len(s) < len(p) {
 		return []int{}
@@ -115,7 +86,7 @@ func findAnagrams(s string, p string) []int {
 }
 
 // best solution split window for TC and SC
-// https://www.cnblogs.com/grandyang/p/6014408.html
+// 不是很好理解 但是其实和上面的是一个意思 https://www.cnblogs.com/grandyang/p/6014408.html
 func findAnagrams(s string, p string) []int {
 	res := make([]int, 0)
 	if len(s) == 0 || len(p) == 0 {
@@ -153,62 +124,6 @@ func findAnagrams(s string, p string) []int {
 				m[s[left]]++
 			}
 			left++
-		}
-	}
-	return res
-}
-
-// for big data case, it's LTE
-func findAnagrams(s string, p string) []int {
-	res := make([]int, 0)
-	if len(s) == 0 || len(p) == 0 {
-		return res
-	}
-	pl := len(p) - 1
-	mp := make(map[byte]int, 0)
-	for k := 0; k < len(p); k++ {
-		if _, ok := mp[p[k]]; !ok {
-			mp[p[k]] = 1
-		} else {
-			mp[p[k]]++
-		}
-	}
-	for i := 0; i < len(s)-pl; i++ {
-		sub := s[i:(i + pl + 1)]
-		flag := true
-		// fmt.Println(sub)
-		ms := make(map[byte]int, 0)
-
-		for j := 0; j < len(sub); j++ {
-			if _, ok := ms[sub[j]]; !ok {
-				ms[sub[j]] = 1
-			} else {
-				ms[sub[j]]++
-			}
-			if ms[sub[j]] > mp[sub[j]] {
-				flag = false
-				break
-			}
-		}
-
-		if flag == true {
-			for k, v := range ms {
-				if mp[byte(k)] != v {
-					flag = false
-					break
-				}
-			}
-		}
-
-		if flag == true {
-			for k, v := range mp {
-				if ms[byte(k)] != v {
-					flag = false
-				}
-			}
-		}
-		if flag == true {
-			res = append(res, i)
 		}
 	}
 	return res

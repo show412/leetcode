@@ -30,41 +30,35 @@ true
 */
 
 func main() {
-	res := subarraySum([]int{0, 0, 0}, 0)
+	res := findAnagrams("cbaebabacd", "abc")
 	// 998001
 	fmt.Println(res)
 }
 
-// func subarraySum(nums []int, k int) int {
-// 	res := 0
-// 	// key is sum, value is count
-// 	sumMap := make(map[int]bool, 0)
-// 	sumMap[0] = true
-// 	sum := 0
-// 	for i := 0; i < len(nums); i++ {
-// 		num := nums[i]
-// 		sum += num
-// 		if _, ok := sumMap[sum-k]; ok {
-// 			res++
-// 		}
-// 		sumMap[sum] = true
-// 	}
-// 	return res
-// }
-
-func subarraySum(nums []int, k int) int {
-	res := 0
-	// key is sum, value is count
-	sumMap := make(map[int]int, 0)
-	sumMap[0] = 1
-	sum := 0
-	for i := 0; i < len(nums); i++ {
-		num := nums[i]
-		sum += num
-		if _, ok := sumMap[sum-k]; ok {
-			res += sumMap[sum-k]
+func findAnagrams(s string, p string) []int {
+	if len(s) < len(p) {
+		return []int{}
+	}
+	sa := make([]int, 26)
+	pa := make([]int, 26)
+	res := make([]int, 0)
+	for i := 0; i < len(p); i++ {
+		pa[p[i]-'a']++
+	}
+	left := 0
+	right := 0
+	for left < len(s) && right < len(s) {
+		sa[s[right]-'a']++
+		for left <= right && sa[s[right]-'a'] > pa[s[right]-'a'] {
+			sa[s[left]-'a']--
+			left++
 		}
-		sumMap[sum] += 1
+		if right-left+1 == len(p) {
+			res = append(res, left)
+			sa[s[left]-'a']--
+			left++
+		}
+		right++
 	}
 	return res
 }
