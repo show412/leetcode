@@ -62,3 +62,64 @@ func find(x int, fa []int) int {
 	}
 	return fa[x]
 }
+
+/*
+5
+[[0,1],[0,4],[1,4],[2,3]] false
+
+5
+[[0,1], [0,2], [0,3], [1,4]] true
+
+5
+[[0,1], [1,2], [2,3], [1,3], [1,4]] false
+
+3
+[[2,0],[2,1]] true
+
+这个题不能用拓扑排序 因为是无向图 所以用拓扑会很麻烦 不知道起点和终点的方向
+会导致很多 case cover不到 所以用 find union 比较合适
+*/
+
+func validTree(n int, edges [][]int) bool {
+	treeEdges := make(map[int][]int, 0)
+	nodes := make(map[int]bool, 0)
+	indgree := make([]int, n)
+	// check if or not there is a single node
+	for _, edge := range edges {
+		s := edge[0]
+		e := edge[1]
+		nodes[s] = true
+		nodes[e] = true
+		treeEdges[s] = append(treeEdges[s], e)
+		indgree[e]++
+	}
+	if len(nodes) != n {
+		return false
+	}
+	// topological sort
+	queue := make([]int, 0)
+	side := 0
+	for i := 0; i < n; i++ {
+		if indgree[i] == 0 {
+			queue = append(queue, i)
+		}
+	}
+
+	for len(queue) != 0 {
+		node := queue[0]
+		queue = queue[1:]
+		if _, ok := treeEdges[node]; ok {
+			for _, eNode := range treeEdges[node] {
+				if indgree[eNode] > 0 {
+					indgree[eNode]--
+					side++
+				}
+				if indgree[eNode] == 0 {
+					queue = append(queue, eNode)
+
+				}
+			}
+		}
+	}
+	return side == n-1
+}
