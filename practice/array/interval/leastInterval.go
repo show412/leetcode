@@ -27,43 +27,6 @@ Note:
 The number of tasks is in the range [1, 10000].
 The integer n is in the range [0, 100].
 */
-/*
-AAAABBBEEFFGG 3
-
-A出现了4次，最多，mx=4，那么可以分为mx-1=3块，如下：
-
-A---A---A---
-
-每块有n+1=4个，最后还要加上末尾的一个A，也就是25-24=1个任务，最终结果为13：
-
-ABEFABEGABFGA
-
-再来看另一个例子：
-
-ACCCEEE 2
-
-C和E都出现了3次，最多，mx=3，那么可以分为mx-1=2块，如下：
-
-CE-CE-
-
-每块有n+1=3个，最后还要加上末尾的一个CE，也就是25-23=2个任务，最终结果为8：
-
-CEACE-CE
-
-好，那么此时你可能会有疑问，为啥还要跟原任务个数len相比，取较大值呢？我们再来看一个例子：
-
-AAABBB 0
-
-A和B都出现了3次，最多，mx=3，那么可以分为mx-1=2块，如下：
-
-ABAB
-
-每块有n+1=1个？你会发现有问题，这里明明每块有两个啊，为啥这里算出来n+1=1呢，
-因为给的n=0，这有没有矛盾呢，没有！
-因为n表示相同的任务间需要间隔的个数，那么既然这里为0了，说明相同的任务可以放在一起，
-这里就没有任何限制了，我们只需要执行完所有的任务就可以了，
-所以我们最终的返回结果一定不能小于任务的总个数len的，这就是要对比取较大值的原因了。
-*/
 // refer to https://www.cnblogs.com/grandyang/p/7098764.html
 func leastInterval(tasks []byte, n int) int {
 	cnt := make([]int, 26)
@@ -72,11 +35,9 @@ func leastInterval(tasks []byte, n int) int {
 	}
 	sort.Ints(cnt)
 	i, maxCount := 25, cnt[25]
-	// 拿出现最多byte的个数
 	for i >= 0 && cnt[i] == maxCount {
 		i--
 	}
-	// 25-i的意思是最后要加上多少个byte 加上的应该是再加一次出现最多的byte个数
 	return max(len(tasks), (maxCount-1)*(n+1)+25-i)
 }
 
