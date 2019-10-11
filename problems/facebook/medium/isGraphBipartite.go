@@ -36,6 +36,10 @@ We cannot find a way to divide the set of nodes into two independent subsets.
 // solution: https://leetcode.com/problems/is-graph-bipartite/solution/
 // 关键就是相邻的边不能有一样的颜色 然后枚举和遍历
 // define data structure queue
+/*
+这道题让我们验证给定的图是否是二分图，所谓二分图，
+就是可以将图中的所有顶点分成两个不相交的集合，使得同一个集合的顶点不相连。
+*/
 type Queue struct {
 	data []int
 }
