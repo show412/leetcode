@@ -2,57 +2,50 @@ package main
 
 import (
 	"fmt"
+	"sort"
 )
 
 /*
 test case:
-"adc"
-"dcda"
-true
-
-"hello"
-"ooolleoooleh"
+[[1,1,4],[9,4,9],[9,1,9],[2,3,5],[4,1,5],[10,4,5]]
+33
 false
 
-"abc"
-"bbbca"
-true
-
-"abcdxabcde"
-"abcdeabcdx"
-true
-
-https://leetcode.com/submissions/detail/267059201/testcase/
-false
-
-https://leetcode.com/submissions/detail/267059572/testcase/
-true
 */
 
 func main() {
-	res := lengthOfLongestSubstring("tmmzuxt")
+	res := carPooling([][]int{[]int{1, 1, 4}, []int{9, 4, 9}, []int{9, 1, 9}, []int{2, 3, 5}, []int{4, 1, 5}, []int{10, 4, 5}}, 33)
 	// 998001
 	fmt.Println(res)
 }
-
-func lengthOfLongestSubstring(s string) int {
-	res := 0
-	l := 0
-	r := 0
-	m := make(map[byte]int, 0)
-	for r < len(s) {
-		if _, ok := m[s[r]]; ok {
-			l = max(l, m[s[r]]+1)
+func carPooling(trips [][]int, capacity int) bool {
+	if len(trips) == 0 {
+		return true
+	}
+	if len(trips) == 1 {
+		if trips[0][0] <= capacity {
+			return true
 		}
-		m[s[r]] = r
-		res = max(res, r-l+1)
-		r++
+		return false
 	}
-	return res
-}
-func max(a, b int) int {
-	if a > b {
-		return a
+	m := make(map[int]int, 0)
+	location := make([]int, 0)
+	maxP := 0
+	for i := 0; i < len(trips); i++ {
+		p := trips[i][0]
+		s := trips[i][1]
+		e := trips[i][2]
+		m[s] += p
+		m[e] -= p
+		location = append(location, s)
+		location = append(location, e)
 	}
-	return b
+	sort.Ints(location)
+	for i := 0; i < len(location); i++ {
+		maxP += m[location[i]]
+		if maxP > capacity {
+			return false
+		}
+	}
+	return true
 }
