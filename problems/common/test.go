@@ -30,35 +30,29 @@ true
 */
 
 func main() {
-	res := findAnagrams("cbaebabacd", "abc")
+	res := lengthOfLongestSubstring("tmmzuxt")
 	// 998001
 	fmt.Println(res)
 }
 
-func findAnagrams(s string, p string) []int {
-	if len(s) < len(p) {
-		return []int{}
-	}
-	sa := make([]int, 26)
-	pa := make([]int, 26)
-	res := make([]int, 0)
-	for i := 0; i < len(p); i++ {
-		pa[p[i]-'a']++
-	}
-	left := 0
-	right := 0
-	for left < len(s) && right < len(s) {
-		sa[s[right]-'a']++
-		for left <= right && sa[s[right]-'a'] > pa[s[right]-'a'] {
-			sa[s[left]-'a']--
-			left++
+func lengthOfLongestSubstring(s string) int {
+	res := 0
+	l := 0
+	r := 0
+	m := make(map[byte]int, 0)
+	for r < len(s) {
+		if _, ok := m[s[r]]; ok {
+			l = max(l, m[s[r]]+1)
 		}
-		if right-left+1 == len(p) {
-			res = append(res, left)
-			sa[s[left]-'a']--
-			left++
-		}
-		right++
+		m[s[r]] = r
+		res = max(res, r-l+1)
+		r++
 	}
 	return res
+}
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
