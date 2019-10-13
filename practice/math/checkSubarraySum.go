@@ -41,15 +41,15 @@ index ---- value ------sum ----- modulo % k
 3----------1-----------29---------- 5
 matches with index = 0 whose value is 23. Thus, its possbile
 
-Time complexity : O(n)O(n). Only one traversal of the array numsnums is done.
-Space complexity : O(min(n,k))O(min(n,k)). The HashMap can contain upto min(n,k)min(n,k) different pairings.
+Time complexity : O(n). Only one traversal of the array numsnums is done.
+Space complexity : O(min(n,k)). The HashMap can contain upto min(n,k)min(n,k) different pairings.
 */
 // common question
 func checkSubarraySum(nums []int, k int) bool {
 	modMap := make(map[int]int, 0)
 	sumArray := make([]int, len(nums))
 	sumArray[0] = nums[0]
-	// 当 k == 0的时候, modMap 存和 因为这时候如果后面有一些和是相当的 说明中间这些的连续和是0
+	// 当 k == 0的时候, modMap 存和 因为这时候如果后面有一些和是相等的 说明中间这些的连续和是0
 	if k != 0 {
 		modMap[nums[0]%k] = 0
 	} else {
@@ -70,6 +70,8 @@ func checkSubarraySum(nums []int, k int) bool {
 				return true
 			} else {
 				// 这种情况就是 num[i]是0的情况 这时候是不能认为 true 的
+				// 因为题目要求at least 2 numbers
+				// [0,1,0] 0
 				continue
 			}
 		}

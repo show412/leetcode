@@ -70,6 +70,8 @@ func checkSubarraySum(nums []int, k int) bool {
 				return true
 			} else {
 				// 这种情况就是 num[i]是0的情况 这时候是不能认为 true 的
+				// 因为题目要求at least 2 numbers
+				// [0,1,0] 0
 				continue
 			}
 		}
