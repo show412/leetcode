@@ -1,5 +1,3 @@
-import "sort"
-
 // https://leetcode.com/problems/friends-of-appropriate-ages/
 /*
 Some people will make friend requests.
@@ -40,50 +38,6 @@ Notes:
 1 <= ages.length <= 20000.
 1 <= ages[i] <= 120.
 */
-/*
-三个条件:
-1, 排序 大的只能向小的发 request
-2, 二分搜索 分成 >=100 <100 两组
-3, 还要向上搜索相同的值并且满足条件 用hash记出现的次数
-TC: O(nlogn) + O(nlogn), SC: O(A)  A is the number of ages
-*/
-func numFriendRequests(ages []int) int {
-	if len(ages) == 1 {
-		return 0
-	}
-	res := 0
-	sort.Ints(ages)
-	for i := len(ages) - 1; i > 0; i-- {
-		age := ages[i]
-		if age >= 100 {
-			j := sort.Search(len(ages[0:i]), func(j int) bool { return ages[j] > (age/2 + 7) })
-			if j < i {
-				res += i - j
-			}
-
-		} else {
-			j := sort.Search(len(ages[0:i]), func(j int) bool { return ages[j] > (age/2+7) && ages[j] <= 100 })
-			if j < i {
-				res += i - j
-			}
-		}
-
-	}
-	m := make(map[int]int, 0)
-	for i := 0; i < len(ages); i++ {
-		age := ages[i]
-		if _, ok := m[age]; !ok {
-			m[age] = 1
-		} else {
-			if age > 14 {
-				res += m[age]
-			}
-			m[age] += 1
-		}
-	}
-	return res
-}
-
 // TC is O(A^2 + N) A is 121; SC is O(A)
 func numFriendRequests(ages []int) int {
 	if len(ages) == 1 {
