@@ -13,36 +13,33 @@ false
 */
 
 func main() {
-	res := longestWPI([]int{})
+	res := customSortString("cba", "abcd")
 	// 998001
 	fmt.Println(res)
 }
-func longestWPI(hours []int) int {
-	res := 0
-	// record the score is negative and index
-	m := make(map[int]int, 0)
-	score := 0
-	for i := 0; i < len(hours); i++ {
-		if hours[i] > 8 {
-			score += 1
-		} else {
-			score -= 1
-		}
-		if score > 0 {
-			res++
-		} else {
-			if v, ok := m[score-1]; ok {
-				res = max(res, i-v+1)
-			}
-			m[score] = i
-		}
+func customSortString(S string, T string) string {
+	orderMap := make(map[byte]int, 0)
+	orderArray := make([]int, len(S))
+	nonArray := make([]byte, 0)
+	for i := 0; i < len(S); i++ {
+		orderMap[S[i]] = i
 	}
-	return res
-}
+	for i := 0; i < len(T); i++ {
+		if v, ok := orderMap[T[i]]; ok {
+			orderArray[v]++
+		}
+		if _, ok := orderMap[T[i]]; !ok {
+			nonArray = append(nonArray, T[i])
+		}
 
-func max(a, b int) int {
-	if a > b {
-		return a
 	}
-	return b
+	res := make([]byte, 0)
+	for i := 0; i < len(orderArray); i++ {
+		for orderArray[i] > 0 {
+			res = append(res, S[i])
+			orderArray[i]--
+		}
+	}
+	res = append(res, nonArray...)
+	return string(res)
 }
