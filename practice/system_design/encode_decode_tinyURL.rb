@@ -7,7 +7,7 @@
 #
 # @param {string} longUrl
 # @return {string}
-# 在 solution 里有很多种解法 
+# 在 solution 里有很多种解法 https://leetcode.com/articles/encode-and-decode-tinyurl/
 $map = {}
 $i = 0
 def encode(longUrl)
