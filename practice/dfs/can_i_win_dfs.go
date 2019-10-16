@@ -26,6 +26,7 @@ If the first player choose 1, the second player can only choose integers from 2 
 The second player will win by choosing 10 and get a total = 11, which is >= desiredTotal.
 Same with other integers chosen by the first player, the second player will always win.
 */
+// 6mon - 1 year  Google 3
 /*
 使用 HashMap 来记录已经计算过的结果。
 我们首先来看如果给定的数字范围大于等于目标值的话，直接返回 true。
