@@ -28,6 +28,31 @@ Note:
 1 <= words.length <= 50
 1 <= pattern.length = words[i].length <= 20
 */
+// two map solution, if there is no pattern the two maps are contradiction
 func findAndReplacePattern(words []string, pattern string) []string {
+	res := make([]string, 0)
+	for i := 0; i < len(words); i++ {
+		word := words[i]
+		if match(word, pattern) == true {
+			res = append(res, word)
+		}
+	}
+	return res
+}
 
+func match(word string, pattern string) bool {
+	m1 := make(map[byte]byte, 0)
+	m2 := make(map[byte]byte, 0)
+	for i := 0; i < len(word); i++ {
+		if _, ok1 := m1[word[i]]; !ok1 {
+			m1[word[i]] = pattern[i]
+		}
+		if _, ok2 := m2[pattern[i]]; !ok2 {
+			m2[pattern[i]] = word[i]
+		}
+		if m2[pattern[i]] != word[i] || m1[word[i]] != pattern[i] {
+			return false
+		}
+	}
+	return true
 }

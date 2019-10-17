@@ -13,33 +13,34 @@ false
 */
 
 func main() {
-	res := findDuplicates([]int{5, 4, 6, 7, 9, 3, 10, 9, 5, 6})
+	res := findAndReplacePattern([]string{"abc", "deq", "mee", "aqq", "dkd", "ccc"}, "abb")
 	// 998001
 	fmt.Println(res)
 }
-func findDuplicates(nums []int) []int {
-	res := make([]int, 0)
-	if len(nums) == 0 {
-		return res
-	}
-	i := 0
-	for i < len(nums) {
-		num := nums[i]
-		if nums[i] == i+1 {
-			i++
-			continue
+func findAndReplacePattern(words []string, pattern string) []string {
+	res := make([]string, 0)
+	for i := 0; i < len(words); i++ {
+		word := words[i]
+		if match(word, pattern) == true {
+			res = append(res, word)
 		}
-		if num == -1 {
-			i++
-			continue
-		}
-		if nums[num-1] == num {
-			nums[i] = -1
-			res = append(res, num)
-			i++
-			continue
-		}
-		nums[num-1], nums[i] = nums[i], nums[num-1]
 	}
 	return res
+}
+
+func match(word string, pattern string) bool {
+	m1 := make(map[byte]byte, 0)
+	m2 := make(map[byte]byte, 0)
+	for i := 0; i < len(word); i++ {
+		if _, ok1 := m1[word[i]]; !ok1 {
+			m1[word[i]] = pattern[i]
+		}
+		if _, ok2 := m2[pattern[i]]; !ok2 {
+			m2[pattern[i]] = word[i]
+		}
+		if m2[pattern[i]] != word[i] || m1[word[i]] != pattern[i] {
+			return false
+		}
+	}
+	return true
 }
