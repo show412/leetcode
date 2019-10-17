@@ -10,10 +10,11 @@
 # 在 solution 里有很多种解法 https://leetcode.com/articles/encode-and-decode-tinyurl/
 $map = {}
 $i = 0
+
 def encode(longUrl)
+  # <MatchData "http://baidu.com/xxxx?er=23&sd=12" 1:"http://baidu.com/" 2:"http" 3:"" 4:"xxxx?er=23&sd=12">
+  # "http://baidu.com/xxxx?er=23&sd=12"
   match = longUrl.match(/((http[s]?|ftp):\/\/([0-9a-zA-Z.]*)+\/)(.*)?/)
-  # hostUrl = match[1]
-  adUrl=match[4]
   $i += 1
   $map[$i] = match[0]
   tinyUrl = "http://tinyurl.com/" + $i.to_s(16)

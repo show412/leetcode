@@ -13,33 +13,33 @@ false
 */
 
 func main() {
-	res := customSortString("cba", "abcd")
+	res := findDuplicates([]int{5, 4, 6, 7, 9, 3, 10, 9, 5, 6})
 	// 998001
 	fmt.Println(res)
 }
-func customSortString(S string, T string) string {
-	orderMap := make(map[byte]int, 0)
-	orderArray := make([]int, len(S))
-	nonArray := make([]byte, 0)
-	for i := 0; i < len(S); i++ {
-		orderMap[S[i]] = i
+func findDuplicates(nums []int) []int {
+	res := make([]int, 0)
+	if len(nums) == 0 {
+		return res
 	}
-	for i := 0; i < len(T); i++ {
-		if v, ok := orderMap[T[i]]; ok {
-			orderArray[v]++
+	i := 0
+	for i < len(nums) {
+		num := nums[i]
+		if nums[i] == i+1 {
+			i++
+			continue
 		}
-		if _, ok := orderMap[T[i]]; !ok {
-			nonArray = append(nonArray, T[i])
+		if num == -1 {
+			i++
+			continue
 		}
-
+		if nums[num-1] == num {
+			nums[i] = -1
+			res = append(res, num)
+			i++
+			continue
+		}
+		nums[num-1], nums[i] = nums[i], nums[num-1]
 	}
-	res := make([]byte, 0)
-	for i := 0; i < len(orderArray); i++ {
-		for orderArray[i] > 0 {
-			res = append(res, S[i])
-			orderArray[i]--
-		}
-	}
-	res = append(res, nonArray...)
-	return string(res)
+	return res
 }
