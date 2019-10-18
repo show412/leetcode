@@ -40,3 +40,22 @@ func inorderTraversal(root *TreeNode) []int {
 	}
 	return res
 }
+
+// with stack, TC O(n), SC O(n)
+func inorderTraversal(root *TreeNode) []int {
+	res := make([]int, 0)
+	stack := make([]*TreeNode, 0)
+	for len(stack) != 0 || root != nil {
+		for root != nil {
+			stack = append(stack, root)
+			root = root.Left
+		}
+		root = stack[len(stack)-1]
+		res = append(res, root.Val)
+		stack = stack[:len(stack)-1]
+		root = root.Right
+	}
+	return res
+}
+
+// there is another solution with Morris Traversal in https://leetcode.com/articles/binary-tree-inorder-traversal/
