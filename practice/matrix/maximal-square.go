@@ -37,6 +37,7 @@ func maximalSquare(matrix [][]byte) int {
 	for i := 1; i <= len(matrix); i++ {
 		for j := 1; j <= len(matrix[0]); j++ {
 			if matrix[i-1][j-1] == '1' {
+				// 三个方向最小的正方形的长度
 				dp[i][j] = min(dp[i-1][j], dp[i-1][j-1], dp[i][j-1]) + 1
 				maxLen = max(maxLen, dp[i][j])
 			}
