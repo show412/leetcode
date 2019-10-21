@@ -2,7 +2,7 @@
 # @return {Integer[]}
 def majority_element(nums)
   #     quick sort first then travers the array
-  # quick sort Time complexity is O(logn) space complexity is O(1)
+  # quick sort Time complexity is O(nlogn) space complexity is O(1)
   return [] if nums.nil? || nums.empty?
   nums.sort!
   length = nums.length
