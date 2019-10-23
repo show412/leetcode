@@ -74,5 +74,41 @@ func NewNode() *TNode {
 	return &TNode{Children: [2]*TNode{nil, nil}}
 }
 
-// https://github.com/grandyang/leetcode/issues/421
+// https://leetcode-cn.com/problems/maximum-xor-of-two-numbers-in-an-array/solution/li-yong-yi-huo-yun-suan-de-xing-zhi-tan-xin-suan-f/
+/*
+这道题找最大值的思路是这样的：
+因为两两异或可以得到一个值，在所有的两两异或得到的值中，一定有一个最大值，
+我们推测这个最大值应该是什么样的？即根据“最大值”的存在性解题（一定存在）。在这里要强调一下：
+我们只用关心这个最大的异或值需要满足什么性质，进而推出这个最大值是什么，而不必关心这个异或值是由哪两个数得来的。
+有个疑问是这种算法怎么就能说明是两个值异或出来的呢
+*/
 // another find the max xor result solution
+// use the principle a ^ b = c  ===> a ^ c = b
+func findMaximumXOR(nums []int) int {
+	res := 0
+	mask := 0
+	for i := 31; i >= 0; i-- {
+		// 标志位
+		mask = mask | (1 << uint(i))
+
+		m := make(map[int]bool, 0)
+		// 数组中是否有这位为1的值 记到 map 里
+		for _, num := range nums {
+			m[mask&num] = true
+		}
+		// 贪心 假设最大结果里有这一位
+		// | 的用处是保留之前算出来的值
+		temp := res | (1 << uint(i))
+		// 利用 a^b = c  ====> a ^ c = b
+		// 如果 pre ^ temp 存在在 map 中说明 一定有两个数的异或可以等于 temp
+		// 这个时候把res 这位赋为1
+		for pre, _ := range m {
+			if m[pre^temp] == true {
+				res = temp
+				break
+			}
+		}
+	}
+	return res
+}
+

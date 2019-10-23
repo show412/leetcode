@@ -13,34 +13,26 @@ false
 */
 
 func main() {
-	res := findAndReplacePattern([]string{"abc", "deq", "mee", "aqq", "dkd", "ccc"}, "abb")
+	res := findMaximumXOR([]int{3, 10, 5, 25, 2, 8})
 	// 998001
 	fmt.Println(res)
 }
-func findAndReplacePattern(words []string, pattern string) []string {
-	res := make([]string, 0)
-	for i := 0; i < len(words); i++ {
-		word := words[i]
-		if match(word, pattern) == true {
-			res = append(res, word)
+func findMaximumXOR(nums []int) int {
+	res := 0
+	mask := 0
+	for i := 31; i >= 0; i-- {
+		mask = mask | (1 << uint(i))
+		m := make(map[int]bool, 0)
+		for _, num := range nums {
+			m[mask&num] = true
+		}
+		temp := res | (1 << uint(i))
+		for pre, _ := range m {
+			if m[pre^temp] == true {
+				res = temp
+				break
+			}
 		}
 	}
 	return res
-}
-
-func match(word string, pattern string) bool {
-	m1 := make(map[byte]byte, 0)
-	m2 := make(map[byte]byte, 0)
-	for i := 0; i < len(word); i++ {
-		if _, ok1 := m1[word[i]]; !ok1 {
-			m1[word[i]] = pattern[i]
-		}
-		if _, ok2 := m2[pattern[i]]; !ok2 {
-			m2[pattern[i]] = word[i]
-		}
-		if m2[pattern[i]] != word[i] || m1[word[i]] != pattern[i] {
-			return false
-		}
-	}
-	return true
 }
