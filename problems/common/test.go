@@ -2,7 +2,8 @@ package main
 
 import (
 	"fmt"
-	"sort"
+	"math"
+	"strconv"
 )
 
 /*
@@ -14,29 +15,30 @@ false
 */
 
 func main() {
-	res := subsetsWithDup([]int{1, 2, 2})
+	res := generateAbbreviations("word")
 	// 998001
 	fmt.Println(res)
 }
-func subsetsWithDup(nums []int) [][]int {
-	res := make([][]int, 0, len(nums))
-	entry := make([]int, 0, len(nums))
-	sort.Ints(nums)
-	backtrack(0, nums, &entry, &res)
-	return res
-}
-
-func backtrack(start int, nums []int, entry *[]int, res *[][]int) {
-	cpy := make([]int, len(*entry))
-	copy(cpy, *entry)
-	*res = append(*res, cpy)
-
-	for i := start; i < len(nums); i++ {
-		*entry = append(*entry, nums[i])
-		backtrack(i+1, nums, entry, res)
-		*entry = (*entry)[:len(*entry)-1]
-		for i+1 < len(nums) && nums[i+1] == nums[i] {
-			i++
+func generateAbbreviations(word string) []string {
+	res := make([]string, 0)
+	for i := 0; i < int(math.Pow(2.0, float64(len(word)))); i++ {
+		out := ""
+		cnt := 0
+		for j := 0; j < len(word); j++ {
+			if (i>>uint(j))&1 == 1 {
+				cnt++
+			} else {
+				if cnt > 0 {
+					out += strconv.Itoa(cnt)
+					cnt = 0
+				}
+				out += string(word[j])
+			}
 		}
+		if cnt > 0 {
+			out += strconv.Itoa(cnt)
+		}
+		res = append(res, out)
 	}
+	return res
 }
