@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 )
 
 /*
@@ -13,26 +14,29 @@ false
 */
 
 func main() {
-	res := findMaximumXOR([]int{3, 10, 5, 25, 2, 8})
+	res := subsetsWithDup([]int{1, 2, 2})
 	// 998001
 	fmt.Println(res)
 }
-func findMaximumXOR(nums []int) int {
-	res := 0
-	mask := 0
-	for i := 31; i >= 0; i-- {
-		mask = mask | (1 << uint(i))
-		m := make(map[int]bool, 0)
-		for _, num := range nums {
-			m[mask&num] = true
-		}
-		temp := res | (1 << uint(i))
-		for pre, _ := range m {
-			if m[pre^temp] == true {
-				res = temp
-				break
-			}
+func subsetsWithDup(nums []int) [][]int {
+	res := make([][]int, 0, len(nums))
+	entry := make([]int, 0, len(nums))
+	sort.Ints(nums)
+	backtrack(0, nums, &entry, &res)
+	return res
+}
+
+func backtrack(start int, nums []int, entry *[]int, res *[][]int) {
+	cpy := make([]int, len(*entry))
+	copy(cpy, *entry)
+	*res = append(*res, cpy)
+
+	for i := start; i < len(nums); i++ {
+		*entry = append(*entry, nums[i])
+		backtrack(i+1, nums, entry, res)
+		*entry = (*entry)[:len(*entry)-1]
+		for i+1 < len(nums) && nums[i+1] == nums[i] {
+			i++
 		}
 	}
-	return res
 }
