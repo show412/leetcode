@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math"
-	"strconv"
 )
 
 /*
@@ -15,30 +13,44 @@ false
 */
 
 func main() {
-	res := generateAbbreviations("word")
+	res := canFinish(2, [][]int{[]int{0, 1}})
 	// 998001
 	fmt.Println(res)
 }
-func generateAbbreviations(word string) []string {
-	res := make([]string, 0)
-	for i := 0; i < int(math.Pow(2.0, float64(len(word)))); i++ {
-		out := ""
-		cnt := 0
-		for j := 0; j < len(word); j++ {
-			if (i>>uint(j))&1 == 1 {
-				cnt++
-			} else {
-				if cnt > 0 {
-					out += strconv.Itoa(cnt)
-					cnt = 0
-				}
-				out += string(word[j])
+func canFinish(numCourses int, prerequisites [][]int) bool {
+	edges := make(map[int][]int, 0)
+	indgree := make([]int, numCourses)
+	for i := 0; i < len(prerequisites); i++ {
+		s := prerequisites[i][0]
+		e := prerequisites[i][1]
+		edges[e] = append(edges[e], s)
+		indgree[s]++
+	}
+	queue := make([]int, 0)
+	fmt.Println(indgree)
+
+	for i := 0; i < numCourses; i++ {
+		if indgree[i] == 0 {
+			queue = append(queue, i)
+		}
+	}
+	fmt.Println(queue)
+	i := 0
+	for len(queue) != 0 {
+		node := queue[0]
+		queue = queue[1:]
+		i++
+		for _, edge := range edges[node] {
+			if indgree[edge] > 0 {
+				indgree[edge]--
+			}
+			if indgree[edge] == 0 {
+				queue = append(queue, edge)
 			}
 		}
-		if cnt > 0 {
-			out += strconv.Itoa(cnt)
-		}
-		res = append(res, out)
 	}
-	return res
+	if i == numCourses {
+		return true
+	}
+	return false
 }

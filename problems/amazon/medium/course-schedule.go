@@ -37,6 +37,43 @@ https://blog.csdn.net/Gerald_Jones/article/details/80158868
 https://www.khanacademy.org/computing/computer-science/algorithms/graph-representation/a/representing-graphs
 */
 
+// 拓扑排序的方法
+func canFinish(numCourses int, prerequisites [][]int) bool {
+	edges := make(map[int][]int, 0)
+	indgree := make([]int, numCourses)
+	for i := 0; i < len(prerequisites); i++ {
+		s := prerequisites[i][0]
+		e := prerequisites[i][1]
+		edges[e] = append(edges[e], s)
+		indgree[s]++
+	}
+	queue := make([]int, 0)
+	for i := 0; i < numCourses; i++ {
+		if indgree[i] == 0 {
+			queue = append(queue, i)
+		}
+	}
+	i := 0
+	for len(queue) != 0 {
+		node := queue[0]
+		queue = queue[1:]
+		i++
+		for _, edge := range edges[node] {
+			if indgree[edge] > 0 {
+				indgree[edge]--
+			}
+			if indgree[edge] == 0 {
+				queue = append(queue, edge)
+			}
+		}
+	}
+	if i == numCourses {
+		return true
+	}
+	return false
+}
+
+// DFS 方法
 type Graph struct {
 	nodes []int         // 节点集
 	edges map[int][]int // 表示有向边
