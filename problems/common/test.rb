@@ -1,31 +1,35 @@
-def can_finish(num_courses, prerequisites)
-  edges = {}
-  indgree = Array.new(num_courses)
-  (0..prerequisites.length-1).each do |i|
-    edges[prerequisites[i][1]] = [] if edges[prerequisites[i][1]].nil?
-    edges[prerequisites[i][1]].push(prerequisites[i][0])
-    indgree[prerequisites[i][0]] = 0 if indgree[prerequisites[i][0]].nil?
-    indgree[prerequisites[i][0]] += 1
-  end
-  queue = []
-  (0..num_courses-1).each do |i|
-    queue.push(i) if indgree[i].to_i.zero?
-  end
-  num = 0
-  p indgree
-  p queue
-  p edges
-  until queue.empty?
-    n = queue.pop
-    num += 1
-    if !edges[n].nil?
-      edges[n].each do |i|
-        indgree[i] -= 1 if !indgree[i].nil? && indgree[i].to_i > 0
-        queue.push(i) if indgree[i].to_i.zero?
+def most_common_word(paragraph, banned)
+  m = {}
+  # store banned into a hash for performance
+  banned.each {|b| m[b] = true}
+  countMap = {}
+  word = ""
+  (0...paragraph.length).each do |i|
+    c = paragraph[i]
+    if c =~ /[A-Z]/ || c =~ /[a-z]/
+      word += c
+    elsif word == ""
+      next
+    else
+      if m[word.downcase] == true
+        word = ""
+        next
       end
+      if countMap.has_key?(word.downcase)
+        countMap[word.downcase] += 1
+      else
+        countMap[word.downcase] = 1
+      end
+      word = ""
     end
   end
-  return true if num == num_courses
-  false
+  if word != ""
+    if countMap.has_key?(word.downcase)
+      countMap[word.downcase] += 1
+    else
+      countMap[word.downcase] = 1
+    end
+  end
+  countMap.max_by{|k, v| v}[0]
 end
-p can_finish(2, [[0,1]])
+p most_common_word("Bob", [])
