@@ -64,6 +64,7 @@ func orangesRotting(grid [][]int) int {
 	for len(queue) != 0 {
 		size := len(queue)
 		res++
+		// 一定要有这个 因为这算一步
 		for i := 0; i < size; i++ {
 			r := queue[0][0]
 			c := queue[0][1]
