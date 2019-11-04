@@ -1,3 +1,27 @@
+# // https://leetcode.com/problems/4sum/
+# /*
+# Given an array nums of n integers and an integer target,
+# are there elements a, b, c, and d in nums such that a + b + c + d = target?
+# Find all unique quadruplets in the array which gives the sum of target.
+
+# Note:
+
+# The solution set must not contain duplicate quadruplets.
+
+# Example:
+
+# Given array nums = [1, 0, -1, 0, -2, 2], and target = 0.
+
+# A solution set is:
+# [
+#   [-1,  0, 0, 1],
+#   [-2, -1, 1, 2],
+#   [-2,  0, 0, 2]
+# ]
+# */
+# @param {Integer[]} nums
+# @param {Integer} target
+# @return {Integer[][]}
 def four_sum(nums, target)
   res = []
   n = nums.length
@@ -27,4 +51,3 @@ def four_sum(nums, target)
   end   
   res 
 end
-p four_sum([4,-9,-2,-2,-7,9,9,5,10,-10,4,5,2,-4,-2,4,-9,5],-13)
