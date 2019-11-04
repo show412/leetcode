@@ -24,6 +24,7 @@ func distanceK(root *TreeNode, target *TreeNode, K int) []int {
 	getParent(root, nil, parent)
 	stack := make([]*TreeNode, 0)
 	// 先放target 后放nil level初始化就应该是1 因为达到K的时候 当前的符合的level还应该在stack里
+	// 用nil进行分层
 	stack = append(stack, target)
 	stack = append(stack, nil)
 	level := 1
