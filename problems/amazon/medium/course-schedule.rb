@@ -15,9 +15,6 @@ def can_finish(num_courses, prerequisites)
     queue.push(i) if indgree[i].to_i.zero?
   end
   num = 0
-  p indgree
-  p queue
-  p edges
   until queue.empty?
     n = queue.pop
     num += 1
