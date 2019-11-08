@@ -26,6 +26,7 @@
 # @param {Integer} n
 # @param {Integer[][]} connections
 # @return {Integer[][]}
+# refer to the solution https://www.cnblogs.com/nullzx/p/7968110.html
 def critical_connections(n, connections)
 
 end
