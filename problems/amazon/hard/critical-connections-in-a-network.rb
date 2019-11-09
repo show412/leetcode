@@ -26,7 +26,51 @@
 # @param {Integer} n
 # @param {Integer[][]} connections
 # @return {Integer[][]}
-# refer to the solution https://www.cnblogs.com/nullzx/p/7968110.html
+# refer to the solution https://www.cnblogs.com/en-heng/p/4002658.html
 def critical_connections(n, connections)
 
 end
+
+# function criticalConnections(n, connections) {
+#   // Build graph
+#   const g = [];
+#   for (let i = 0; i < n; i++) {
+#     g.push([]);
+#   }
+#   for (const [u, v] of connections) {
+#     g[u].push(v);
+#     g[v].push(u);
+#   }
+
+#   // Initialize
+#   let time = 0;  // time when discover each vertex
+#   const res = [];
+#   const low = [];  // low[u] records the lowest vertex u can reach
+#   const disc = [];  // disc[u] records the time when u was discovered
+#   for (let i = 0; i < n; i++) {
+#     disc.push(Infinity);  // use disc to track if visited (disc[i] == Infinity)
+#   }
+
+#   // DFS
+#   function dfs(u, pre) {
+#     disc[u] = low[u] = time++;  // discover u
+#     for (const v of g[u]) {
+#       if (v === pre) continue;  // if parent vertex, ignore
+#       if (disc[v] === Infinity) {  // if not discovered
+#         dfs(v, u);
+#         low[u] = Math.min(low[u], low[v]);
+#         if (low[v] > disc[u]) {
+#           // u - v is critical, there is no path for v to reach back to u or previous vertices of u
+#           res.push([u, v]);
+#         }
+#       } else {
+#         // if v discovered and is not parent of u, update low[u], cannot use low[v] because u is not subtree of v
+#         low[u] = Math.min(low[u], disc[v]);
+#       }
+#     }
+#   }
+
+#   dfs(0, -1);
+#   return res;
+# }
+
