@@ -31,7 +31,8 @@
 # @param {Integer} n
 # @param {Integer[][]} connections
 # @return {Integer[][]}
-# refer to the solution https://www.cnblogs.com/en-heng/p/4002658.html
+# refer to the solution 思路参考 https://www.cnblogs.com/en-heng/p/4002658.html
+# 具体过程可以参考 https://www.cnblogs.com/nullzx/p/7968110.html
 # dfn[u]记录节点u在DFS过程中被遍历到的次序号，
 # low[u]记录节点u或u的子树通过非父子边追溯到最早的祖先节点
 # 即DFS次序号最小），那么low[u]的计算过程如下：
@@ -72,6 +73,8 @@ def dfs(u, pre)
       # 因为是无向图 所以还需要反向dfs一次
       dfs(v, u)
       $low[u] = [$low[u], $low[v]].min
+      # 割边是 $res.push([u,v]) if $low[v] > $dfn[u]
+      # 割点 是low[v] >= dfn[u] $res.push(u)
       $res.push([u,v]) if $low[v] > $dfn[u]
     else
       # 为回边的情况
