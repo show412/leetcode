@@ -1,3 +1,5 @@
+import "math"
+
 // https://leetcode.com/problems/balanced-binary-tree/
 /*
 Given a binary tree, determine if it is height-balanced.
@@ -41,5 +43,34 @@ Return false.
  * }
  */
 func isBalanced(root *TreeNode) bool {
+	if checkDepth(root) == -1 {
+		return false
+	}
+	return true
+}
 
+func checkDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	}
+	left := checkDepth(root.Left)
+	if left == -1 {
+		return -1
+	}
+	right := checkDepth(root.Right)
+	if right == -1 {
+		return -1
+	}
+	diff := math.Abs(float64(left - right))
+	if diff > 1 {
+		return -1
+	} else {
+		return 1 + max(left, right)
+	}
+}
+func max(a int, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
