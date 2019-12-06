@@ -60,7 +60,7 @@ func (rs *RandomizedSet) Insert(val int) bool {
 
 /** Removes a value from the set. Returns true if the set contained the specified element. */
 func (rs *RandomizedSet) Remove(val int) bool {
-	// 用最后一个覆盖把hash和slice里的要删的值位置覆盖掉 然后删除hash里的对应的值和slice最后一个值
+	// 用slice里的最后一个把hash和slice里的要删的值位置覆盖掉 之后然后删除hash里的对应的值和slice最后一个值
 	if idx, ok := rs.cache[val]; ok {
 		rs.buff[idx] = rs.buff[len(rs.buff)-1]
 		rs.cache[rs.buff[len(rs.buff)-1]] = idx
