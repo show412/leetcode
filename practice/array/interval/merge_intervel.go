@@ -1,4 +1,7 @@
-import "math"
+import (
+	"math"
+	"sort"
+)
 
 // https://leetcode.com/problems/merge-intervals/
 /*
@@ -61,4 +64,42 @@ func quickSort(intervalArray [][]int, s int, e int) [][]int {
 	quickSort(intervalArray, left, s-1)
 	quickSort(intervalArray, s+1, right)
 	return intervalArray
+}
+
+func merge(intervals [][]int) [][]int {
+	if len(intervals) < 2 {
+		return intervals
+	}
+	res := make([][]int, 0)
+	sort.Sort(Interval(intervals))
+	for i := 0; i < len(intervals); i++ {
+		item := intervals[i]
+		if len(res) == 0 || res[len(res)-1][1] < item[0] {
+			res = append(res, item)
+		} else {
+			res[len(res)-1][1] = max(res[len(res)-1][1], item[1])
+		}
+	}
+	return res
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+type Interval [][]int
+
+func (this Interval) Len() int {
+	return len(this)
+}
+
+func (this Interval) Less(i, j int) bool {
+	return this[i][0] < this[j][0]
+}
+
+func (this Interval) Swap(i, j int) {
+	this[i], this[j] = this[j], this[i]
 }
