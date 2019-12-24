@@ -47,6 +47,9 @@ func findDuplicates(nums []int) []int {
 }
 
 // TC O(n), SC O(n)
+// using 1 ≤ a[i] ≤ n (n = size of array), initialize an array default is 0
+// when there is a number assign the position of number is 1 if there is 0
+// otherwise the number is the result
 func findDuplicates(nums []int) []int {
 	array := make([]int, len(nums)+1)
 	res := make([]int, 0)
