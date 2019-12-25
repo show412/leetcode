@@ -71,6 +71,7 @@ func findAnagrams(s string, p string) []int {
 		tmp := make([]int, 128)
 		copy(tmp, cnt)
 		for j := 0; j < len(sub); j++ {
+			// this kind of way is one common method to check anagrams
 			tmp[sub[j]]--
 			if tmp[sub[j]] < 0 {
 				flag = false
