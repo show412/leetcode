@@ -12,7 +12,7 @@ Follow up:
 
 If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach,
 which is more subtle.
-可以理解为是贪心算法, max 的意思是包含第 i 个 num 时的最大值 当max小于0的时候 max 只为 num 时max 最大
+可以理解为是贪心(动态规划?)算法, max 的意思是包含第 i 个 num 时的最大值 当max小于0的时候 max 只为 num 时max 最大
 否则就是当前的 max 加上 num
 注意是从第1个开始遍历
 */

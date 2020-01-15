@@ -7,17 +7,13 @@ There are N network nodes, labelled 1 to N.
 Given times, a list of travel times as directed edges times[i] = (u, v, w),
 where u is the source node, v is the target node, and w is the time it takes for a signal to travel from source to target.
 
-Now, we send a signal from a certain node K. How long will it take for all nodes to receive the signal? If it is impossible, return -1.
-
-
+Now, we send a signal from a certain node K. How long will it take for all nodes to receive the signal?
+If it is impossible, return -1.
 
 Example 1:
 
-
-
 Input: times = [[2,1,1],[2,3,1],[3,4,1]], N = 4, K = 2
 Output: 2
-
 
 Note:
 
@@ -35,6 +31,7 @@ func networkDelayTime(times [][]int, N int, K int) int {
 		graph[edge[0]] = append(graph[edge[0]], []int{edge[1], edge[2]})
 	}
 	// generate the distance, dist means S in Dijkstra
+	// dist 记得都是以 K 出发到达各个点的距离的值
 	dist := make(map[int]int)
 	for i := 1; i <= N; i++ {
 		dist[i] = math.MaxInt32
@@ -54,6 +51,7 @@ func networkDelayTime(times [][]int, N int, K int) int {
 				canNode = i
 			}
 		}
+		// 这种情况下 这个 graph 是不通的 因为没有任何一个可达的 node
 		if canNode < 0 {
 			break
 		}
@@ -73,6 +71,8 @@ func networkDelayTime(times [][]int, N int, K int) int {
 		if cand == math.MaxInt32 {
 			return -1
 		}
+		// 找最大值 才是可达的情况, 因为上面已经是在找 min 了
+		// 所以这时候找最大值就是到最后一个点的数值
 		res = max(res, cand)
 	}
 	return res
