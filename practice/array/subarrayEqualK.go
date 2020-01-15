@@ -1,8 +1,7 @@
 // https://leetcode.com/problems/subarray-sum-equals-k/
 /*
 Given an array of integers and an integer k,
-you need to find the total number of continuous subarrays
-whose sum equals to k.
+you need to find the total number of continuous subarrays whose sum equals to k.
 Example 1:
 Input:nums = [1,1,1], k = 2
 Output: 2
@@ -14,6 +13,7 @@ func subarraySum(nums []int, k int) int {
 		if nums[i] == k {
 			res++
 		}
+		// the last item won't have a sub array
 		if i == len(nums)-1 {
 			break
 		}

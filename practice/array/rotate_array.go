@@ -40,9 +40,7 @@ func reverse(nums []int, start int, end int) {
 	i := start
 	j := end
 	for i < j {
-		temp := nums[i]
-		nums[i] = nums[j]
-		nums[j] = temp
+		nums[i], nums[j] = nums[j], nums[i]
 		i++
 		j--
 	}
