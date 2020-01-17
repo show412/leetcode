@@ -67,6 +67,7 @@ func distanceK(root *TreeNode, target *TreeNode, K int) []int {
 				}
 				return res
 			}
+			// must go to append here
 			stack = append(stack, nil)
 			level++
 		} else {
@@ -83,7 +84,7 @@ func distanceK(root *TreeNode, target *TreeNode, K int) []int {
 				visited[pNode] = true
 				stack = append(stack, pNode)
 			}
-			// 不能写在这 why? 还没搞明白
+			// 不能写在这 因为这样可能会追加stack 的尾部是连续nil 导致pop 的时候 level 被连续加
 			// stack = append(stack, nil)
 		}
 	}
