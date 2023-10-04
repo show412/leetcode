@@ -7,7 +7,7 @@
  */
 
 //  https://leetcode.com/problems/excel-sheet-column-number/description/
-//  it's one 26 system convert question
+//  actuall it's one 26 system convert question
 func titleToNumber(columnTitle string) int {
 	res := 0
 	scale := 1
