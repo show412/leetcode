@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2023-10-05 14:42:02
  * @LastEditors: your name
- * @LastEditTime: 2023-10-05 15:19:23
+ * @LastEditTime: 2023-10-05 15:44:38
  * @Description: file content
  */
 //  https://leetcode.com/problems/first-bad-version/
@@ -14,7 +14,10 @@
  *			          false if current version is good
  * func isBadVersion(version int) bool;
  */
-
+/*
+It's one typical binary search writing
+notice, left = mid + 1
+*/
 func firstBadVersion(n int) int {
 	left := 1
 	right := n
@@ -23,7 +26,7 @@ func firstBadVersion(n int) int {
 		if isBadVersion(mid) {
 			right = mid
 		} else {
-			left = mid
+			left = mid + 1
 		}
 	}
 	return left
