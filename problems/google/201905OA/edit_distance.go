@@ -1,6 +1,15 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:52
+ * @LastEditors: your name
+ * @LastEditTime: 2024-01-25 16:07:51
+ * @Description: file content
+ */
 import "strings"
 
-// Given two words word1 and word2, find the minimum number of steps required to convert word1 to word2. (each operation is counted as 1 step.)
+// Given two words word1 and word2,
+// find the minimum number of steps required to convert word1 to word2.
+// (each operation is counted as 1 step.)
 
 // You have the following 3 operations permitted on a word:
 
