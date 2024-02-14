@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2024-02-14 11:19:11
  * @LastEditors: your name
- * @LastEditTime: 2024-02-14 11:48:19
+ * @LastEditTime: 2024-02-14 11:53:15
  * @Description: file content
  */
 // Given an array of strings strs, group the anagrams together. You can return the answer in any order.
@@ -28,6 +28,7 @@
 // 0 <= strs[i].length <= 100
 // strs[i] consists of lowercase English letters.
 
+// use hash to solve this problem
 // m key is 26 charactor array which value is times of charactor happens
 type charCount [26]int
 
