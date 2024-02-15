@@ -1,8 +1,8 @@
 /*
  * @Author: hongwei.sun
- * @Date: 2021-01-22 18:45:52
+ * @Date: 2024-02-15 17:18:05
  * @LastEditors: your name
- * @LastEditTime: 2024-02-15 17:29:12
+ * @LastEditTime: 2024-02-15 17:27:54
  * @Description: file content
  */
 // https://leetcode.com/problems/maximum-depth-of-binary-tree/
@@ -23,6 +23,12 @@ Given binary tree [3,9,20,null,null,15,7],
     /  \
    15   7
 return its depth = 3.
+
+Constraints:
+
+The number of nodes in the tree is in the range [0, 104].
+-100 <= Node.val <= 100
+
 */
 /**
  * Definition for a binary tree node.
