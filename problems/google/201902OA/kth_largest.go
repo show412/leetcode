@@ -11,7 +11,7 @@ import (
 // 也可以用 quickSelect 算法 O(N) in the average case, {O}(N^2)in the worst case.
 // space complexity is O(1)
 
-// heap by myself, it has some wrong, couldn't have the right result
+// solution 1,  heap by myself, it has some wrong, couldn't have the right result
 func findKthLargest(nums []int, k int) int {
 	if len(nums) == 1 {
 		return nums[0]
@@ -50,7 +50,7 @@ func minHeap(root int, end int, nums []int) {
 	}
 }
 
-// golang has the heap struct as sort
+// solution 2, golang has the heap struct as sort
 // implement the interface as these function (sort.Interface and push, pop of heap)
 type IntHeap []int
 
@@ -92,7 +92,7 @@ func findKthLargest(nums []int, k int) int {
 	return (*pq)[0]
 }
 
-// quick select and partition
+// solution 3, quick select and partition
 // refer to https://leetcode.com/problems/kth-largest-element-in-an-array/solution/
 func findKthLargest(nums []int, k int) int {
 	if len(nums) == 1 {
@@ -132,7 +132,7 @@ func partition(nums []int, left int, right int) int {
 	return storeIndex
 }
 
-// sort O(NlogN) O(1)
+// solution 4, sort O(NlogN) O(1)
 func findKthLargest(nums []int, k int) int {
 	sort.Ints(nums)
 	return nums[k-1]
