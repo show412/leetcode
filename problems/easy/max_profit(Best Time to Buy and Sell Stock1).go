@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2024-02-14 15:42:43
  * @LastEditors: your name
- * @LastEditTime: 2024-02-14 15:57:48
+ * @LastEditTime: 2024-02-19 14:38:06
  * @Description: file content
  */
 import "math"
@@ -41,6 +41,7 @@ func maxProfit(prices []int) int {
 	for i := 0; i < len(prices); i++ {
 		price := prices[i]
 		// it's one slide windows implementation to jump to one index by comparing
+		// minPrice is one index for slide windows
 		if price < minPrice {
 			minPrice = price
 		}
