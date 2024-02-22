@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2024-02-19 14:40:16
  * @LastEditors: your name
- * @LastEditTime: 2024-02-19 18:24:34
+ * @LastEditTime: 2024-02-20 16:48:14
  * @Description: file content
  */
 //  https://leetcode.com/problems/subsets/description/
@@ -44,6 +44,8 @@ it's one typical backtracking or dfs, convert to one tree to travers
 func subsets(nums []int) [][]int {
 	ret := make([][]int, 0)
 	subset := make([]int, 0)
+	// see which level current is in
+	// l := 0
 	backtrack(0, nums, &subset, &ret)
 	return ret
 }
@@ -54,13 +56,23 @@ func backtrack(start int, nums []int, subset *[]int, ret *[][]int) {
 	cpy := make([]int, len(*subset))
 	copy(cpy, *subset)
 	*ret = append(*ret, cpy)
-
+	// go to next level
+	// l++
+	// fmt.Println("*****")
+	// fmt.Println("level,", l)
+	// fmt.Println("ret is,", *ret)
 	for i := start; i < len(nums); i++ {
 		*subset = append(*subset, nums[i])
+		// check which i is now
+		// fmt.Println("current i is,", i)
+		// fmt.Println("subset is,", *subset)
 		backtrack(i+1, nums, subset, ret)
 		// back to last level
 		*subset = (*subset)[:len(*subset)-1]
+		// fmt.Println("backtrack subset is,", *subset)
 	}
+	// go to last level
+	// l--
 }
 
 /*
@@ -71,4 +83,52 @@ func backtrack(start int, nums []int, subset *[]int, ret *[][]int) {
     [1,2]       [1]          [2]    []
   3/   \no3    3/ \        3/ \    3/ \
 [1,2,3]    [1,3] [1]    [2,3] [2] [3] []
+*/
+
+/*
+*****
+level, 1
+ret is, [[]]
+current i is, 0
+subset is, [1]
+*****
+level, 2
+ret is, [[] [1]]
+current i is, 1
+subset is, [1 2]
+*****
+level, 3
+ret is, [[] [1] [1 2]]
+current i is, 2
+subset is, [1 2 3]
+*****
+level, 4
+ret is, [[] [1] [1 2] [1 2 3]]
+backtrack subset is, [1 2]
+backtrack subset is, [1]
+current i is, 2
+subset is, [1 3]
+*****
+level, 3
+ret is, [[] [1] [1 2] [1 2 3] [1 3]]
+backtrack subset is, [1]
+backtrack subset is, []
+current i is, 1
+subset is, [2]
+*****
+level, 2
+ret is, [[] [1] [1 2] [1 2 3] [1 3] [2]]
+current i is, 2
+subset is, [2 3]
+*****
+level, 3
+ret is, [[] [1] [1 2] [1 2 3] [1 3] [2] [2 3]]
+backtrack subset is, [2]
+backtrack subset is, []
+current i is, 2
+subset is, [3]
+*****
+level, 2
+ret is, [[] [1] [1 2] [1 2 3] [1 3] [2] [2 3] [3]]
+backtrack subset is, []
 */

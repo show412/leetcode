@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:52
+ * @LastEditors: your name
+ * @LastEditTime: 2024-02-20 17:57:59
+ * @Description: file content
+ */
 import "sort"
 
 // https://leetcode.com/problems/combination-sum/
@@ -33,6 +40,8 @@ func combinationSum(candidates []int, target int) [][]int {
 	if len(candidates) == 0 {
 		return res
 	}
+	// we need to sort this array otherwise it will miss answer.
+	// cause we use target-candidate to decide when to break
 	sort.Ints(candidates)
 	start := 0
 	combination := make([]int, 0)
@@ -41,6 +50,7 @@ func combinationSum(candidates []int, target int) [][]int {
 }
 
 func dfs(candidates []int, start int, combination *[]int, target int, res *[][]int) {
+	// use traget to minus, can avoid to bring another variable total as paramters in function
 	if target == 0 {
 		cpy := make([]int, len(*combination))
 		copy(cpy, *combination)
@@ -52,7 +62,8 @@ func dfs(candidates []int, start int, combination *[]int, target int, res *[][]i
 			break
 		}
 		*combination = append(*combination, candidates[i])
-		// transmit i means the i number could be repeated
+		// transmit i not i+1 means the i number could be repeated
+		// this is key
 		dfs(candidates, i, combination, target-candidates[i], res)
 		// notice the pointer needs bracket to be priority
 		*combination = (*combination)[:len(*combination)-1]
