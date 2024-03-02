@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-02 16:53:24
+ * @Description: file content
+ */
 // https://leetcode.com/problems/jump-game/
 /*
 Given an array of non-negative integers, you are initially positioned at the first index of the array.
@@ -18,6 +25,26 @@ Output: false
 Explanation: You will always arrive at index 3 no matter what. Its maximum
              jump length is 0, which makes it impossible to reach the last index.
 */
+
+// greedy algo solution
+func canJump(nums []int) bool {
+	// goal is what we want to reach
+	// backfowards to begining
+	goal := len(nums) - 1
+	for i := len(nums) - 1; i >= 0; i-- {
+		// that means i position + what steps it can jump greater or equal than goal
+		// this i will be next goal
+		if nums[i]+i >= goal {
+			goal = i
+		}
+	}
+	if goal == 0 {
+		return true
+	}
+	return false
+}
+
+// DP?
 func canJump(nums []int) bool {
 	f := make([]bool, len(nums))
 	f[0] = true
