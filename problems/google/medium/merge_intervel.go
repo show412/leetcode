@@ -1,4 +1,14 @@
-import "math"
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:52
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-03 17:58:47
+ * @Description: file content
+ */
+import (
+	"math"
+	"sort"
+)
 
 // https://leetcode.com/problems/merge-intervals/
 /*
@@ -18,6 +28,37 @@ NOTE: input types have been changed on April 15, 2019.
 Please reset to default code definition to get new method signature.
 */
 //  TC O(nlogn), SC O(1) or O(n)
+func merge(intervals [][]int) [][]int {
+	if len(intervals) < 2 {
+		return intervals
+	}
+	res := make([][]int, 0)
+	sort.Slice(intervals, func(i, j int) bool {
+		before := intervals[i]
+		end := intervals[j]
+		if before[0] < end[0] { //按照开始时间进行排序
+			return true
+		}
+		return false
+	})
+	for i := 0; i < len(intervals); i++ {
+		item := intervals[i]
+		if len(res) == 0 || res[len(res)-1][1] < item[0] {
+			res = append(res, item)
+		} else {
+			res[len(res)-1][1] = max(res[len(res)-1][1], item[1])
+		}
+	}
+	return res
+}
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
+// quick sort solution
 func merge(intervals [][]int) [][]int {
 	if len(intervals) < 2 {
 		return intervals
