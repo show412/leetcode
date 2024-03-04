@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-04 22:08:19
+ * @Description: file content
+ */
 // https://leetcode.com/problems/longest-substring-without-repeating-characters/
 /*
 Given a string, find the length of the longest substring without repeating characters.
@@ -23,8 +30,12 @@ Explanation: The answer is "wke", with the length of 3.
 Time complexity : O(2n) = O(n)O(2n)=O(n). In the worst case each character will be visited twice by ii and jj.
 
 Space complexity : O(min(m, n))O(min(m,n)).
+
 Same as the previous approach. We need O(k)O(k) space for the sliding window, where kk is the size of the Set.
 The size of the Set is upper bounded by the size of the string nn and the size of the charset/alphabet mm.
+*/
+/*
+sliding window, use one map to store all string in slding window
 */
 func lengthOfLongestSubstring(s string) int {
 	res := 0
@@ -38,6 +49,7 @@ func lengthOfLongestSubstring(s string) int {
 			l++
 		}
 		res = max(res, r-l+1)
+		r++
 	}
 	return res
 }
