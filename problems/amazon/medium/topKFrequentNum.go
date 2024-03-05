@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-05 17:46:46
+ * @Description: file content
+ */
 import "container/heap"
 
 // https://leetcode.com/problems/top-k-frequent-elements/
@@ -14,11 +21,43 @@ Input: nums = [1], k = 1
 Output: [1]
 Note:
 
+Constraints:
+
+1 <= nums.length <= 105
+-104 <= nums[i] <= 104
+k is in the range [1, the number of unique elements in the array].
+It is guaranteed that the answer is unique.
+
 You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
 Your algorithm's time complexity must be better than O(n log n),
 where n is the array's size.
 */
+// bucket array solution
+func topKFrequent(nums []int, k int) []int {
+	m := make(map[int]int)
+	for _, num := range nums {
+		m[num]++
+	}
+	bucket := make([][]int, len(nums)+1)
+	for k, v := range m {
+		bucket[v] = append(bucket[v], k)
+	}
+	// make(type, len, cap), by default, if we don't define len, it's cap
+	// so we need to define len = 0 here otherwise ret will be k+k
+	ret := make([]int, 0, k)
+	for i := len(bucket) - 1; i >= 0; i-- {
+		// because bucket is one 2-d array, so for those blank index, no next for loop
+		for _, val := range bucket[i] {
+			if k > 0 {
+				ret = append(ret, val)
+				k--
+			}
+		}
+	}
+	return ret
+}
 
+// heap solution, immediate thought is to use heap for "first or top k" problem
 type item struct {
 	value int
 	count int
