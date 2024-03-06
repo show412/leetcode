@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2021-01-22 18:45:51
  * @LastEditors: your name
- * @LastEditTime: 2024-03-06 18:25:55
+ * @LastEditTime: 2024-03-06 18:28:33
  * @Description: file content
  */
 // https://leetcode.com/problems/implement-trie-prefix-tree/
@@ -27,9 +27,9 @@ All inputs are guaranteed to be non-empty strings.
 /*
 字典树, key is the struct
    实际的结构应该是这样的
-       26个字母的rune数组   + isWord 是标识在整个数组的level上的
+       26个字母的rune数组   + isWord 是标识在整个数组的level+1层的
 	     / | \
-	   26个字母的rune数组   + isWord 是标识在整个数组的level上的
+	   26个字母的rune数组   + isWord 是标识在整个数组的level+1层的
 */
 type Trie struct {
 	next   map[rune]*Trie
