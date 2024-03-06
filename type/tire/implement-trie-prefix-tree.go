@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-06 18:25:55
+ * @Description: file content
+ */
 // https://leetcode.com/problems/implement-trie-prefix-tree/
 /*
 Implement a trie with insert, search, and startsWith methods.
@@ -17,6 +24,13 @@ Note:
 You may assume that all inputs are consist of lowercase letters a-z.
 All inputs are guaranteed to be non-empty strings.
 */
+/*
+字典树, key is the struct
+   实际的结构应该是这样的
+       26个字母的rune数组   + isWord 是标识在整个数组的level上的
+	     / | \
+	   26个字母的rune数组   + isWord 是标识在整个数组的level上的
+*/
 type Trie struct {
 	next   map[rune]*Trie
 	isWord bool
@@ -31,6 +45,7 @@ func Constructor() Trie {
 func (this *Trie) Insert(word string) {
 	for _, v := range word {
 		if this.next[v] == nil {
+			// notice we need to allocate one Trie struct and return address
 			this.next[v] = &Trie{next: make(map[rune]*Trie), isWord: false}
 		}
 		this = this.next[v]
