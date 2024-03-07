@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2021-01-22 18:45:51
  * @LastEditors: your name
- * @LastEditTime: 2024-03-07 23:14:21
+ * @LastEditTime: 2024-03-07 23:21:30
  * @Description: file content
  */
 // https://leetcode.com/problems/reorder-list/
@@ -75,6 +75,7 @@ func reorderList(head *ListNode) {
 	实际只有一个link 原来的link并没有记下来
   取得反转的一个link 取得link的长度l.
 	正常和反转的link轮流取一个node 直到反转的link取到l/2长
+	好像不是解释的这样
 */
 // func reorderList(head *ListNode) {
 // 	l := 0

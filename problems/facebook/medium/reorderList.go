@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-07 23:26:21
+ * @Description: file content
+ */
 // https://leetcode.com/problems/reorder-list/
 /*
 Given a singly linked list L: L0→L1→…→Ln-1→Ln,
@@ -19,42 +26,46 @@ Given 1->2->3->4->5, reorder it to 1->5->2->4->3.
  *     Next *ListNode
  * }
  */
-//  1, find middle 2, reverse second half and divide two link 3, reorder two link one by one
+/*
+1, find middle
+2, reverse second half and divide two link
+3, reorder two link one by one
+*/
 func reorderList(head *ListNode) {
 	if head == nil || head.Next == nil {
 		return
 	}
 	// find middle
-	fHalf := head
-	sHalf := head
-	// 注意这里都是第二部分的Next
-	for sHalf.Next != nil && sHalf.Next.Next != nil {
-		fHalf = fHalf.Next
-		sHalf = sHalf.Next.Next
+	slow := head
+	fast := head
+	for fast != nil && fast.Next != nil {
+		slow = slow.Next
+		fast = fast.Next.Next
 	}
-	// reverse second half
-	cur2 := fHalf.Next
+	// find second half link
+	secondHalfHead := slow.Next
 	// divide two link by set first Half next is nil
-	fHalf.Next = nil
-	var pre2 *ListNode
-	for cur2 != nil {
-		next2 := cur2.Next
-		cur2.Next = pre2
-		pre2 = cur2
-		cur2 = next2
+	slow.Next = nil
+	// reverse second half
+	var pre *ListNode
+	for secondHalfHead != nil {
+		secondHalfNext := secondHalfHead.Next
+		secondHalfHead.Next = pre
+		pre = secondHalfHead
+		secondHalfHead = secondHalfNext
 	}
-	// record one by one
-	fHalf = head
-	sHalf = pre2
+	// merge first half and reversed second half one by one
+	firstHalf := head
+	secondHalf := pre
 	var next1 *ListNode
 	var next2 *ListNode
-	for fHalf != nil && sHalf != nil {
-		next1 = fHalf.Next
-		next2 = sHalf.Next
-		fHalf.Next = sHalf
-		sHalf.Next = next1
-		fHalf = next1
-		sHalf = next2
+	for firstHalf != nil && secondHalf != nil {
+		next1 = firstHalf.Next
+		next2 = secondHalf.Next
+		firstHalf.Next = secondHalf
+		secondHalf.Next = next1
+		firstHalf = next1
+		secondHalf = next2
 	}
 	return
 }
@@ -64,6 +75,7 @@ func reorderList(head *ListNode) {
 	实际只有一个link 原来的link并没有记下来
   取得反转的一个link 取得link的长度l.
 	正常和反转的link轮流取一个node 直到反转的link取到l/2长
+	好像不是解释的这样
 */
 // func reorderList(head *ListNode) {
 // 	l := 0
