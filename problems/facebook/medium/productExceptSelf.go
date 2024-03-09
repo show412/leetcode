@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-09 22:45:47
+ * @Description: file content
+ */
 // https://leetcode.com/problems/product-of-array-except-self/
 /*
 Given an array nums of n integers where n > 1,
@@ -45,7 +52,7 @@ func productExceptSelf(nums []int) []int {
 }
 
 // TC is O(n), SC is O(1)
-// 用结果的数组res 存储中间过程 然后用一个变量R来记后缀的乘积总和（不算当前的数i）
+// 用结果的数组res 存储前缀成绩 然后用一个变量post来记后缀的乘积总和（不算当前的数i）
 func productExceptSelf(nums []int) []int {
 	res := make([]int, len(nums))
 	for i := 0; i < len(nums); i++ {
@@ -55,10 +62,10 @@ func productExceptSelf(nums []int) []int {
 		}
 		res[i] = product
 	}
-	R := 1
+	post := 1
 	for i := len(nums) - 1; i >= 0; i-- {
-		res[i] = res[i] * R
-		R = R * nums[i]
+		res[i] = res[i] * post
+		post = post * nums[i]
 	}
 
 	return res
