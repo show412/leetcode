@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2021-01-22 18:45:51
  * @LastEditors: your name
- * @LastEditTime: 2024-03-02 16:53:24
+ * @LastEditTime: 2024-03-10 00:33:08
  * @Description: file content
  */
 // https://leetcode.com/problems/jump-game/
@@ -50,6 +50,7 @@ func canJump(nums []int) bool {
 	f[0] = true
 	for i := 1; i < len(nums); i++ {
 		for j := 0; j < i; j++ {
+			// can jump to i from j
 			f[i] = f[j] && nums[j] >= (i-j)
 			if f[i] == true {
 				break

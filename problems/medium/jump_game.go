@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:52
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-10 00:32:58
+ * @Description: file content
+ */
 // https://leetcode.com/problems/jump-game/
 /*
 Given an array of non-negative integers, you are initially positioned at the first index of the array.
@@ -23,6 +30,7 @@ func canJump(nums []int) bool {
 	f[0] = true
 	for i := 1; i < len(nums); i++ {
 		for j := 0; j < i; j++ {
+			// can jump to i from j
 			f[i] = f[j] && nums[j] >= (i-j)
 			if f[i] == true {
 				break
