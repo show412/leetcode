@@ -36,6 +36,7 @@ func searchMatrix(matrix [][]int, target int) bool {
 	right := m*n - 1
 	for left <= right {
 		index := (left + right) / 2
+		// 除代表在第几行，模(余)代表在第几列
 		if matrix[index/n][index%n] == target {
 			return true
 		}

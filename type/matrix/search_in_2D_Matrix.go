@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2024-03-08 16:31:18
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-08 16:31:19
+ * @Description: file content
+ */
 // https://leetcode.com/problems/search-a-2d-matrix/
 /*
 Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
@@ -36,6 +43,7 @@ func searchMatrix(matrix [][]int, target int) bool {
 	right := m*n - 1
 	for left <= right {
 		index := (left + right) / 2
+		// 除代表在第几行，模(余)代表在第几列
 		if matrix[index/n][index%n] == target {
 			return true
 		}
