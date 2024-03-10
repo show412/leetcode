@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-10 10:56:56
+ * @Description: file content
+ */
 // https://leetcode.com/problems/longest-substring-without-repeating-characters/
 /*
 Given a string, find the length of the longest substring without repeating characters.
@@ -38,6 +45,7 @@ func lengthOfLongestSubstring(s string) int {
 			l++
 		}
 		res = max(res, r-l+1)
+		r++
 	}
 	return res
 }
