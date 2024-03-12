@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-12 12:05:31
+ * @Description: file content
+ */
 // https://leetcode.com/problems/coin-change/
 /*
 You are given coins of different denominations
@@ -23,8 +30,10 @@ You may assume that you have an infinite number of each kind of coin.
 // it's actually a backpack problem, but it's a infinite backpack problem
 // 因为这里coins可以认为是无限制取的 所以初始化状态方程是1维就可以
 // refer to explain to https://www.cnblogs.com/grandyang/p/5138186.html
+// it's also on backpack question
 func coinChange(coins []int, amount int) int {
 	// f[i] means the minize coins number for i amount
+	// assign to amouont+1 because we want one max value, can also assign math.maxInt64
 	f := make([]int, amount+1)
 	for i := 0; i < amount+1; i++ {
 		f[i] = amount + 1
@@ -32,12 +41,16 @@ func coinChange(coins []int, amount int) int {
 	f[0] = 0
 	for i := 1; i < amount+1; i++ {
 		for j := 0; j < len(coins); j++ {
-			if i >= coins[j] {
-				f[i] = min(f[i], f[i-coins[j]]+1)
+			c := coins[j]
+			if i >= c {
+				// here f[i] and f[i-c] maybe still amount + 1
+				// so need one min
+				f[i] = min(f[i], f[i-c]+1)
 			}
 		}
 	}
-	if f[amount] > amount {
+	// no answer means value is still amount+1
+	if f[amount] == amount+1 {
 		return -1
 	}
 	return f[amount]
