@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-12 10:49:12
+ * @Description: file content
+ */
 // https://leetcode.com/problems/maximum-product-subarray/
 /*
 Given an integer array nums, find the contiguous subarray
@@ -28,10 +35,11 @@ func maxProduct(nums []int) int {
 			// so swap max and min
 			imax, imin = imin, imax
 		}
-		imax := max(num, num*imax)
-		imin := min(num, num*imin)
+		imax = max(num, num*imax)
+		imin = min(num, num*imin)
 		res = max(res, imax)
 	}
+	return res
 }
 
 func max(a, b int) int {
@@ -46,4 +54,54 @@ func min(a, b int) int {
 		return a
 	}
 	return b
+}
+
+//  this solution is wrong, can't work
+func maxProduct(nums []int) int {
+	if len(nums) == 1 {
+		return nums[0]
+	}
+	imax, imin := nums[0], nums[0]
+	for i := 1; i < len(nums); i++ {
+		num := nums[i]
+		if num < 0 {
+			imax = max(imax, num*imin, num)
+			imin = min(num*imax, imin, num)
+		} else {
+			imax = max(imax, num*imax, num)
+			imin = min(num*imin, imin, num)
+		}
+	}
+	return imax
+}
+func max(a, b, c int) int {
+	if a > b {
+		if a > c {
+			return a
+		} else {
+			return c
+		}
+	} else {
+		if b > c {
+			return b
+		} else {
+			return c
+		}
+	}
+}
+
+func min(a, b, c int) int {
+	if a < b {
+		if a < c {
+			return a
+		} else {
+			return c
+		}
+	} else {
+		if b < c {
+			return b
+		} else {
+			return c
+		}
+	}
 }
