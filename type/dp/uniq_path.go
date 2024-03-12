@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-12 23:31:42
+ * @Description: file content
+ */
 // https://leetcode.com/problems/unique-paths/
 /*
 A robot is located at the top-left corner of a m x n grid
@@ -31,7 +38,7 @@ Output: 28
 */
 // use DP
 func uniquePaths(m int, n int) int {
-	// f[i][j] is the uniq path amount when it arrives i and j
+	// f[i][j] is the uniq path amount when it arrives i and j from [0][0]
 	f := make([][]int, m)
 	for i := 0; i < m; i++ {
 		f[i] = make([]int, n)
@@ -44,6 +51,8 @@ func uniquePaths(m int, n int) int {
 	}
 	for i := 1; i < m; i++ {
 		for j := 1; j < n; j++ {
+			// when it is going to arrive [i][j], two possible position where it is now:
+			// [i-1][j] or [i][j-1]
 			f[i][j] = f[i-1][j] + f[i][j-1]
 		}
 	}
