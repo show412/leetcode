@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:52
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-14 23:26:52
+ * @Description: file content
+ */
 // https://leetcode.com/problems/encode-and-decode-strings/
 /*
 Design an algorithm to encode a list of strings to a string. The encoded string is then sent over the network and is decoded back to the original list of strings.
@@ -31,7 +38,13 @@ The string may contain any possible characters out of 256 valid ascii characters
 Do not use class member/global/static variables to store states. Your encode and decode algorithms should be stateless.
 Do not rely on any library method such as eval or serialize methods. You should implement your own encode/decode algorithm.
 */
+/*
+this question is about how to make delimiter between string
+we can define encode is like  {len(string)}#string
+we can define decode to parse this encoded string to work out []string
+*/
 type Codec struct {
+  var codec Codec
 }
 
 // Encodes a list of strings to a single string.
