@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:52
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-14 22:41:58
+ * @Description: file content
+ */
 // https://leetcode.com/problems/valid-sudoku/
 /*
 Determine if a 9x9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:
@@ -49,24 +56,40 @@ Only the filled cells need to be validated according to the mentioned rules.
 The given board contain only digits 1-9 and the character '.'.
 The given board size is always 9x9.
 */
-// sub box 可以把每一个 sub box 看成一个格 然后按顺序排下来 i/3 * 3 + j/3 就是 sub box 的序号
+/*
+this question is about finding if there is duplicated 1-9 in row, column and 3*3 sub box
+row and clomun we can use hashmap, the difficult is about how to represent subbox
+可以把每一个 sub box 看成一个3*3二维数组，key 就是 [i/3, j/3]
+*/
+
 func isValidSudoku(board [][]byte) bool {
 	rowMap := make(map[int]map[int]int, 0)
 	colMap := make(map[int]map[int]int, 0)
-	subMap := make(map[int]map[int]int, 0)
+	subMap := make(map[[2]int]map[int]int, 0)
 	for i := 0; i < 9; i++ {
 		rowMap[i] = make(map[int]int, 0)
 		colMap[i] = make(map[int]int, 0)
-		subMap[i] = make(map[int]int, 0)
 	}
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
 			if board[i][j] != '.' {
 				num := int(board[i][j] - '0')
+				_, okRow := rowMap[i]
+				_, okCol := colMap[i]
+				_, okSub := subMap[[2]int{i / 3, j / 3}]
+				if !okRow {
+					rowMap[i] = make(map[int]int, 0)
+				}
+				if !okCol {
+					colMap[i] = make(map[int]int, 0)
+				}
+				if !okSub {
+					subMap[[2]int{i / 3, j / 3}] = make(map[int]int, 0)
+				}
 				rowMap[i][num]++
 				colMap[j][num]++
-				subMap[(i/3)*3+j/3][num]++
-				if rowMap[i][num] > 1 || colMap[j][num] > 1 || subMap[(i/3)*3+j/3][num] > 1 {
+				subMap[[2]int{i / 3, j / 3}][num]++
+				if rowMap[i][num] > 1 || colMap[j][num] > 1 || subMap[[2]int{i / 3, j / 3}][num] > 1 {
 					return false
 				}
 			}
