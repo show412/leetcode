@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2021-01-22 18:45:52
  * @LastEditors: your name
- * @LastEditTime: 2024-03-15 23:23:31
+ * @LastEditTime: 2024-03-16 00:03:11
  * @Description: file content
  */
 // https://leetcode.com/problems/encode-and-decode-strings/
@@ -72,11 +72,12 @@ func Encode(strs []string) string {
 
 func Decode(strs string) []string {
 	res := make([]string, 0)
-	runeArray := []rune(strs)
+	runeArray := []byte(strs)
 	for i := 1; i < len(runeArray); i++ {
 		l := 0
 		s := string(runeArray[i])
 		if s == "#" {
+			// 单引号表示rune类型 双引号表示字符串 反引号表示字面量就是没有任何转义的字符
 			l = int(runeArray[i-1] - '0')
 			res = append(res, string(runeArray[(i+1):(i+1+l)]))
 			i += l
