@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-16 22:29:47
+ * @Description: file content
+ */
 import "sort"
 
 // https://leetcode.com/problems/4sum/
@@ -20,6 +27,7 @@ A solution set is:
   [-2, -1, 1, 2],
   [-2,  0, 0, 2]
 ]
+
 */
 func fourSum(nums []int, target int) [][]int {
 	res := make([][]int, 0)
