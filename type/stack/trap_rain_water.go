@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: your name
+ * @LastEditTime: 2024-03-17 23:00:50
+ * @Description: file content
+ */
 // https://leetcode.com/problems/trapping-rain-water/
 /*
 Given n non-negative integers representing an elevation map where the width of each bar is 1,
@@ -13,6 +20,60 @@ Input: [0,1,0,2,1,0,1,3,2,1,2,1]
 Output: 6
 */
 // 这是一个非常 common 的问题 amazon facebook google 都是高频题
+
+/*
+整体的思路是这样的：
+一个位置能存的水量 取决于它左边的最大值和右边的最大值还有当前位置的值 这个想一下就能理解
+所以解决这个问题其实就是找每个位置i  min(maxleft，maxright) - height[i] then sum them
+所以directly的想法是维持三个数组， maxleft  maxright and current
+tc O(n), SC O(n)
+
+use two pointers to reduce complexity of SC.
+
+TC: O(n)
+SC: O(1)
+*/
+func trap(height []int) int {
+	res := 0
+	left := 0
+	right := len(height) - 1
+	leftMax, rightMax := height[left], height[right]
+	for left < right {
+		if leftMax < rightMax {
+			// becasue letfMax is smaller than rightMax already
+			// although we don't know the real max of right in this position, 
+			// but we know min leftMax and rightMax must be letfMax
+			// so we use leftMax minus height[left]
+			h := leftMax - height[left]
+			if h > 0 {
+				res += h
+			}
+			left++
+			// update leftMax for next position
+            leftMax = max(leftMax, height[left])
+		} else {
+			// becasue rightMax is smaller than leftMax already
+			// although we don't know the real max of left in this position, 
+			// but we know min leftMax and rightMax must be rightMax
+			// so we use rightMax minus height[right]
+			h := rightMax - height[right]
+			if h > 0 {
+				res += h
+			}
+			right--
+            rightMax = max(rightMax, height[right])
+		}
+	}
+	return res
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
 /*
 https://leetcode.com/problems/trapping-rain-water/solution/
 维护一个非递增栈, 当有一个高是大于queue中的 top 时, 说明这个queue 的 top 的位置可以存水了
@@ -48,43 +109,4 @@ func min(a, b int) int {
 		return a
 	}
 	return b
-}
-
-/*
-we can see height[left] < height[right],
-then for pointerleft, he knows a taller bar exists on his right side,
-then if leftMax is taller than him,
-he can contain some water for sure(in our case).
-So we go ans += (left_max - height[left]).
-But if leftMax is shorter than him,
-then there isn't a left side bar can help him contain water,
-then he will become other bars' leftMax.
-so execute (left_max = height[left]).
-Same idea for right part.
-TC: O(n)
-SC: O(1)
-*/
-func trap(height []int) int {
-	res := 0
-	left := 0
-	right := len(height) - 1
-	leftMax, rightMax := 0, 0
-	for left < right {
-		if height[left] < height[right] {
-			if height[left] >= leftMax {
-				leftMax = height[left]
-			} else {
-				res += leftMax - height[left]
-			}
-			left++
-		} else {
-			if height[right] >= rightMax {
-				rightMax = height[right]
-			} else {
-				res += rightMax - height[right]
-			}
-			right--
-		}
-	}
-	return res
 }
