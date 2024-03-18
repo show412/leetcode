@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-03-18 23:50:49
+ * @Description: file content
+ */
 // https://leetcode.com/problems/permutation-in-string/
 /*
 Given two strings s1 and s2, write a function to return true
@@ -50,8 +57,10 @@ true
 https://leetcode.com/submissions/detail/267068953/testcase/
 true
 */
-// this is a slide window
-// use array to store character
+/* 
+this is a slide window
+key is to use two array to store a-z charactor then match them
+*/
 func checkInclusion(s1 string, s2 string) bool {
 	if len(s1) > len(s2) {
 		return false
@@ -63,12 +72,18 @@ func checkInclusion(s1 string, s2 string) bool {
 		arr1[s1[i]-'a']++
 		arr2[s2[i]-'a']++
 	}
-	for i := 0; i < len(s2)-len(s1); i++ {
+ /**
+  * @description: 
+  * @param {*}
+  * @return {*}
+  s2 start to travers from s1, then update arr2 AKA slide windows update
+  */	
+	for i := len(s1); i < len(s2); i++ {
 		if match(arr1, arr2) {
 			return true
 		}
-		arr2[s2[i+len(s1)]-'a']++
-		arr2[s2[i]-'a']--
+		arr2[s2[i]-'a']++
+		arr2[s2[i-len(s1)]-'a']--
 	}
 	return match(arr1, arr2)
 }
@@ -82,7 +97,7 @@ func match(arr1 []int, arr2 []int) bool {
 	return true
 }
 
-// the solution is time limit exceeded
+// the solution is time limit exceeded with hashmap
 // the cost is on the s2 map initialize in second for loop
 func checkInclusion(s1 string, s2 string) bool {
 	ms1 := make(map[byte]int, 0)
