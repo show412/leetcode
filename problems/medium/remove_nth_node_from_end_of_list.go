@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:52
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-03-20 17:09:02
+ * @Description: file content
+ */
 // https://leetcode.com/problems/remove-nth-node-from-end-of-list/
 /*
 Given a linked list, remove the n-th node from the end of list and return its head.
@@ -21,6 +28,9 @@ Could you do this in one pass?
  *     Val int
  *     Next *ListNode
  * }
+ fast slow two pointer solution
+ fast is ahead of slow pointer distance is n
+ when fast is at the end and it's nil, slow is at the n postion
  */
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	/*
@@ -37,6 +47,8 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 			[1,2]
 			2
 			expected [2]
+		when fast move n position and out of this link list
+		means we just remove head from end of list
 		*/
 		if fast.Next == nil {
 			head = head.Next
