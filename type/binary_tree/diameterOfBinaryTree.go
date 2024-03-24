@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-03-24 23:02:21
+ * @Description: file content
+ */
 // https://leetcode.com/problems/diameter-of-binary-tree/
 /*
 Given a binary tree,
@@ -26,22 +33,30 @@ by the number of edges between them.
  *     Right *TreeNode
  * }
  */
+ /*
+ 计算通过每个node的diameter，用递归
+ 从root出发 其实就是算左右子树种最深的情况下子节点的总和
+ */
+//  define one global diameter we can access it in each function
+var diameter int
 func diameterOfBinaryTree(root *TreeNode) int {
 	if root == nil {
 		return 0
 	}
-	diameter := 1
-	_ = depth(root, &diameter)
-	return diameter - 1
+	diameter = 0
+	depth(root)
+	return diameter
 }
-func depth(node *TreeNode, diameter *int) int {
+func depth(node *TreeNode) int {
 	if node == nil {
 		return 0
 	}
-	l := depth(node.Left, diameter)
-	r := depth(node.Right, diameter)
-	// this is key, 总会有一个节点的左右深度为最大
-	*diameter = max(*diameter, l+r+1)
+	l := depth(node.Left)
+	r := depth(node.Right)
+	// this is key, l+r is current diameter through node
+	diameter = max(diameter, l+r)
+	// return the edge length for parent node, notice need to plus 1 
+	// because we calculate current node
 	return max(l, r) + 1
 }
 
