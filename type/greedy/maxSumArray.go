@@ -1,15 +1,8 @@
 /*
  * @Author: hongwei.sun
  * @Date: 2024-03-02 23:12:05
- * @LastEditors: your name
- * @LastEditTime: 2024-03-04 12:13:28
- * @Description: file content
- */
-/*
- * @Author: hongwei.sun
- * @Date: 2021-01-22 18:45:51
- * @LastEditors: your name
- * @LastEditTime: 2024-03-02 23:11:53
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-03-26 15:22:59
  * @Description: file content
  */
 // https://leetcode.com/problems/maximum-subarray/
