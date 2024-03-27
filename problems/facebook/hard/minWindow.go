@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-03-27 16:13:28
+ * @Description: file content
+ */
 // https://leetcode.com/problems/minimum-window-substring/
 /*
 Given a string S and a string T,
@@ -16,7 +23,10 @@ If there is such window, you are guaranteed
 that there will always be only one unique minimum window in S.
 */
 /*
-滑动窗口
+s中用滑动窗口
+1， 两个hash 去存s滑动窗口的字符串 和 t的字符串
+2， 为了防止重复比较s和t 可以用两个数字去比较s和t
+3， 先向右滑动 有结果了 再向左 直到r到了s末尾
 */
 func minWindow(s string, t string) string {
 	if len(s) == 0 || len(t) == 0 {
@@ -27,44 +37,39 @@ func minWindow(s string, t string) string {
 	for i := 0; i < len(t); i++ {
 		mT[t[i]] += 1
 	}
-	tNum := len(mT)
-	// hashmap record the t charcter in s
+	// hashmap record the charcter in s
 	mS := make(map[byte]int, 0)
-	// two pointer
+	// two pointer for slide windows
 	l, r := 0, 0
 	// have matched charcter number
-	formerNum := 0
-	// flag means if or not there is a matched
-	flag := false
-	// s, e means the matched start and end in s
-	start, end := 0, len(s)-1
-
+	have, need := 0, len(mT)
+	// result here we need to define end to be one value bigger than s length, it can be len(s) or len(s)+1, even math.maxInt64
+	start, end := 0, len(s)
 	for r < len(s) {
 		c := s[r]
 		mS[c] += 1
 		if _, ok := mT[c]; ok && mT[c] == mS[c] {
-			formerNum++
+			have++
 		}
-
-		for l <= r && formerNum == tNum {
-			// when the window is narrow, update the start and end
-			if (r - l) <= (end - start) {
-				flag = true
+		for have == need {
+			if (r - l) < (end-start) {
 				start = l
 				end = r
 			}
-			b := s[l]
-			mS[b] -= 1
-			if _, ok := mT[b]; ok && mS[b] < mT[b] {
-				formerNum--
+			// left pointer move forward
+			mS[s[l]]--
+			// check if s[l] is in mT and if count is smaller than mT, have decerement by 1
+			// why it should be smaller than mT cause of mS[s[l]] possible is bigger than mT[s[l]]
+			if _, ok := mT[s[l]]; ok && mS[s[l]] < mT[s[l]]{
+				have--
 			}
 			l++
 		}
 		r++
 	}
-	if flag == true {
-		return s[start:(end + 1)]
-	} else {
-		return ""
-	}
+    if end == len(s) {
+        return ""
+    } else {
+        return s[start:(end+1)]
+    }
 }
