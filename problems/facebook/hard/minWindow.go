@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2021-01-22 18:45:51
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-03-27 16:13:28
+ * @LastEditTime: 2024-03-27 16:37:06
  * @Description: file content
  */
 // https://leetcode.com/problems/minimum-window-substring/
@@ -25,7 +25,7 @@ that there will always be only one unique minimum window in S.
 /*
 s中用滑动窗口
 1， 两个hash 去存s滑动窗口的字符串 和 t的字符串
-2， 为了防止重复比较s和t 可以用两个数字去比较s和t
+2， 为了防止重复比较s和t 可以用两个数字have and need 去比较s和t, have present for total in s meet string of t
 3， 先向右滑动 有结果了 再向左 直到r到了s末尾
 */
 func minWindow(s string, t string) string {
