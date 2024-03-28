@@ -2,14 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2024-03-28 12:36:17
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-03-28 12:36:17
- * @Description: file content
- */
-/*
- * @Author: hongwei.sun
- * @Date: 2021-01-22 18:45:52
- * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-03-28 12:27:44
+ * @LastEditTime: 2024-03-28 12:47:44
  * @Description: file content
  */
 // https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/
@@ -42,6 +35,7 @@ if mid > nums[l] means left half is sorted otherwise right left is sorted
   1)if l is smaller than right, means it's sorted already
   2)we need to compare mid and current res if mid is exact the min value
 
+最小值肯定在unsorted subarray里， 总是去unsorted里去找 然后通过min比较 最后l==r 一定能找到
 */
 func findMin(nums []int) int {
 	l := 0
