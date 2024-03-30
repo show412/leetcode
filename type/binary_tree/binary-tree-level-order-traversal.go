@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2024-03-30 23:18:11
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-03-30 23:39:54
+ * @LastEditTime: 2024-03-30 23:46:17
  * @Description: file content
  */
 // https://leetcode.com/problems/binary-tree-level-order-traversal/description/
@@ -67,3 +67,27 @@ func levelOrder(root *TreeNode) [][]int {
 	return res
  }
 
+ // it's a recursion solution
+//  by level to traverse
+ func levelOrder(root *TreeNode) [][]int {
+	if root == nil {
+		return [][]int{}
+	}
+	res := make([][]int, 0)
+	helper(root, 0, &res)
+	return res
+}
+
+func helper(node *TreeNode, level int, res *[][]int) {
+	if len(*res) == level {
+		(*res) = append(*res, make([]int, 0))
+	}
+	(*res)[level] = append((*res)[level], node.Val)
+	if node.Left != nil {
+		helper(node.Left, level+1, res)
+	}
+	if node.Right != nil {
+		helper(node.Right, level+1, res)
+	}
+	return
+}
