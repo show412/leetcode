@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-03-30 23:14:07
+ * @Description: file content
+ */
 // https://leetcode.com/problems/binary-tree-inorder-traversal/
 /*
 Given a binary tree, return the inorder traversal of its nodes' values.
@@ -32,6 +39,7 @@ func inorderTraversal(root *TreeNode) []int {
 	left := inorderTraversal(root.Left)
 	right := inorderTraversal(root.Right)
 	if len(left) != 0 {
+		// ...代表可变参数，slice的话就是把这个slice里的value都append到res里
 		res = append(res, left...)
 	}
 	res = append(res, root.Val)
