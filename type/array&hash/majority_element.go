@@ -1,8 +1,15 @@
 /*
  * @Author: hongwei.sun
+ * @Date: 2024-03-31 20:46:58
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-03-31 20:46:58
+ * @Description: file content
+ */
+/*
+ * @Author: hongwei.sun
  * @Date: 2021-01-22 18:45:51
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-03-31 21:15:15
+ * @LastEditTime: 2024-03-31 20:36:42
  * @Description: file content
  */
 // https://leetcode.com/problems/majority-element/description/
@@ -27,7 +34,7 @@
 // n == nums.length
 // 1 <= n <= 5 * 104
 // -109 <= nums[i] <= 109
-// Boyer–Moore_majority_vote_algorithm  多数投票算法
+
 func majorityElement(nums []int) int {
 	return nil if nums == nil || len(nums) == 0
 	var candidate int

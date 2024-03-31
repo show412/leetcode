@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-03-31 21:17:34
+ * @Description: file content
+ */
 // https://leetcode.com/problems/majority-element-ii/
 /*
 Given an integer array of size n, find all elements that appear more than ⌊ n/3 ⌋ times.
@@ -35,6 +42,9 @@ func majorityElement(nums []int) []int {
 }
 
 // TC O(n), SC O(1)
+// Boyer–Moore_majority_vote_algorithm 一种变体 
+// https://zh.wikipedia.org/wiki/%E5%A4%9A%E6%95%B0%E6%8A%95%E7%A5%A8%E7%AE%97%E6%B3%95
+// 只所以要进行第二次遍历比较，是因为只能说找到了两个数是众数，但是不一定是大于1/3
 func majorityElement(nums []int) []int {
 	// Since we are checking if a num appears more than 1/3 of the time
 	// it is only possible to have at most 2 nums (>1/3 + >1/3 = >2/3)
