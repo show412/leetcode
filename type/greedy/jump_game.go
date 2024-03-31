@@ -1,13 +1,14 @@
 /*
  * @Author: hongwei.sun
  * @Date: 2021-01-22 18:45:51
- * @LastEditors: your name
- * @LastEditTime: 2024-03-10 00:33:08
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-03-31 11:35:49
  * @Description: file content
  */
 // https://leetcode.com/problems/jump-game/
 /*
-Given an array of non-negative integers, you are initially positioned at the first index of the array.
+Given an array of non-negative integers, 
+you are initially positioned at the first index of the array.
 
 Each element in the array represents your maximum jump length at that position.
 
