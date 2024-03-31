@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-03-31 22:01:35
+ * @Description: file content
+ */
 import "container/heap"
 
 // https://leetcode.com/problems/merge-k-sorted-lists/
@@ -14,6 +21,53 @@ Input:
 ]
 Output: 1->1->2->3->4->4->5->6
 */
+// straightfoward is to merge one by one
+// TC is O(nk)  SC is O(1)
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+ func mergeKLists(lists []*ListNode) *ListNode {
+    if len(lists) == 0 {
+		return nil
+	}
+	if len(lists) == 1 {
+		return lists[0]
+	}
+	res := lists[0]
+	for i := 1; i < len(lists); i++ {
+		res = mergeLists(res, lists[i])
+	}
+	return res
+ }
+
+ func mergeLists(l1 *ListNode, l2 *ListNode) *ListNode {
+	dummy := &ListNode{}
+	cur := dummy
+	for l1 != nil && l2 != nil {
+		if l1.Val < l2.Val {
+			cur.Next = l1
+			cur = l1
+			l1 = l1.Next
+		} else {
+			cur.Next = l2
+			cur =l2
+			l2 = l2.Next
+		}
+	}
+	for l1 != nil {
+		cur.Next = l1
+	}
+	for l2 != nil {
+		cur.Next = l2
+	}
+	return dummy.Next
+ }
+
+
 // ListHeap is type of heap of `ListNode`
 type ListHeap []*ListNode
 
