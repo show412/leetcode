@@ -1,8 +1,8 @@
 /*
  * @Author: hongwei.sun
  * @Date: 2024-03-05 09:56:26
- * @LastEditors: your name
- * @LastEditTime: 2024-03-05 11:39:04
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-04-02 14:41:01
  * @Description: file content
  */
 //  https://leetcode.com/problems/clone-graph/
@@ -53,12 +53,14 @@
 // There are no repeated edges and no self-loops in the graph.
 // The Graph is connected and all nodes can be visited starting from the given node.
 /**
+/**
  * Definition for a Node.
  * type Node struct {
  *     Val int
  *     Neighbors []*Node
  * }
  */
+
 /*
 The key is to use one map to store node map to newNode cloned already for avoiding duplicated clone.
 solution is we clone all node firstly, then find neighbors of new node by cloned

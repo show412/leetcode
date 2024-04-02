@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2021-01-22 18:45:52
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-04-02 09:43:55
+ * @LastEditTime: 2024-04-02 11:41:29
  * @Description: file content
  */
  import "math"
@@ -49,7 +49,7 @@
   *     Right *TreeNode
   * }
   */
- func isBalanced(root *TreeNode) bool {
+func isBalanced(root *TreeNode) bool {
 	 balanced, _ := checkDepth(root)
 	 return balanced
  }
