@@ -1,3 +1,0 @@
-def selectionSort(array)
-
-end

@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:52
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-04-02 09:43:48
+ * @Description: file content
+ */
 import "math"
 
 // https://leetcode.com/problems/balanced-binary-tree/
@@ -43,30 +50,19 @@ Return false.
  * }
  */
 func isBalanced(root *TreeNode) bool {
-	if checkDepth(root) == -1 {
-		return false
-	}
-	return true
+	balanced, _ := checkDepth(root)
+	return balanced
 }
 
-func checkDepth(root *TreeNode) int {
+func checkDepth(root *TreeNode) (bool, int) {
 	if root == nil {
-		return 0
+		return true, 0
 	}
-	left := checkDepth(root.Left)
-	if left == -1 {
-		return -1
-	}
-	right := checkDepth(root.Right)
-	if right == -1 {
-		return -1
-	}
-	diff := math.Abs(float64(left - right))
-	if diff > 1 {
-		return -1
-	} else {
-		return 1 + max(left, right)
-	}
+	leftBalanced, left := checkDepth(root.Left)
+	
+	rightBalanced, right := checkDepth(root.Right)
+	balanced := (leftBalanced && rightBalanced && math.Abs(float64(left - right)) <=1) 
+	return balanced, 1 + max(left, right)
 }
 func max(a int, b int) int {
 	if a > b {
