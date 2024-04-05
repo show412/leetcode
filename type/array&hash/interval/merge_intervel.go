@@ -21,6 +21,39 @@ NOTE: input types have been changed on April 15, 2019.
 Please reset to default code definition to get new method signature.
 */
 //  TC O(nlogn), SC O(1) or O(n)
+// sort里有直接的slice函数去排序 不用自己写quicksort或者定义接口排序
+func merge(intervals [][]int) [][]int {
+    res := make([][]int, 0)
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+	for i := 0; i < len(intervals); i++ { 
+		interval := intervals[i]
+		if len(res) == 0 || res[len(res)-1][1] < interval[0] {
+			res = append(res, interval)
+		} else {
+			res[len(res)-1] = []int{min(res[len(res)-1][0], interval[0]), max(res[len(res)-1][1], interval[1])}
+		}
+	}
+	return res
+ }
+
+ func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+ }
+
+ func min(a, b int) int {
+	if a < b {
+		return a
+	}
+	return b
+ }
+
+
+
 func merge(intervals [][]int) [][]int {
 	if len(intervals) < 2 {
 		return intervals
