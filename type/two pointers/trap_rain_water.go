@@ -1,8 +1,8 @@
 /*
  * @Author: hongwei.sun
- * @Date: 2021-01-22 18:45:51
+ * @Date: 2024-04-03 19:21:36
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-04-03 20:36:38
+ * @LastEditTime: 2024-04-03 19:21:37
  * @Description: file content
  */
 // https://leetcode.com/problems/trapping-rain-water/
@@ -43,8 +43,6 @@ func trap(height []int) int {
 			// becasue letfMax is smaller than rightMax already
 			// although we don't know the real max of right in this position, 
 			// but we know min leftMax and rightMax must be letfMax
-			// 因为当前我们拿的rightMax 可能右边还有比它小的，既然比它小那肯定不是rightmax
-			// 也可能有比它大的 那样的话 当前leftmax<rightMax< real rightMax, 那leftMax肯定还是其中最小的
 			// so we use leftMax minus height[left]
 			h := leftMax - height[left]
 			if h > 0 {
@@ -79,34 +77,36 @@ func max(a, b int) int {
 /*
 https://leetcode.com/problems/trapping-rain-water/solution/
 维护一个非递增栈, 当有一个高是大于queue中的 top 时, 说明这个queue 的 top 的位置可以存水了
-可存的水是pop 出这个 top 之后 current 的 index 和剩下的栈中顶部(也就是最小值)之间可以存的水
+可存的水是pop 出这个 top 之后 current 的 index 和剩下的 top 之间可以存的水
 所以高度是 min * distance
 TC: O(n)
 SC: O(n)
 */
 func trap(height []int) int {
-	stack := make([]int, 0)
 	res := 0
-	// 第一个元素首席初始化进栈
-	stack = append(stack, 0)
-	for i := 1; i < len(height); i++ {
-		for height[i] > height[stack[len(stack)-1]] {
-			top := stack[len(stack)-1]
-			stack = stack[:len(stack)-1]
-			if len(stack) == 0 {
+	index := 0
+	queue := make([]int, 0)
+	for index < len(height) {
+		for len(queue) != 0 && height[index] > height[queue[len(queue)-1]] {
+			top := queue[len(queue)-1]
+			queue = queue[:(len(queue) - 1)]
+			// when the second index, the first index couldn't store water
+			if len(queue) == 0 {
 				break
 			}
-			trap := (min(height[i], height[stack[len(stack)-1]]) - height[top]) * (i-stack[len(stack)-1]-1)
-			res += trap
+			distance := index - queue[len(queue)-1] - 1
+			boundedHeight := min(height[index], height[queue[len(queue)-1]]) - height[top]
+			res += boundedHeight * distance
 		}
-		stack = append(stack, i)
+		queue = append(queue, index)
+		index++
 	}
 	return res
- }
+}
 
 func min(a, b int) int {
 	if a < b {
 		return a
 	}
 	return b
- }
+}

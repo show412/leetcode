@@ -1,15 +1,8 @@
 /*
  * @Author: hongwei.sun
  * @Date: 2024-03-11 14:19:49
- * @LastEditors: your name
- * @LastEditTime: 2024-03-11 14:19:50
- * @Description: file content
- */
-/*
- * @Author: hongwei.sun
- * @Date: 2021-01-22 18:45:51
- * @LastEditors: your name
- * @LastEditTime: 2024-03-11 14:19:21
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-04-03 17:38:44
  * @Description: file content
  */
 import "sort"
@@ -40,9 +33,12 @@ output: [[-5,1,4],[-3,-1,4],[-3,0,3],[-2,-1,3],[-2,1,1],[-1,0,1],[0,0,0]]
 */
 /*
 1, sort
-2, from negative value and skip duplicated value
+2, from negative value 
 3, 2sum to find other 2 values
 4, find the other solution with other combination
+这题关键是去重 要用nums[i] == nums[i-1] 和前面的去比较 然后continue
+因为如果i 和 i-1相等 那就是会在后面双指针的时候找到和i-1一样的 就重复了
+2sum也是一样的， 所以要和前面的i-1比
 */
 func threeSum(nums []int) [][]int {
 	res := make([][]int, 0)

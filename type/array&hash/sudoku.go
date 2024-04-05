@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2021-01-22 18:45:52
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-04-03 16:52:16
+ * @LastEditTime: 2024-04-03 16:52:39
  * @Description: file content
  */
 // https://leetcode.com/problems/valid-sudoku/
@@ -60,7 +60,6 @@ The given board size is always 9x9.
 this question is about finding if there is duplicated 1-9 in row, column and 3*3 sub box
 row and clomun we can use hashmap, the difficult is about how to represent subbox
 可以把每一个 sub box 看成一个3*3二维数组，key 就是 [i/3, j/3]
-这个题难在如何定义三个map上
 */
 
 func isValidSudoku(board [][]byte) bool {

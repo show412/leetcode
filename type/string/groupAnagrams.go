@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-04-03 15:31:57
+ * @Description: file content
+ */
 import "sort"
 
 // https://leetcode.com/problems/group-anagrams/
@@ -18,6 +25,35 @@ Note:
 All inputs will be in lowercase.
 The order of your output does not matter.
 */
+/*
+map的key是一个定长数组，这样就能比较了
+value是[]string 
+*/
+
+func groupAnagrams(strs []string) [][]string {
+    m := make(map[[26]int][]string, 0)
+	res := make([][]string, 0)
+	for _, str := range strs {
+		array := getAnagrams(str)
+		
+			m[array] = append(m[array], str)
+		
+	}
+	for _, v := range m {
+		res = append(res, v)
+	}
+	return res
+ }
+
+ func getAnagrams(str string) [26]int {
+	var a [26]int
+	for _, s := range str {
+		a[s - 'a']++
+	}
+	return a
+ }
+
+
 
 // 定义一个type是[]byte的alias
 type strArray []byte

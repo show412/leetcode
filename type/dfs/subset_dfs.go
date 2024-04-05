@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-04-04 20:33:04
+ * @Description: file content
+ */
 // https://leetcode.com/problems/subsets/
 func subsets(nums []int) [][]int {
 	results := make([][]int, len(nums))
@@ -20,7 +27,7 @@ func dfs(subsets *[]int, nums []int, start int, *results [][]int) {
 	for i := start; i < len(nums); i++ {
 		*subsets = append(*subsets,nums[i])
 		dfs(subsets, nums, i+1, results)
-    *subsets = (*subsets)[:len(*subsets)-1]
+    	*subsets = (*subsets)[:len(*subsets)-1]
 	}
 }
 
