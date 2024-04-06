@@ -38,13 +38,42 @@ but they don't overlap each other.
 让求需要至少移除多少个区间才能使剩下的区间没有重叠，
 那么首先要给区间排序，根据每个区间的 start 来做升序排序，
 然后开始要查找重叠区间，判断方法是看如果前一个区间的 end 大于后一个区间的 start，
+
 那么一定是重复区间，此时结果 res 自增1，我们需要删除一个，那么此时究竟该删哪一个呢，
-为了保证总体去掉的区间数最小，我们去掉那个 end 值较大的区间.
+为了保证总体去掉的区间数最小，我们去掉那个 end 值较大的区间, 保留更小的元素.
 而在代码中，
 我们并没有真正的删掉某一个区间，而是用一个变量 last 指向上一个需要比较的区间，
 我们将 last 指向 end 值较小的那个区间；如果两个区间没有重叠，
 那么此时 last 指向当前区间，继续进行下一次遍历
 */
+
+// 直接用sort.Slice就可以排序数组
+func eraseOverlapIntervals(intervals [][]int) int {
+    res := 0
+	if (len(intervals) == 1) {
+		return res
+	}
+	last := 0
+	sort.Slice(intervals, func(i, j int) bool {
+		return intervals[i][0] < intervals[j][0]
+	})
+	for i := 1; i < len(intervals); i++ {
+		// means overlap
+		if intervals[last][1] > intervals[i][0] {
+			res++
+			// keep end of item has less
+			if intervals[last][1] > intervals[i][1] {
+				last = i
+			}
+		} else {
+			// if no overlap, last move to current item for comparing next loop
+			last = i
+		}
+	}
+	return res
+ }
+
+
 
 type Interval [][]int
 
