@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2024-04-02 14:19:00
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-04-02 14:39:02
+ * @LastEditTime: 2024-04-06 17:18:31
  * @Description: file content
  */
 //  https://leetcode.com/problems/surrounded-regions/description/
@@ -54,19 +54,19 @@ func solve(board [][]byte) {
             return
         }
         board[row][col] = '#'
+        // 四个方向走
         dfs(row+1, col)
         dfs(row-1, col)
         dfs(row, col+1)
         dfs(row, col-1)
     }
-
-    // 遍历第一行和最后一行，标记与'O'相连的区域
+    // 遍历第一列和最后一列，标记'O'以及从这个‘O’四个方向的区域
     for i := 0; i < rows; i++ {
         dfs(i, 0)
         dfs(i, cols-1)
     }
 
-    // 遍历第一列和最后一列，标记与'O'相连的区域
+    // 遍历第一行和最后一行，标记'O'以及从这个‘O’四个方向的区域
     for j := 0; j < cols; j++ {
         dfs(0, j)
         dfs(rows-1, j)
