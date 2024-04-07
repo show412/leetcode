@@ -1,4 +1,11 @@
-// https://leetcode.com/problems/add-and-search-word-data-structure-design/
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-04-07 10:16:59
+ * @Description: file content
+ */
+// https://leetcode.com/problems/design-add-and-search-words-data-structure/
 /*
 
 void addWord(word)
@@ -34,46 +41,51 @@ https://leetcode.com/submissions/detail/254987033/testcase/#
 
 */
 // tire tree solution, and it's a common write code for tire tree
+// make(t Type) return same Type. The make built-in function allocates and initializes an object of type slice, map, or chan (only).
 type WordDictionary struct {
-	// 注意这里是个 hash
-	next   map[rune]*WordDictionary
+	// 这里next是个hashmap
+    next map[rune]*WordDictionary
 	isWord bool
-}
-
-func Constructor() WordDictionary {
-	return WordDictionary{next: make(map[rune]*WordDictionary), isWord: false}
-}
-
-func (this *WordDictionary) AddWord(word string) {
-	for _, v := range word {
-		// 如果存在了就跳过 不存在才生成一个节点
-		if this.next[v] == nil {
-			this.next[v] = &WordDictionary{next: make(map[rune]*WordDictionary), isWord: false}
+ }
+ 
+ 
+ func Constructor() WordDictionary {
+	// 初始化用make make返回一样的type， new方法返回的是 指向type的指针
+	 return WordDictionary{next: make(map[rune]*WordDictionary), isWord: false}
+ }
+ 
+ 
+ func (this *WordDictionary) AddWord(word string)  {
+	 for _, w := range word {
+		if this.next[w] == nil {
+			// 初始化用make make返回一样的type， new方法返回的是 指向type的指针
+			this.next[w] = &WordDictionary{next: make(map[rune]*WordDictionary), isWord: false}
 		}
-		// 然后向下走
-		this = this.next[v]
-	}
-	// 标记当前是一个结束标志
-	this.isWord = true
-}
-
-func (this *WordDictionary) Search(word string) bool {
-	for k, v := range word {
-		if v == '.' {
-			for _, v := range this.next {
-				// 这里用到了递归
-				if v.Search(word[k+1:]) {
-					return true
-				}
+		this = this.next[w]
+	 }
+	 this.isWord = true
+ }
+ 
+ 
+ func (this *WordDictionary) Search(word string) bool {
+	for k, w := range word {
+		if w == '.' {
+            // 遍历当前level的所有next里的字母
+			for _, d := range this.next {
+				// 这是这道题的难点，得用递归去继续找‘.’这种情况
+				// 如果能找到是一个词(isWord == true) 就返回true
+				// 这里不能用return d.Search, 因为上面是个遍历，这里return的话就直接return第一个了
+				// 都遍历完了没有任何一个isWord再返回false
+				if d.Search(word[(k+1):]) {
+                    return true
+                }
 			}
+            return false
+		} else if this.next[w] == nil {
 			return false
 		} else {
-			if this.next[v] == nil {
-				return false
-			}
-			this = this.next[v]
-		}
+            this = this.next[w]
+        }
 	}
-	// 有可能word 只是一部分 而不是完整的词 比如字典里存的是 abcd  word 是 abc 上面的流程也能走通 但是应该返回 false
 	return this.isWord
-}
+ }
