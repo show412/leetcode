@@ -1,15 +1,8 @@
 /*
  * @Author: hongwei.sun
  * @Date: 2024-03-13 13:53:53
- * @LastEditors: your name
- * @LastEditTime: 2024-03-13 13:53:54
- * @Description: file content
- */
-/*
- * @Author: hongwei.sun
- * @Date: 2021-01-22 18:45:52
- * @LastEditors: your name
- * @LastEditTime: 2024-03-13 13:52:13
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-04-07 23:23:59
  * @Description: file content
  */
 // https://leetcode.com/problems/coin-change-2/
@@ -52,6 +45,29 @@ coin-change is about minize we can choose from coins.
 here actually it's same we can use same thought solution
 just it's not minize
 */
+/*
+这个二维的dp 相对好理解
+dp[i][j] 代表前i个硬币能组成总数为j的个数，要注意最后减的时候 因为是前i个 实际取应该是coins[i-1]
+*/
+func change(amount int, coins []int) int {
+	dp := make([][]int, len(coins)+1)
+	for i := 0; i < len(dp); i++ {
+		dp[i] = make([]int, amount+1)
+	}
+	dp[0][0] = 1
+	for i := 1; i <= len(coins); i++ {
+		dp[i][0] = 1
+		for j := 1; j <= amount; j++ {
+			dp[i][j] = dp[i-1][j]
+			if coins[i-1] <= j {
+				dp[i][j] += dp[i][j-coins[i-1]]
+			}
+		}
+	} 
+	return dp[len(coins)][amount]
+}
+
+
 func change(amount int, coins []int) int {
 	// dp array present coins combination selection number for i
 	dp := make([]int, amount+1)
