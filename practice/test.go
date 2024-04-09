@@ -2,27 +2,47 @@
  * @Author: hongwei.sun
  * @Date: 2024-04-03 14:54:08
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-04-03 22:23:20
+ * @LastEditTime: 2024-04-09 20:50:31
  * @Description: file content
  */
-func findMin(nums []int) int {
-	l := 0
-	r := len(nums)-1
-	res := nums[0]
-	for l <= r {
-		if nums[l] < nums[r] {
-			res = min(res, nums[l])
-			break
-		}
-		mid := l + (r-l)/2
-		res = min(res, nums[mid])
-		if nums[mid] > nums[l] {
-			l = mid+1
-		} else {
-			r = mid-1
-		}
+ /**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+ func isSymmetric(root *TreeNode) bool {
+    if root == nil {
+		return true
 	}
-	return res
+	left := root.Left
+	right := root.Right
+	
+	return isMirror(left,right)
+ }
+
+ func isMirror(left *TreeNode, right *TreeNode) bool {
+	if left == nil && right == nil {
+		return true
+	}
+	if left != nil && right != nil && left.Val == right.Val {
+		return isMirror(left.Left, right.Right) && isMirror(left.Right, right.Left)
+	} else {
+		return false
+	}
+ }
+
+
+
+
+func sumWithForLoop(numbers []int) int {
+    sum := 0
+    for _, num := range numbers {
+        sum += num
+    }
+    return sum
 }
 
  func max(a, b int) int {

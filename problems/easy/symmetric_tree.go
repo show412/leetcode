@@ -1,11 +1,12 @@
 /*
  * @Author: hongwei.sun
  * @Date: 2023-10-18 16:25:44
- * @LastEditors: your name
- * @LastEditTime: 2023-10-18 16:35:45
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-04-09 20:06:45
  * @Description: file content
  https://leetcode.com/problems/symmetric-tree/
- Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+ Given the root of a binary tree, 
+ check whether it is a mirror of itself (i.e., symmetric around its center).
 */
 /**
  * Definition for a binary tree node.
