@@ -2,11 +2,14 @@ import "math"
 
 // https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
 /*
-Say you have an array for which the ith element is the price of a given stock on day i.
+You are given an integer array prices where prices[i] is the price of a given stock 
+on the ith day.
 
-Design an algorithm to find the maximum profit. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times).
+On each day, you may decide to buy and/or sell the stock. 
+You can only hold at most one share of the stock at any time. 
+However, you can buy it then immediately sell it on the same day.
 
-Note: You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).
+Find and return the maximum profit you can achieve.
 
 Example 1:
 
@@ -27,6 +30,30 @@ Input: [7,6,4,3,1]
 Output: 0
 Explanation: In this case, no transaction is done, i.e. max profit = 0.
 */
+
+// greedy
+func maxProfit(prices []int) int {
+	if len(prices) <= 1 {
+		return 0
+	}
+	profit := 0
+	for i := 0; i < len(prices)-1; i++ {
+		// it looks like it means it's buy and sell at the same time
+		// actually, suppose that from a to b is increased
+		/*
+			it means prices[b+1] - prices[b] + prices[b] - prices[b-1] ....prices[a+1] - prices[a]
+			finally prices[b] - prices[a]
+			whatever how many days from a to b, it's fine for it
+			p[2]-p[1] + p[1] - p[0] => p[2]-p[0]
+			其实就是波峰减波谷
+		*/
+		diff := prices[i+1] - prices[i]
+		if diff > 0 {
+			profit += diff
+		}
+	}
+	return profit
+}
 
 func maxProfit(prices []int) int {
 	if len(prices) <= 1 {
@@ -79,26 +106,4 @@ func maxProfit(prices []int) int {
 	return profit
 }
 
-// greedy
-func maxProfit(prices []int) int {
-	if len(prices) <= 1 {
-		return 0
-	}
-	profit := 0
-	for i := 0; i < len(prices)-1; i++ {
-		// it looks like it means it's buy and sell at the same time
-		// actually, suppose that from a to b is increased
-		/*
-			it means prices[b+1] - prices[b] + prices[b] - prices[b-1] ....prices[a+1] - prices[a]
-			finally prices[b] - prices[a]
-			whatever how many days from a to b, it's fine for it
-			p[2]-p[1] + p[1] - p[0] => p[2]-p[0]
-			其实就是波峰减波谷
-		*/
-		diff := prices[i+1] - prices[i]
-		if diff > 0 {
-			profit += diff
-		}
-	}
-	return profit
-}
+
