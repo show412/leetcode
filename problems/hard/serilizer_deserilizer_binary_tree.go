@@ -1,3 +1,4 @@
+// https://leetcode.com/problems/serialize-and-deserialize-binary-tree/description/
 // Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
 
 // Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure.
@@ -17,6 +18,90 @@
 
 // Note: Do not use class member/global/static variables to store states. Your serialize and deserialize algorithms should be stateless.
 
+
+
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+// serialize can use preorder to be in one string
+// deserialize can be from this string
+// key is to figure out dfs
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+
+ type Codec struct {
+    
+ }
+ 
+ func Constructor() Codec {
+     return Codec{}
+ }
+ 
+ // Serializes a tree to a single string.
+ func (this *Codec) serialize(root *TreeNode) string {
+    str := ""
+    // 函数的定义要提前定义 因为dfs里面有递归
+    var dfs func(node *TreeNode)
+    dfs = func(node *TreeNode) {
+    if str != "" {
+        str += ","
+    }
+    if node == nil {
+        str += "N"
+        return
+    }
+    str += strconv.Itoa(node.Val)
+    dfs(node.Left)
+    dfs(node.Right)
+    }
+    dfs(root)
+    // fmt.Println("serialize is ", str)
+    return str
+ }
+ 
+ // Deserializes your encoded data to tree.
+ func (this *Codec) deserialize(data string) *TreeNode {    
+    array := strings.Split(data, ",")
+    var dfs func() *TreeNode
+    dfs = func () *TreeNode {
+        cur := array[0]
+        array = array[1:]
+        // fmt.Println("cur is ", cur)
+        // fmt.Println("-------")
+        // return nil here, 也就因为着递归的结束，将会逐层return 因为不再调一样的函数了
+        // 这也是递归的常用结束方式
+        if cur == "N" {
+            return nil
+        }
+        val, _ := strconv.Atoi(cur)
+        return &TreeNode{val, dfs(), dfs()}
+    }
+    return dfs()
+ }
+
+/**
+ * Your Codec object will be instantiated and called as such:
+ * ser := Constructor();
+ * deser := Constructor();
+ * data := ser.serialize(root);
+ * ans := deser.deserialize(data);
+ */
+
+
+
+//  java implementation
+// https://leetcode.com/problems/serialize-and-deserialize-binary-tree/description/
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -26,9 +111,6 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
-
-// https://leetcode.com/problems/serialize-and-deserialize-binary-tree/description/
-
 public class Codec {
 
     // Encodes a tree to a single string.

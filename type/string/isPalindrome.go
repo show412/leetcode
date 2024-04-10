@@ -1,3 +1,10 @@
+/*
+ * @Author: hongwei.sun
+ * @Date: 2021-01-22 18:45:51
+ * @LastEditors: hongwei.sun
+ * @LastEditTime: 2024-04-10 22:14:13
+ * @Description: file content
+ */
 import "strings"
 
 // https://leetcode.com/problems/valid-palindrome/
@@ -16,6 +23,35 @@ Example 2:
 Input: "race a car"
 Output: false
 */
+
+/*
+利用golang里自带的一些方法
+unicode包
+strings.Map
+Map returns a copy of the string s with all its characters modified according to the mapping function. 
+If mapping returns a negative value, the character is dropped from the string with no replacement.
+*/
+func isPalindrome(s string) bool {
+	f := func(r rune) rune {
+		if !unicode.IsLetter(r) && !unicode.IsNumber(r) {
+			return -1
+		}
+		return unicode.ToLower(r)
+	}
+	str := strings.Map(f, s)
+	l := 0
+	r := len(str)-1
+	for l <= r {
+		if str[l] != str[r] {
+			return false 
+		}
+		l++
+		r--
+	}
+	return true
+ }
+
+
 func isPalindrome(s string) bool {
 	s = strings.ToLower(s)
 	start := 0
