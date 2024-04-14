@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2021-01-22 18:45:51
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-04-14 20:36:47
+ * @LastEditTime: 2024-04-14 20:38:31
  * @Description: file content
  */
 import "strings"
@@ -48,6 +48,7 @@ Output: "/a/b/c"
 // use stack to solve this problem
 func simplifyPath(path string) string {
 	stack := make([]string, 0)
+	// "" 是因为可能有多个/ 连着 这样一split之后数组就是空字符串就可以跳过了
 	skip := map[string]bool{"..": true, ".": true, "": true}
 	for _, dir := range strings.Split(path, "/") {
 		// if stack is not blan, .. means to go to last fold
