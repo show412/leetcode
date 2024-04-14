@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2024-03-26 22:16:15
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-03-26 23:48:21
+ * @LastEditTime: 2024-04-14 22:38:38
  * @Description: file content
  */
 //  https://leetcode.com/problems/find-median-from-data-stream/
@@ -46,8 +46,10 @@
 // If all integer numbers from the stream are in the range [0, 100], how would you optimize your solution?
 // If 99% of all integer numbers from the stream are in the range [0, 100], how would you optimize your solution?
 /*
-1, maintain two heap, one maxheap, one minheap, and all values in maxheap are not bigger than all values in minheap
-and maxheap len approximately minheap len (not bigger than 1) and maxHeap should be bigger than minheap len or equal
+1, maintain two heap, one maxheap, one minheap, and all values in maxheap are not bigger 
+than all values in minheap
+and maxheap len approximately minheap len (not bigger than 1) 
+and maxHeap should be bigger than minheap len or equal
 in this case, we are able to find median value
 2, when one number coming, we need to compare max value in maxheap and min value in minheap
 3, then switch them if max vaule from maxheap is bigger than min value in minheap
