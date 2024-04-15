@@ -1,11 +1,11 @@
 /*
  * @Author: hongwei.sun
- * @Date: 2024-04-11 12:51:22
+ * @Date: 2024-04-15 16:54:35
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-04-15 17:51:16
+ * @LastEditTime: 2024-04-15 17:51:24
  * @Description: file content
  */
-// https://leetcode.com/problems/reverse-linked-list-ii/description/
+//  https://leetcode.com/problems/reverse-linked-list-ii/description/
 /*
 Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.
 
@@ -31,7 +31,6 @@ The number of nodes in the list is n.
  
 
 Follow up: Could you do it in one pass?
-
 */
 /**
  * Definition for singly-linked list.
@@ -40,14 +39,7 @@ Follow up: Could you do it in one pass?
  *     Next *ListNode
  * }
  */
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
- /*
+/*
  1， 记住left 和 right 开始时候的node和前一个node
  2， 当在left和right中间时翻转，否则就是往下走
  3， left开始的之前的node 连上翻转的最后一个node(pre), 开始的node Next是 right的下一个node(cur) 
