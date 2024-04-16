@@ -2,34 +2,38 @@
  * @Author: hongwei.sun
  * @Date: 2024-04-03 14:54:08
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-04-10 23:01:14
+ * @LastEditTime: 2024-04-16 11:43:40
  * @Description: file content
  */
- func minPathSum(grid [][]int) int {
-	r := len(grid)
-	c := len(grid[0])
-    dp := make([][]int, r)
-	for i := 0; i < r; i++ {
-		dp[i] = make([]int, c)
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+ func isCompleteTree(root *TreeNode) bool {
+	if root == nil {
+		return true
 	}
-	for i := 0; i < r; i++ {
-		for j := 0; j < c; j++ {
-			if i == 0 || j == 0 {
-				if i == 0 && j > 0 {
-					dp[i][j] = grid[i][j] + dp[i][j-1]
-				} else if i > 0 && j == 0 {
-					dp[i][j] = grid[i][j] + dp[i-1][j]
-				} else {
-					dp[i][j] = grid[i][j]
-				}
-			} else {
-				dp[i][j] = min(dp[i-1][j], dp[i][j-1]) + grid[i][j]
-			}
+	q := make([]*TreeNode, 0)
+	q = append(q, root)
+	for len(q) > 0 && q[0] != nil {
+		node := q[0]
+		q = append(q, node.Left, node.Right)
+		q = q[1:]
+	}
+	for i := 0; i < len(q); i++ {
+		if q[i] != nil {
+			return false
 		}
 	}
-	return dp[r-1][c-1]
+
+	return true
  }
- 
+
+ func traverse
  
 
 
