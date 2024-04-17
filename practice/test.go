@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2024-04-03 14:54:08
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-04-16 23:17:38
+ * @LastEditTime: 2024-04-17 22:52:40
  * @Description: file content
  */
 /**
@@ -13,9 +13,61 @@
  *     Right *TreeNode
  * }
  */
+
  
- func spiralOrder(matrix [][]int) []int {
-    
+
+
+ var res [][]int
+ var visit map[int]bool
+ var candidate []int
+ 
+ var res [][]int
+ var candidate []int
+ 
+func subsets(nums []int) [][]int {
+	res = make([][]int, 0)
+	candidate = make([]int, 0)
+	dfs(nums, 0)
+	return res
+}
+
+func dfs(nums []int, start int) {
+	cpy := make([]int, len(candidate))
+	copy(cpy, candidate)
+	res = append(res, cpy)
+	for i := start; i < len(nums); i++ {
+		candidate = append(candidate, nums[i])
+		dfs(nums, i+1)
+		candidate = candidate[:len(candidate)-1]
+	}
+}
+
+ 
+ 
+ func permute(nums []int) [][]int {
+	res = make([][]int, 0)
+	visit = make(map[int]bool, len(nums))
+	candidate = make([]int, 0)
+	dfs(nums)
+	return res
+ }
+
+ func dfs(nums []int) {
+	if len(candidate) == len(nums) {
+		cpy := make([]int, len(candidate))
+		copy(cpy, candidate)
+		res = append(res, cpy)
+		return
+	}
+	for i := 0; i < len(nums); i++ {
+		if visit[nums[i]] == false {
+			candidate = append(candidate, nums[i])
+			visit[nums[i]] = true
+			dfs(nums)
+			candidate = candidate[:len(candidate)-1]
+			visit[nums[i]] = false
+		}
+	}
  }
  
  func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {

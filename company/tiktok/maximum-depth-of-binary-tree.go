@@ -1,8 +1,8 @@
 /*
  * @Author: hongwei.sun
- * @Date: 2021-01-22 18:45:52
+ * @Date: 2024-04-17 22:12:14
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-04-17 22:13:45
+ * @LastEditTime: 2024-04-17 22:14:11
  * @Description: file content
  */
 // https://leetcode.com/problems/maximum-depth-of-binary-tree/
@@ -32,6 +32,17 @@ return its depth = 3.
  *     Right *TreeNode
  * }
  */
+
+ func maxDepth(root *TreeNode) int {
+	if root == nil {
+		return 0
+	} else {
+		return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
+	}
+}
+
+
+
 func maxDepth(root *TreeNode) int {
 	depth := 0
 	if root == nil {
@@ -48,12 +59,4 @@ func max(a int, b int) int {
 		return a
 	}
 	return b
-}
-
-func maxDepth(root *TreeNode) int {
-	if root == nil {
-		return 0
-	} else {
-		return max(maxDepth(root.Left), maxDepth(root.Right)) + 1
-	}
 }
