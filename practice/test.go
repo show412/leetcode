@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2024-04-03 14:54:08
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-04-16 11:43:40
+ * @LastEditTime: 2024-04-16 23:17:38
  * @Description: file content
  */
 /**
@@ -13,30 +13,55 @@
  *     Right *TreeNode
  * }
  */
- func isCompleteTree(root *TreeNode) bool {
-	if root == nil {
-		return true
-	}
-	q := make([]*TreeNode, 0)
-	q = append(q, root)
-	for len(q) > 0 && q[0] != nil {
-		node := q[0]
-		q = append(q, node.Left, node.Right)
-		q = q[1:]
-	}
-	for i := 0; i < len(q); i++ {
-		if q[i] != nil {
-			return false
+ 
+ func spiralOrder(matrix [][]int) []int {
+    
+ }
+ 
+ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	for root != nil {
+		if root.Val < p.Val && root.Val < q.Val {
+			root = root.Right
+		} else if root.Val > p.Val && root.Val > q.Val {
+			root = root.Left
+		} else {
+			break
 		}
 	}
-
-	return true
+	return root
  }
 
- func traverse
+ func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	if inNode(p, q) {
+		return p
+	}
+	if inNode(q, p) {
+		return q
+	}
+    var res *TreeNode
+	for root != nil {
+		if inNode(root.Left, p) && inNode(root.Left, q) {
+			root = root.Left
+		} else if inNode(root.Right, p) && inNode(root.Right, q) {
+			root = root.Right
+		} else {
+			res = root
+            break
+		}
+	}
+    return res
+ }
+
+ func inNode(parent *TreeNode, child *TreeNode) bool {
+	if parent == child {
+		return true
+	}
+	if parent == nil {
+		return false
+	}
+	return inNode(parent.Left, child) || inNode(parent.Right, child)
+ }
  
-
-
 func sumWithForLoop(numbers []int) int {
     sum := 0
     for _, num := range numbers {
