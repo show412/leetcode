@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2024-04-03 14:54:08
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-04-17 22:52:40
+ * @LastEditTime: 2024-04-19 11:46:04
  * @Description: file content
  */
 /**
@@ -14,7 +14,18 @@
  * }
  */
 
- 
+ func canJump(nums []int) bool {
+	goal := len(nums) - 1
+	for i := len(nums) - 1; i >= 0; i-- {
+		if nums[i] + i >= goal {
+			goal = i
+		}
+	}
+	if goal == 0 {
+		return true
+	}
+	return false
+ }
 
 
  var res [][]int

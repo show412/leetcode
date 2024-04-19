@@ -2,7 +2,7 @@
  * @Author: hongwei.sun
  * @Date: 2021-01-22 18:45:52
  * @LastEditors: hongwei.sun
- * @LastEditTime: 2024-04-10 12:37:00
+ * @LastEditTime: 2024-04-19 10:52:40
  * @Description: file content
  */
 // https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
@@ -25,130 +25,45 @@ Output: [-1,-1]
 */
 // it is a common solution to binary search to find range of target
 // two binary search to find the boundary left and right
-func searchRange(nums []int, target int) []int {
-    if len(nums) == 0 {
-        return []int{-1,-1}
-    }
+/*
+二分查找，尽量往左(不断调整r指针)就能找到第一个元素。
+尽量往左(不断调整l指针)就能找到最后一个元素. 
+注意在search的时候 mid == target的时候不要退出 继续尽量(往左或者往右)找
+*/
 
-    res := make([]int,2)
+func searchRange(nums []int, target int) []int {
+	res := make([]int, 2)
+	// find start
 	l := 0
-	r := len(nums)-1
-    // find the boundary left
+	r := len(nums) - 1
+	start := -1
+	end := -1
 	for l <= r {
 		mid := l + (r-l)/2
-		if nums[mid] < target {
-			l = mid+1
-		} else if nums[mid] > target {
-			r = mid-1
-		} else if nums[mid] == target {
-			// because we need to find the left boundary, so it needs to find the small range
-			// so end = mid there
-			/*
-				这时候可能有这样一个疑问 为什么要end = mid 如果mid前还有target的怎么办
-				因为要找范围小的， 所以就应该向前缩小范围，即使找到了mid == target的 也没有return
-				还有下一次循环， 直到start+1 >= end 这个时候 end就是最小的target所在的位置
-				找右边的边界同理 就是向后缩小范围
-				有没有可能错过一个target 不在start和end的范围内？
-				不可能，因为一直是等于的时候 end往前提 不可能遗漏一个target
-			*/
+		if nums[mid] > target {
+			r = mid - 1
+		} else if nums[mid] < target {
+			l = mid + 1
+		} else {
+			start = mid
 			r = mid - 1
 		}
 	}
-    // 因为要找最左范围 注意这里先是start
-	if l < len(nums) && nums[l] == target {
-		res[0] = l
-	} else if r>=0 && nums[r] == target {
-		res[0] = r
-	} else {
-		return []int{-1, -1}
-	}
-	// find the boundary right
+	res[0] = start
+	// find end 
 	l = 0
-	r = len(nums)-1
+	r = len(nums) - 1
 	for l <= r {
 		mid := l + (r-l)/2
-		if nums[mid] < target {
-			l = mid+1
-		} else if nums[mid] > target {
-			r = mid-1
-		} else if nums[mid] == target {
+		if nums[mid] > target {
+			r = mid - 1
+		} else if nums[mid] < target {
+			l = mid + 1
+		} else {
+			end = mid
 			l = mid + 1
 		}
 	}
-	// 因为要找最右范围 注意这里先是end
-	if nums[r] == target {
-		res[1] = r
-	} else if nums[l] == target {
-		res[1] = l
-	} else {
-		return []int{-1, -1}
-	}
+	res[1] = end
 	return res
-}
-
-
-
-
-func searchRange(nums []int, target int) []int {
-	if len(nums) == 0 {
-		return []int{-1, -1}
-	}
-	res := make([]int, 2)
-	start := 0
-	end := len(nums) - 1
-	// find the boundary left
-	for start+1 < end {
-		mid := start + (end-start)/2
-		if nums[mid] > target {
-			end = mid
-		} else if nums[mid] == target {
-			// because we need to find the left boundary, so it needs to find the small range
-			// so end = mid there
-			/*
-				这时候可能有这样一个疑问 为什么要end = mid 如果mid前还有target的怎么办
-				因为要找范围小的， 所以就应该向前缩小范围，即使找到了mid == target的 也没有return
-				还有下一次循环， 直到start+1 >= end 这个时候 end就是最小的target所在的位置
-				找右边的边界同理 就是向后缩小范围
-				有没有可能错过一个target 不在start和end的范围内？
-				不可能，因为一直是等于的时候 end往前提 不可能遗漏一个target
-			*/
-			end = mid
-		} else {
-			start = mid
-		}
-	}
-	// 因为要找最左范围 注意这里先是start
-	if nums[start] == target {
-		res[0] = start
-	} else if nums[end] == target {
-		res[0] = end
-	} else {
-		return []int{-1, -1}
-	}
-
-	// find the boundary right
-	start = 0
-	end = len(nums) - 1
-	for start+1 < end {
-		mid := start + (end-start)/2
-		if nums[mid] > target {
-			end = mid
-		} else if nums[mid] == target {
-			// because we need to find the right boundary,
-			// so it needs to find the big range
-			// so start = mid there
-			start = mid
-		} else {
-			start = mid
-		}
-	}
-	// 因为要找最右范围 注意这里先是end
-	if nums[end] == target {
-		res[1] = end
-	} else if nums[start] == target {
-		res[1] = start
-	} else {
-		return []int{-1, -1}
-	}
-	return res
-}
+ }
